@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Font;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class GamePanel extends JPanel implements Runnable{
     final int TailleOriginalPersonnages = 16; // personnages + objets de taille 16*16
@@ -103,13 +103,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
         fin = chrono.UpdateChrono(FPS);
     }
-
-    public void paintComponent(Graphics g){     //dessiner après chaque update
-
-        super.paintComponent(g);
-        Graphics2D gq = (Graphics2D)g;
-
-        //quadrillage
+    public void drawQuadrillage(Graphics2D gq){
         gq.setColor(Color.lightGray);
         for (int i = 1; i <= ColonnesEcran; i++){
             gq.fillRect(i*TailleCarre, 0, 1, HauteurEcran);
@@ -117,7 +111,8 @@ public class GamePanel extends JPanel implements Runnable{
         for (int i = 1; i <= LignesEcran; i++){
             gq.fillRect(0, i*TailleCarre, LargeurEcran, 1);
         }
-
+    }
+    public void createPath(Graphics2D gq){
         //chemin
         gq.setColor(Color.black);
         gq.fillRect(0, TailleCarre*2, LargeurEcran - 2*TailleCarre, 1);
@@ -133,84 +128,9 @@ public class GamePanel extends JPanel implements Runnable{
         gq.setColor(Color.lightGray);   // la barre en haut et en bas
         gq.fillRect(0, 0, LargeurEcran, 1*TailleCarre);
         gq.fillRect(0, HauteurEcran - 4*TailleCarre, LargeurEcran, 4*TailleCarre);
+    }
 
-        //gq.setColor(Color.red);
-        //gq.fillRect(x, y, TailleCarre, TailleCarre);
-
-        if (zombie.direction == "bas"){
-            if (zombie.animation < 10){
-                zombie.image = zombie.bas1;
-                zombie.animation++;
-            }
-            else{
-                zombie.image = zombie.bas2;
-                zombie.animation++;
-                if (zombie.animation > 20){
-                    zombie.animation = 0;
-                }
-            }
-        }
-        if (zombie.direction == "haut"){
-            if (zombie.animation < 10){
-                zombie.image = zombie.haut1;
-                zombie.animation++;
-            }
-            else{
-                zombie.image = zombie.haut2;
-                zombie.animation++;
-                if (zombie.animation > 20){
-                    zombie.animation = 0;
-                }
-            }
-        }
-        if (zombie.direction == "gauche"){
-            if (zombie.animation < 10){
-                zombie.image = zombie.gauche1;
-                zombie.animation++;
-            }
-            else{
-                zombie.image = zombie.gauche2;
-                zombie.animation++;
-                if (zombie.animation > 20){
-                    zombie.animation = 0;
-                }
-            }
-        }
-        if (zombie.direction == "droite"){
-            if (zombie.animation < 10){
-                zombie.image = zombie.droite1;
-                zombie.animation++;
-            }
-            else{
-                zombie.image = zombie.droite2;
-                zombie.animation++;
-                if (zombie.animation > 20){
-                    zombie.animation = 0;
-                }
-            }
-        }
-
-        gq.drawImage(zombie.image, x, y, TailleCarre, TailleCarre, null);
-
-
-
-        //pour afficher le chrono
-        String afficherChrono;
-        if (chrono.sec < 10){
-            afficherChrono = chrono.min + ":0" + chrono.sec;
-        }
-        else{
-            afficherChrono = chrono.min + ":" + chrono.sec;
-        }
-        gq.setColor(Color.BLACK);
-        gq.setFont(new Font("Arial", Font.PLAIN, 25));
-        gq.drawString(afficherChrono, LargeurEcran - 3*TailleCarre, 1*TailleCarre - 4);
-        
-        //pour afficher l'argent restant
-        String afficherKama = "Kama: " + kama.portefeuille;
-        gq.drawString(afficherKama, LargeurEcran - 8*TailleCarre, 1*TailleCarre - 4);
-
-
+    public void endOfTheGame(Graphics2D gq){
         if (fin == 1){  //Si le joueur a gagné (dernier update)
             String messageVictoire = "Bravo vous avez gagné :)";
             gq.setColor(Color.red);
@@ -223,7 +143,105 @@ public class GamePanel extends JPanel implements Runnable{
             gq.setFont(new Font("Arial", Font.PLAIN, 75));
             gq.drawString(messageDefaite, 5*TailleCarre, HauteurEcran/2);
         }
+    }
+
+    public void printChrono(Graphics2D gq){
+        String afficherChrono;
+        if (chrono.sec < 10){
+            afficherChrono = chrono.min + ":0" + chrono.sec;
+        }
+        else{
+            afficherChrono = chrono.min + ":" + chrono.sec;
+        }
+        gq.setColor(Color.BLACK);
+        gq.setFont(new Font("Arial", Font.PLAIN, 25));
+        gq.drawString(afficherChrono, LargeurEcran - 3*TailleCarre, 1*TailleCarre - 4);
+    }
+    public void printRestOfMoney(Graphics2D gq){
+        String afficherKama = "Kama: " + kama.portefeuille;
+        gq.drawString(afficherKama, LargeurEcran - 8*TailleCarre, 1*TailleCarre - 4);
+    }
+    public void barreChoixProjectiles(Graphics2D gq){
+        // Barre en bas de couleur grise foncée
+        Color brun = new Color(97, 72, 54);
+        gq.setColor(brun);
+        gq.fillRect(0, HauteurEcran - 5*TailleCarre, LargeurEcran, TailleCarre);
+    }
+
+    public void deplacementZombie(Zombie z, Graphics2D gq){
+        if (z.direction == "bas"){
+            if (z.animation < 10){
+                z.image = zombie.bas1;
+                z.animation++;
+            }
+            else{
+                z.image = zombie.bas2;
+                z.animation++;
+                if (z.animation > 20){
+                    z.animation = 0;
+                }
+            }
+        }
+        if (z.direction == "haut"){
+            if (z.animation < 10){
+                z.image = zombie.haut1;
+                z.animation++;
+            }
+            else{
+                z.image = zombie.haut2;
+                z.animation++;
+                if (z.animation > 20){
+                    z.animation = 0;
+                }
+            }
+        }
+        if (z.direction == "gauche"){
+            if (z.animation < 10){
+                z.image = zombie.gauche1;
+                z.animation++;
+            }
+            else{
+                z.image = zombie.gauche2;
+                z.animation++;
+                if (z.animation > 20){
+                    z.animation = 0;
+                }
+            }
+        }
+        if (z.direction == "droite"){
+            if (z.animation < 10){
+                z.image = zombie.droite1;
+                z.animation++;
+            }
+            else{
+                z.image = zombie.droite2;
+                z.animation++;
+                if (z.animation > 20){
+                    z.animation = 0;
+                }
+            }
+        }
+    }
+
+    public void paintComponent(Graphics g){     //dessiner après chaque update
+
+        super.paintComponent(g);
+        Graphics2D gq = (Graphics2D)g;
+        //quadrillage
+        drawQuadrillage(gq);
+        barreChoixProjectiles(gq);
+        createPath(gq);
+        //gq.setColor(Color.red);
+        //gq.fillRect(x, y, TailleCarre, TailleCarre);
+        deplacementZombie(zombie,gq);
+        gq.drawImage(zombie.image, x, y, TailleCarre, TailleCarre, null);
+        //pour afficher le chrono
+        printChrono(gq);
+        //pour afficher l'argent restant
+        printRestOfMoney(gq);
+        endOfTheGame(gq);
         gq.dispose();
     }
+
 
 }

@@ -1,5 +1,4 @@
 
-
 public class Chrono{
     int min;
     int sec;
