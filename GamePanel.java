@@ -1,8 +1,9 @@
-package main;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Font;
 
 import javax.swing.JPanel;
 
@@ -15,6 +16,11 @@ public class GamePanel extends JPanel implements Runnable{
     final int LignesEcran = 20;
     final int LargeurEcran = ColonnesEcran * TailleCarre; // 35 * (2*16) =
     final int HauteurEcran = LignesEcran * TailleCarre; // 20 * (2*16) =
+
+    int FPS = 60;
+    Chrono chrono = new Chrono();
+    Kama kama = new Kama();
+    int fin;
 
     Thread gameThread;
 
@@ -32,16 +38,15 @@ public class GamePanel extends JPanel implements Runnable{
 
     @Override
     public void run() {
-        int FPS = 60;
         double tempsUpdate = 1000000000/FPS;
         double ProchainImage = System.nanoTime() + tempsUpdate;
 
-        while(gameThread != null){
+        while(gameThread != null && fin == 0){
 
             update();
             repaint();
 
-            try{
+            try{    // pour determiner le nbr d'images par seconde
                 double tempsRestant = ProchainImage - System.nanoTime();
                 tempsRestant = tempsRestant/1000000;    // en millisecondes
                 if(tempsRestant < 0){
@@ -54,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
         }
+        update();
     }
 
     int x = 100;
@@ -61,13 +67,14 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update(){
         x++;
+
+        fin = chrono.UpdateChrono(FPS);
     }
 
     public void paintComponent(Graphics g){     //dessiner après chaque update
 
         super.paintComponent(g);
         Graphics2D gq = (Graphics2D)g;
-
 
         //quadrillage
         gq.setColor(Color.lightGray);
@@ -90,11 +97,43 @@ public class GamePanel extends JPanel implements Runnable{
         gq.fillRect(18*TailleCarre, 8*TailleCarre, 2, TailleCarre*6);
         gq.fillRect(6*TailleCarre, 8*TailleCarre, 12*TailleCarre, 1);
         gq.fillRect(6*TailleCarre, 9*TailleCarre, 11*TailleCarre, 1);
+        gq.setColor(Color.lightGray);   // la barre en haut et en bas
+        gq.fillRect(0, 0, LargeurEcran, 1*TailleCarre);
+        gq.fillRect(0, HauteurEcran - 4*TailleCarre, LargeurEcran, 4*TailleCarre);
 
         gq.setColor(Color.red);
         gq.fillRect(x, y, TailleCarre, TailleCarre);
-        gq.dispose();
 
+        //pour afficher le chrono
+        String afficherChrono;
+        if (chrono.sec < 10){
+            afficherChrono = chrono.min + ":0" + chrono.sec;
+        }
+        else{
+            afficherChrono = chrono.min + ":" + chrono.sec;
+        }
+        gq.setColor(Color.BLACK);
+        gq.setFont(new Font("Arial", Font.PLAIN, 25));
+        gq.drawString(afficherChrono, LargeurEcran - 3*TailleCarre, 1*TailleCarre - 4);
+        
+        //pour afficher l'argent restant
+        String afficherKama = "Kama: " + kama.portefeuille;
+        gq.drawString(afficherKama, LargeurEcran - 8*TailleCarre, 1*TailleCarre - 4);
+
+
+        if (fin == 1){  //Si le joueur a gagné (dernier update)
+            String messageVictoire = "Bravo vous avez gagné :)";
+            gq.setColor(Color.red);
+            gq.setFont(new Font("Arial", Font.PLAIN, 75));
+            gq.drawString(messageVictoire, 5*TailleCarre, HauteurEcran/2);
+        }
+        if (fin == 2){  //Si le joueur a perdu (dernier update)
+            String messageDefaite = "Bravo vous avez perdu :(";
+            gq.setColor(Color.red);
+            gq.setFont(new Font("Arial", Font.PLAIN, 75));
+            gq.drawString(messageDefaite, 5*TailleCarre, HauteurEcran/2);
+        }
+        gq.dispose();
     }
 
 }
