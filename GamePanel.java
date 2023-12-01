@@ -62,12 +62,45 @@ public class GamePanel extends JPanel implements Runnable{
         update();
     }
 
-    int x = 100;
+    int x = 0;
     int y = TailleCarre*2;
+    Zombie zombie = new Zombie(2, 4, 5, 10, 10);
 
     public void update(){
-        x++;
-
+        if (y == TailleCarre*2){
+            if (x < LargeurEcran - TailleCarre*3){
+                x++; zombie.direction = "droite";
+            }
+            else{y++; zombie.direction = "bas";}
+        }
+        if (x == LargeurEcran - TailleCarre*3){
+            if (y < HauteurEcran - 6*TailleCarre){
+                y++;
+                zombie.direction = "bas";
+            }
+            else{x--; zombie.direction = "gauche";}
+        }
+        if (y == HauteurEcran - 6*TailleCarre){
+            if (x > 17*TailleCarre){
+                x--;
+                zombie.direction = "gauche";
+            }
+            else{y--; zombie.direction = "haut";}
+        }
+        if (x == 17*TailleCarre && zombie.direction == "haut"){
+            if (y > 8*TailleCarre){
+                y--;
+                zombie.direction = "haut";
+            }
+            else{x--; zombie.direction = "gauche";}
+        }
+        if (y == 8*TailleCarre && zombie.direction == "gauche"){
+            if (x > 5*TailleCarre){
+                x--;
+                zombie.direction = "gauche";
+            }
+            else{zombie.direction = "bas";}
+        }
         fin = chrono.UpdateChrono(FPS);
     }
 
@@ -101,8 +134,65 @@ public class GamePanel extends JPanel implements Runnable{
         gq.fillRect(0, 0, LargeurEcran, 1*TailleCarre);
         gq.fillRect(0, HauteurEcran - 4*TailleCarre, LargeurEcran, 4*TailleCarre);
 
-        gq.setColor(Color.red);
-        gq.fillRect(x, y, TailleCarre, TailleCarre);
+        //gq.setColor(Color.red);
+        //gq.fillRect(x, y, TailleCarre, TailleCarre);
+
+        if (zombie.direction == "bas"){
+            if (zombie.animation < 10){
+                zombie.image = zombie.bas1;
+                zombie.animation++;
+            }
+            else{
+                zombie.image = zombie.bas2;
+                zombie.animation++;
+                if (zombie.animation > 20){
+                    zombie.animation = 0;
+                }
+            }
+        }
+        if (zombie.direction == "haut"){
+            if (zombie.animation < 10){
+                zombie.image = zombie.haut1;
+                zombie.animation++;
+            }
+            else{
+                zombie.image = zombie.haut2;
+                zombie.animation++;
+                if (zombie.animation > 20){
+                    zombie.animation = 0;
+                }
+            }
+        }
+        if (zombie.direction == "gauche"){
+            if (zombie.animation < 10){
+                zombie.image = zombie.gauche1;
+                zombie.animation++;
+            }
+            else{
+                zombie.image = zombie.gauche2;
+                zombie.animation++;
+                if (zombie.animation > 20){
+                    zombie.animation = 0;
+                }
+            }
+        }
+        if (zombie.direction == "droite"){
+            if (zombie.animation < 10){
+                zombie.image = zombie.droite1;
+                zombie.animation++;
+            }
+            else{
+                zombie.image = zombie.droite2;
+                zombie.animation++;
+                if (zombie.animation > 20){
+                    zombie.animation = 0;
+                }
+            }
+        }
+
+        gq.drawImage(zombie.image, x, y, TailleCarre, TailleCarre, null);
+
+
 
         //pour afficher le chrono
         String afficherChrono;
