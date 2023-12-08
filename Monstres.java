@@ -1,15 +1,123 @@
 
+import java.awt.image.BufferedImage;
 
-public class Monstres {
+
+public abstract class Monstres {
     int HP;
     int vitesse;
     int kama;
     int x, y;
+    int fin = 0;    //si il est arrivé jusqu'au chateau
 
     public Monstres(int HP, int vitesse, int kama, int x, int y){
         this.HP = HP;
         this.vitesse = vitesse;
         this.kama = kama;
+        this.x = x;
+        this.y = y;
+    }
+
+
+    public BufferedImage bas1, bas2, haut1, haut2, gauche1, gauche2, droite1, droite2;
+    public String direction;
+    public BufferedImage image;
+    public int animation = 0;
+
+    
+
+
+    public void updateMonstre(int TailleCarre, int HauteurEcran, int LargeurEcran){
+        if (this.y == TailleCarre*2){
+            if (this.x < LargeurEcran - TailleCarre*3){
+                this.x+=this.vitesse; this.direction = "droite";
+            }
+            else{this.y+=this.vitesse; this.direction = "bas";}
+        }
+        if (this.x == LargeurEcran - TailleCarre*3){
+            if (this.y < HauteurEcran - 6*TailleCarre){
+                this.y+=this.vitesse;
+                this.direction = "bas";
+            }
+            else{this.x-=this.vitesse; this.direction = "gauche";}
+        }
+        if (this.y == HauteurEcran - 6*TailleCarre){
+            if (this.x > 17*TailleCarre){
+                this.x-=this.vitesse;
+                this.direction = "gauche";
+            }
+            else{this.y-=this.vitesse; this.direction = "haut";}
+        }
+        if (this.x == 17*TailleCarre && this.direction == "haut"){
+            if (this.y > 8*TailleCarre){
+                this.y-=this.vitesse;
+                this.direction = "haut";
+            }
+            else{this.x-=this.vitesse; this.direction = "gauche";}
+        }
+        if (this.y == 8*TailleCarre && this.direction == "gauche"){
+            if (this.x > 5*TailleCarre){
+                this.x-=this.vitesse;
+                this.direction = "gauche";
+            }
+            else{   // le monstre est arrivé au chateau
+                this.fin = 1;
+            }
+        }
+    }
+    
+    public void deplacementZombie(){
+        if (this.direction == "bas"){
+            if (this.animation < 10){
+                this.image = this.bas1;
+                this.animation++;
+            }
+            else{
+                this.image = this.bas2;
+                this.animation++;
+                if (this.animation > 20){
+                    this.animation = 0;
+                }
+            }
+        }
+        if (this.direction == "haut"){
+            if (this.animation < 10){
+                this.image = this.haut1;
+                this.animation++;
+            }
+            else{
+                this.image = this.haut2;
+                this.animation++;
+                if (this.animation > 20){
+                    this.animation = 0;
+                }
+            }
+        }
+        if (this.direction == "gauche"){
+            if (this.animation < 10){
+                this.image = this.gauche1;
+                this.animation++;
+            }
+            else{
+                this.image = this.gauche2;
+                this.animation++;
+                if (this.animation > 20){
+                    this.animation = 0;
+                }
+            }
+        }
+        if (this.direction == "droite"){
+            if (this.animation < 10){
+                this.image = this.droite1;
+                this.animation++;
+            }
+            else{
+                this.image = this.droite2;
+                this.animation++;
+                if (this.animation > 20){
+                    this.animation = 0;
+                }
+            }
+        }
     }
 
 }

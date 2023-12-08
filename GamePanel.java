@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Font;
 
+
+
 import javax.swing.*;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -17,10 +19,13 @@ public class GamePanel extends JPanel implements Runnable{
     final int LargeurEcran = ColonnesEcran * TailleCarre; // 35 * (2*16) =
     final int HauteurEcran = LignesEcran * TailleCarre; // 20 * (2*16) =
 
+    int niveau = 1; //difficulté du jeu
     int FPS = 60;
     Chrono chrono = new Chrono();
     Kama kama = new Kama();
-    int fin;
+    int fin;                        // quand passe à 1: le joueur a gagné, si passe à 2: il a perdu.
+    int ViesChateau = 5;
+
 
     Thread gameThread;
 
@@ -62,47 +67,84 @@ public class GamePanel extends JPanel implements Runnable{
         update();
     }
 
-    int x = 0;
-    int y = TailleCarre*2;
-    Zombie zombie = new Zombie(2, 4, 5, 10, 10);
 
+    GenerationRandomMonstres random = new GenerationRandomMonstres(niveau);
+    ListeMonstresVivants liste_monstres = new ListeMonstresVivants();
+    //Monstres zombie = new Zombie(20, 4, 5, 0, TailleCarre*2);
+    //liste_monstres.ajouterEnFin(zombie);
+    
+    int debut = 0;
     public void update(){
-        if (y == TailleCarre*2){
-            if (x < LargeurEcran - TailleCarre*3){
-                x++; zombie.direction = "droite";
+        
+        //cree monstres via la GenerationRandomMonstres
+        random.generermonstre(chrono, TailleCarre, liste_monstres, debut);          //ITERATOR (Design pattern)
+        debut = 1;  //si pas de monstre ça ne marche pas bizzarement...
+        Monstres iterateur = liste_monstres.premier();
+        if (iterateur != null){
+            iterateur.updateMonstre(TailleCarre, HauteurEcran, LargeurEcran);
+            while (liste_monstres.suivant((iterateur)) != null){
+                iterateur = liste_monstres.suivant(iterateur);
+                iterateur.updateMonstre(TailleCarre, HauteurEcran, LargeurEcran);
             }
-            else{y++; zombie.direction = "bas";}
         }
-        if (x == LargeurEcran - TailleCarre*3){
-            if (y < HauteurEcran - 6*TailleCarre){
-                y++;
-                zombie.direction = "bas";
+        
+        //supprime les monstres qui n'ont plus d'HP et ceux qui sont arrivés à la fin
+        Monstres suivant;
+        iterateur = liste_monstres.premier();
+        int suppr = 0;
+        if (iterateur != null){
+            if (iterateur.HP <= 0){
+                kama.portefeuille+= iterateur.kama;     //on gagne le kama pour avoir tué le monstre
+                liste_monstres.supprimer(iterateur);
+                suppr = 1;
             }
-            else{x--; zombie.direction = "gauche";}
-        }
-        if (y == HauteurEcran - 6*TailleCarre){
-            if (x > 17*TailleCarre){
-                x--;
-                zombie.direction = "gauche";
+            if (iterateur.fin == 1){               //si il est arrivé au chateau
+                liste_monstres.supprimer(iterateur);
+                suppr = 1;
+                ViesChateau--;
             }
-            else{y--; zombie.direction = "haut";}
         }
-        if (x == 17*TailleCarre && zombie.direction == "haut"){
-            if (y > 8*TailleCarre){
-                y--;
-                zombie.direction = "haut";
+        iterateur = liste_monstres.premier();
+        if (iterateur != null){
+            while (liste_monstres.suivant((iterateur)) != null){
+                if (suppr == 0){
+                    iterateur = liste_monstres.suivant(iterateur);
+                    if (iterateur.HP <= 0){
+                        suivant = liste_monstres.suivant(iterateur);
+                        liste_monstres.supprimer(iterateur);
+                        iterateur = suivant;
+                        suppr = 1;
+                    }
+                    if (iterateur.fin == 1){        //si il est arrivé au chateau
+                        suivant = liste_monstres.suivant(iterateur);
+                        liste_monstres.supprimer(iterateur);
+                        iterateur = suivant;
+                        suppr = 1;
+                        ViesChateau--;
+                    }
+                }
+                else{
+                    suppr = 0;
+                    if (iterateur.HP <= 0){
+                        suivant = liste_monstres.suivant(iterateur);
+                        liste_monstres.supprimer(iterateur);
+                        iterateur = suivant;
+                        suppr = 1;
+                    }
+                }
             }
-            else{x--; zombie.direction = "gauche";}
         }
-        if (y == 8*TailleCarre && zombie.direction == "gauche"){
-            if (x > 5*TailleCarre){
-                x--;
-                zombie.direction = "gauche";
-            }
-            else{zombie.direction = "bas";}
-        }
+
+
         fin = chrono.UpdateChrono(FPS);
+        if (ViesChateau == 0){
+            fin = 2;    //perdu
+        }
+        
     }
+
+    
+
     public void drawQuadrillage(Graphics2D gq){
         gq.setColor(Color.lightGray);
         for (int i = 1; i <= ColonnesEcran; i++){
@@ -165,63 +207,10 @@ public class GamePanel extends JPanel implements Runnable{
         // Barre en bas de couleur grise foncée
         Color brun = new Color(97, 72, 54);
         gq.setColor(brun);
-        gq.fillRect(0, HauteurEcran - 5*TailleCarre, LargeurEcran, TailleCarre);
+        gq.fillRect(0, HauteurEcran - 4*TailleCarre - TailleCarre/4, LargeurEcran, TailleCarre/4);
     }
 
-    public void deplacementZombie(Zombie z, Graphics2D gq){
-        if (z.direction == "bas"){
-            if (z.animation < 10){
-                z.image = zombie.bas1;
-                z.animation++;
-            }
-            else{
-                z.image = zombie.bas2;
-                z.animation++;
-                if (z.animation > 20){
-                    z.animation = 0;
-                }
-            }
-        }
-        if (z.direction == "haut"){
-            if (z.animation < 10){
-                z.image = zombie.haut1;
-                z.animation++;
-            }
-            else{
-                z.image = zombie.haut2;
-                z.animation++;
-                if (z.animation > 20){
-                    z.animation = 0;
-                }
-            }
-        }
-        if (z.direction == "gauche"){
-            if (z.animation < 10){
-                z.image = zombie.gauche1;
-                z.animation++;
-            }
-            else{
-                z.image = zombie.gauche2;
-                z.animation++;
-                if (z.animation > 20){
-                    z.animation = 0;
-                }
-            }
-        }
-        if (z.direction == "droite"){
-            if (z.animation < 10){
-                z.image = zombie.droite1;
-                z.animation++;
-            }
-            else{
-                z.image = zombie.droite2;
-                z.animation++;
-                if (z.animation > 20){
-                    z.animation = 0;
-                }
-            }
-        }
-    }
+    
 
     public void paintComponent(Graphics g){     //dessiner après chaque update
 
@@ -231,14 +220,42 @@ public class GamePanel extends JPanel implements Runnable{
         drawQuadrillage(gq);
         barreChoixProjectiles(gq);
         createPath(gq);
+        
+        //dessine les zombies
+        Monstres premier = liste_monstres.premier();
+        if (premier != null){
+            premier.deplacementZombie();
+            gq.drawImage(premier.image, premier.x, premier.y, TailleCarre, TailleCarre, null);
+            gq.setColor(Color.red);
+            //sa barre de vie
+            gq.fillRect(premier.x + TailleCarre/2 - premier.HP/2, premier.y-4, premier.HP, 3);
+            while (liste_monstres.suivant((premier)) != null){
+                premier = liste_monstres.suivant(premier);
+
+                premier.deplacementZombie();
+                gq.drawImage(premier.image, premier.x, premier.y, TailleCarre, TailleCarre, null);
+                gq.setColor(Color.red);
+                //sa barre de vie
+                gq.fillRect(premier.x + TailleCarre/2 - premier.HP/2, premier.y-4, premier.HP, 3);
+
+
+            }
+        }
+
+        //zombie.deplacementZombie();
+        //gq.drawImage(zombie.image, zombie.x, zombie.y, TailleCarre, TailleCarre, null);
         //gq.setColor(Color.red);
-        //gq.fillRect(x, y, TailleCarre, TailleCarre);
-        deplacementZombie(zombie,gq);
-        gq.drawImage(zombie.image, x, y, TailleCarre, TailleCarre, null);
+        //sa barre de vie
+        //gq.fillRect(zombie.x + TailleCarre/2 - zombie.HP/2, zombie.y-4, zombie.HP, 3);
+
         //pour afficher le chrono
         printChrono(gq);
+
         //pour afficher l'argent restant
         printRestOfMoney(gq);
+
+
+        //fin
         endOfTheGame(gq);
         gq.dispose();
     }

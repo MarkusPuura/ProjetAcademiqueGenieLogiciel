@@ -1,22 +1,12 @@
-
-
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-
 public class Zombie extends Monstres{
-    
+    int HP, vitesse, kama, x, y;
     public Zombie(int HP, int vitesse, int kama, int x, int y){
         super(HP, vitesse, kama, x, y);
         GetImage();
     }
-
-
-    public BufferedImage bas1, bas2, haut1, haut2, gauche1, gauche2, droite1, droite2;
-    public String direction;
-    public BufferedImage image;
-    public int animation = 0;
 
     public void GetImage(){
         try{
@@ -32,4 +22,7 @@ public class Zombie extends Monstres{
             e.printStackTrace();
         }
     }
+    
+
+    
 }

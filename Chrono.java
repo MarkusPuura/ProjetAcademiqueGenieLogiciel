@@ -5,7 +5,7 @@ public class Chrono{
     int secSurFPS;
 
     public Chrono(){
-        this.min = 3;
+        this.min = 5;
         this.sec = 1;
         this.secSurFPS = 0;
     }
