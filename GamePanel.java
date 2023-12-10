@@ -4,6 +4,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -25,16 +29,41 @@ public class GamePanel extends JPanel implements Runnable{
     Kama kama = new Kama();
     int fin;                        // quand passe à 1: le joueur a gagné, si passe à 2: il a perdu.
     int ViesChateau = 5;
-
-
+    int mouseX = -1;
+    int mouseY = -1;
+    List<Projectile> projectiles = new ArrayList<>();
+    Tunel tunel;
     Thread gameThread;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(LargeurEcran, HauteurEcran));
         this.setBackground(Color.white);
         this.setDoubleBuffered(true); //ameliorer affichage
+        createTunel(); // Création du tunnel à la fin du chemin
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                mouseX = e.getX();
+                mouseY = e.getY();
+                createProjectile(mouseX, mouseY);
+                boolean isPointOnPath = isOnPath(mouseX, mouseY);
+                System.out.println("Le point se trouve sur le chemin : " + isPointOnPath);
+
+            }
+        });
+
     }
 
+    private void createTunel() {
+        tunel = Tunel.getInstance(5*TailleCarre, 8*TailleCarre, TailleCarre, TailleCarre);
+    }
+    private void createProjectile(int x, int y) {
+        if (!isOnPath(x, y)) {
+            Projectile projectile = new Projectile(5, 10, 6, x, y, 0, 0);
+            projectiles.add(projectile);
+        }
+    }
 
     public void startThread() {
         gameThread = new Thread(this);
@@ -168,9 +197,44 @@ public class GamePanel extends JPanel implements Runnable{
         gq.fillRect(6*TailleCarre, 8*TailleCarre, 12*TailleCarre, 1);
         gq.fillRect(6*TailleCarre, 9*TailleCarre, 11*TailleCarre, 1);
         gq.setColor(Color.lightGray);   // la barre en haut et en bas
-        gq.fillRect(0, 0, LargeurEcran, 1*TailleCarre);
+        gq.fillRect(0, 0, LargeurEcran, TailleCarre);
         gq.fillRect(0, HauteurEcran - 4*TailleCarre, LargeurEcran, 4*TailleCarre);
     }
+    public boolean isOnPath(int x, int y) {
+        // Vérifie si les coordonnées (x, y) se trouvent sur le chemin
+
+        // Coordonnées des rectangles du chemin
+        int[][] rectangles = {
+                {0, TailleCarre * 2, LargeurEcran - 2 * TailleCarre, TailleCarre},
+                {0, TailleCarre*3, LargeurEcran - 3*TailleCarre, 1},
+                {LargeurEcran - 2 * TailleCarre, TailleCarre * 2, 3, TailleCarre * 13},
+                {LargeurEcran - 3 * TailleCarre, TailleCarre * 3, TailleCarre, TailleCarre * 11},
+                {18 * TailleCarre, 14 * TailleCarre, 14 * TailleCarre, TailleCarre},
+                {17 * TailleCarre, 15 * TailleCarre, 16 * TailleCarre, 2},
+                {17 * TailleCarre, 9 * TailleCarre, 3, TailleCarre * 6},
+                {18 * TailleCarre, 8 * TailleCarre, TailleCarre, TailleCarre * 6},
+                {6 * TailleCarre, 8 * TailleCarre, 12 * TailleCarre, TailleCarre},
+                {6 * TailleCarre, 9 * TailleCarre, 11 * TailleCarre, 2},
+                {0, 0, LargeurEcran, TailleCarre},
+                {0, HauteurEcran - 4 * TailleCarre, LargeurEcran, 4 * TailleCarre}
+        };
+
+        // Vérifie si les coordonnées (x, y) se trouvent dans un des rectangles du chemin
+        for (int[] rect : rectangles) {
+            int rectX = rect[0];
+            int rectY = rect[1];
+            int rectWidth = rect[2];
+            int rectHeight = rect[3];
+
+            if (x >= rectX && x <= rectX + rectWidth && y >= rectY && y <= rectY + rectHeight) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 
     public void endOfTheGame(Graphics2D gq){
         if (fin == 1){  //Si le joueur a gagné (dernier update)
@@ -220,7 +284,13 @@ public class GamePanel extends JPanel implements Runnable{
         drawQuadrillage(gq);
         barreChoixProjectiles(gq);
         createPath(gq);
-        
+        tunel.draw(gq);
+        for (Projectile projectile : projectiles) {
+            if (projectile.isActive()) {
+                projectile.draw(gq);
+            }
+        }
+
         //dessine les zombies
         Monstres premier = liste_monstres.premier();
         if (premier != null){

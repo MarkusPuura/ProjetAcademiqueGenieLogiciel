@@ -1,21 +1,20 @@
-package main;
-
+import java.awt.Color;
+import java.awt.Graphics;
 public class Projectile {
     private int price;
     private int damage;
-    private double speed;
-    private double x, y;
-    private double directionX, directionY;
+    private int speed;
+    private int x, y;
+    private int directionX, directionY;
     private boolean active;
-    public Projectile(int price , int damage, double speed, double x, double y, double directionX, double directionY){
+    private Color color;
+    public Projectile(int price , int damage, int speed, int x, int y, int directionX, int directionY){
         this.price=price;
         this.damage = damage;
         this.speed = speed;
         this.x = x;
         this.y = y;
-        double distance = Math.sqrt(Math.pow(directionX - x, 2) + Math.pow(directionY - y, 2));
-        this.directionX = (directionX - x) / distance;
-        this.directionY = (directionY - y) / distance;
+
 
         this.active = true;
     }
@@ -53,23 +52,23 @@ public class Projectile {
     public void setDamage(int damage) {
         this.damage = damage;
     }
-    public void setSpeed(double speed) {
+    public void setSpeed(int speed) {
         this.speed = speed;
     }
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y = y;
     }
 
-    public void setDirectionX(double directionX) {
+    public void setDirectionX(int directionX) {
         this.directionX = directionX;
     }
 
-    public void setDirectionY(double directionY) {
+    public void setDirectionY(int directionY) {
         this.directionY = directionY;
     }
 
@@ -77,7 +76,10 @@ public class Projectile {
         this.active = active;
     }
 
-
+    public void draw(Graphics g) {
+        g.setColor(color);
+        g.fillOval(x, y, 26, 26); // Dessiner un cercle pour représenter le projectile
+    }
 
 
 
