@@ -4,7 +4,7 @@ public class Kama {         // si on rajoute pas d'autres propriétés en lien a
     int portefeuille;       // faire un int portefeuille globale.
 
     public Kama(){
-        this.portefeuille = 0;
+        this.portefeuille = 30;
     }
 
     void kamaUpdate(int taux){

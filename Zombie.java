@@ -2,7 +2,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Zombie extends Monstres{
-    int HP, vitesse, kama, x, y;
     public Zombie(int HP, int vitesse, int kama, int x, int y){
         super(HP, vitesse, kama, x, y);
         GetImage();

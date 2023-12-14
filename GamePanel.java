@@ -8,9 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-
-
-
 import javax.swing.*;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -28,7 +25,6 @@ public class GamePanel extends JPanel implements Runnable{
     Chrono chrono = new Chrono();
     Kama kama = new Kama();
     int fin;                        // quand passe à 1: le joueur a gagné, si passe à 2: il a perdu.
-    int ViesChateau = 5;
     int mouseX = -1;
     int mouseY = -1;
     List<Projectile> projectiles = new ArrayList<>();
@@ -56,11 +52,11 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     private void createTunel() {
-        tunel = Tunel.getInstance(5*TailleCarre, 8*TailleCarre, TailleCarre, TailleCarre);
+        tunel = Tunel.getInstance(3*TailleCarre, 6*TailleCarre);
     }
     private void createProjectile(int x, int y) {
         if (!isOnPath(x, y)) {
-            Projectile projectile = new Projectile(5, 10, 6, x, y, 0, 0);
+            Projectile projectile = new Projectile(5, 10, 6, x, y);
             projectiles.add(projectile);
         }
     }
@@ -130,7 +126,7 @@ public class GamePanel extends JPanel implements Runnable{
             if (iterateur.fin == 1){               //si il est arrivé au chateau
                 liste_monstres.supprimer(iterateur);
                 suppr = 1;
-                ViesChateau--;
+                tunel.vies--;
             }
         }
         iterateur = liste_monstres.premier();
@@ -149,7 +145,7 @@ public class GamePanel extends JPanel implements Runnable{
                         liste_monstres.supprimer(iterateur);
                         iterateur = suivant;
                         suppr = 1;
-                        ViesChateau--;
+                        tunel.vies--;
                     }
                 }
                 else{
@@ -166,7 +162,7 @@ public class GamePanel extends JPanel implements Runnable{
 
 
         fin = chrono.UpdateChrono(FPS);
-        if (ViesChateau == 0){
+        if (tunel.vies == 0){
             fin = 2;    //perdu
         }
         
@@ -175,6 +171,10 @@ public class GamePanel extends JPanel implements Runnable{
     
 
     public void drawQuadrillage(Graphics2D gq){
+        Color vert = new Color(180, 255, 180);
+        gq.setColor(vert);   //fond vert
+        gq.fillRect(0, 0, LargeurEcran, HauteurEcran);
+
         gq.setColor(Color.lightGray);
         for (int i = 1; i <= ColonnesEcran; i++){
             gq.fillRect(i*TailleCarre, 0, 1, HauteurEcran);
@@ -196,9 +196,29 @@ public class GamePanel extends JPanel implements Runnable{
         gq.fillRect(18*TailleCarre, 8*TailleCarre, 2, TailleCarre*6);
         gq.fillRect(6*TailleCarre, 8*TailleCarre, 12*TailleCarre, 1);
         gq.fillRect(6*TailleCarre, 9*TailleCarre, 11*TailleCarre, 1);
+        Color gris = new Color(200, 200, 200);
+        gq.setColor(gris);
+        gq.fillRect(0, TailleCarre*2+1, LargeurEcran - 2*TailleCarre, TailleCarre-1);
+        gq.fillRect(LargeurEcran - 3*TailleCarre+2, TailleCarre*3, TailleCarre-2, TailleCarre*11+1);
+        gq.fillRect(17*TailleCarre+2, 14*TailleCarre+1, 16*TailleCarre-2, TailleCarre-1);
+        gq.fillRect(17*TailleCarre+2, 8*TailleCarre+1, TailleCarre-2, TailleCarre*6);
+        gq.fillRect(6*TailleCarre, 8*TailleCarre+1, 12*TailleCarre-1, TailleCarre-1);
+
         gq.setColor(Color.lightGray);   // la barre en haut et en bas
         gq.fillRect(0, 0, LargeurEcran, TailleCarre);
         gq.fillRect(0, HauteurEcran - 4*TailleCarre, LargeurEcran, 4*TailleCarre);
+
+        //dessine le chateau
+        gq.drawImage(tunel.Imagechateau, tunel.x, tunel.y, TailleCarre*3, TailleCarre*3, null);
+
+        //dessine tours dans inventaire
+
+        Tours1 tours1inventaire = new Tours1(30, 3, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre);
+        gq.drawImage(tours1inventaire.image, tours1inventaire.x, tours1inventaire.y, TailleCarre*2, TailleCarre*2, null);
+        gq.setColor(Color.BLACK);
+        gq.setFont(new Font("Arial", Font.PLAIN, 15));
+        gq.drawString("30 Kama", 6*TailleCarre, HauteurEcran - TailleCarre/2);
+
     }
     public boolean isOnPath(int x, int y) {
         // Vérifie si les coordonnées (x, y) se trouvent sur le chemin
@@ -284,7 +304,6 @@ public class GamePanel extends JPanel implements Runnable{
         drawQuadrillage(gq);
         barreChoixProjectiles(gq);
         createPath(gq);
-        tunel.draw(gq);
         for (Projectile projectile : projectiles) {
             if (projectile.isActive()) {
                 projectile.draw(gq);
@@ -311,6 +330,8 @@ public class GamePanel extends JPanel implements Runnable{
 
             }
         }
+        tunel.updateVies();
+        gq.drawImage(tunel.Imagevies, tunel.x, tunel.y + TailleCarre*3, TailleCarre*3, TailleCarre, null);
 
         //zombie.deplacementZombie();
         //gq.drawImage(zombie.image, zombie.x, zombie.y, TailleCarre, TailleCarre, null);

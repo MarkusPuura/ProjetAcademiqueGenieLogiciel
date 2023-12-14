@@ -1,14 +1,17 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 public class Projectile {
     private int price;
     private int damage;
     private int speed;
-    private int x, y;
-    private int directionX, directionY;
+    int x, y;
     private boolean active;
     private Color color;
-    public Projectile(int price , int damage, int speed, int x, int y, int directionX, int directionY){
+
+    public BufferedImage image;
+
+    public Projectile(int price , int damage, int speed, int x, int y){
         this.price=price;
         this.damage = damage;
         this.speed = speed;
@@ -27,12 +30,7 @@ public class Projectile {
     public int getDamage() {
         return damage;
     }
-    public double getDirectionX() {
-        return directionX;
-    }
-    public double getDirectionY() {
-        return directionY;
-    }
+    
 
     public double getX() {
         return x;
@@ -64,13 +62,7 @@ public class Projectile {
         this.y = y;
     }
 
-    public void setDirectionX(int directionX) {
-        this.directionX = directionX;
-    }
-
-    public void setDirectionY(int directionY) {
-        this.directionY = directionY;
-    }
+    
 
     public void setActive(boolean active) {
         this.active = active;
