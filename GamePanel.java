@@ -1,13 +1,8 @@
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -24,42 +19,34 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
     Chrono chrono = new Chrono();
     Kama kama = new Kama();
-    int fin;                        // quand passe à 1: le joueur a gagné, si passe à 2: il a perdu.
-    int mouseX = -1;
-    int mouseY = -1;
-    List<Projectile> projectiles = new ArrayList<>();
+    int fin;          // quand passe à 1: le joueur a gagné, si passe à 2: il a perdu.
+
     Tunel tunel;
     Thread gameThread;
+    Tours1 tours1inventaire = new Tours1(30, 3, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre);
+    TourController tourController;
+    Tours1 toursSelected = null;
+    int nbClics = 0;
+    private MouseController mouseController;
+
+
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(LargeurEcran, HauteurEcran));
         this.setBackground(Color.white);
         this.setDoubleBuffered(true); //ameliorer affichage
         createTunel(); // Création du tunnel à la fin du chemin
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                mouseX = e.getX();
-                mouseY = e.getY();
-                createProjectile(mouseX, mouseY);
-                boolean isPointOnPath = isOnPath(mouseX, mouseY);
-                System.out.println("Le point se trouve sur le chemin : " + isPointOnPath);
-
-            }
-        });
+        tourController = new TourController();
+        PathController pathController = new PathController(TailleCarre, LargeurEcran, HauteurEcran);
+        mouseController = new MouseController(this,pathController);
+        mouseController.initializeMouseListener();
 
     }
 
     private void createTunel() {
         tunel = Tunel.getInstance(3*TailleCarre, 6*TailleCarre);
     }
-    private void createProjectile(int x, int y) {
-        if (!isOnPath(x, y)) {
-            Projectile projectile = new Projectile(5, 10, 6, x, y);
-            projectiles.add(projectile);
-        }
-    }
+
 
     public void startThread() {
         gameThread = new Thread(this);
@@ -213,48 +200,12 @@ public class GamePanel extends JPanel implements Runnable{
 
         //dessine tours dans inventaire
 
-        Tours1 tours1inventaire = new Tours1(30, 3, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre);
         gq.drawImage(tours1inventaire.image, tours1inventaire.x, tours1inventaire.y, TailleCarre*2, TailleCarre*2, null);
         gq.setColor(Color.BLACK);
         gq.setFont(new Font("Arial", Font.PLAIN, 15));
         gq.drawString("30 Kama", 6*TailleCarre, HauteurEcran - TailleCarre/2);
 
     }
-    public boolean isOnPath(int x, int y) {
-        // Vérifie si les coordonnées (x, y) se trouvent sur le chemin
-
-        // Coordonnées des rectangles du chemin
-        int[][] rectangles = {
-                {0, TailleCarre * 2, LargeurEcran - 2 * TailleCarre, TailleCarre},
-                {0, TailleCarre*3, LargeurEcran - 3*TailleCarre, 1},
-                {LargeurEcran - 2 * TailleCarre, TailleCarre * 2, 3, TailleCarre * 13},
-                {LargeurEcran - 3 * TailleCarre, TailleCarre * 3, TailleCarre, TailleCarre * 11},
-                {18 * TailleCarre, 14 * TailleCarre, 14 * TailleCarre, TailleCarre},
-                {17 * TailleCarre, 15 * TailleCarre, 16 * TailleCarre, 2},
-                {17 * TailleCarre, 9 * TailleCarre, 3, TailleCarre * 6},
-                {18 * TailleCarre, 8 * TailleCarre, TailleCarre, TailleCarre * 6},
-                {6 * TailleCarre, 8 * TailleCarre, 12 * TailleCarre, TailleCarre},
-                {6 * TailleCarre, 9 * TailleCarre, 11 * TailleCarre, 2},
-                {0, 0, LargeurEcran, TailleCarre},
-                {0, HauteurEcran - 4 * TailleCarre, LargeurEcran, 4 * TailleCarre}
-        };
-
-        // Vérifie si les coordonnées (x, y) se trouvent dans un des rectangles du chemin
-        for (int[] rect : rectangles) {
-            int rectX = rect[0];
-            int rectY = rect[1];
-            int rectWidth = rect[2];
-            int rectHeight = rect[3];
-
-            if (x >= rectX && x <= rectX + rectWidth && y >= rectY && y <= rectY + rectHeight) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
 
     public void endOfTheGame(Graphics2D gq){
         if (fin == 1){  //Si le joueur a gagné (dernier update)
@@ -293,7 +244,15 @@ public class GamePanel extends JPanel implements Runnable{
         gq.setColor(brun);
         gq.fillRect(0, HauteurEcran - 4*TailleCarre - TailleCarre/4, LargeurEcran, TailleCarre/4);
     }
+    public void drawProjectile(Graphics2D gq){
+        for (Projectile projectile : tourController.getTowersList()) {
+            if (projectile.isActive()) {
+                //projectile.draw(gq);
+                gq.drawImage(projectile.image, projectile.x, projectile.y, TailleCarre*2, TailleCarre*2, null);
 
+            }
+        }
+    }
     
 
     public void paintComponent(Graphics g){     //dessiner après chaque update
@@ -304,11 +263,7 @@ public class GamePanel extends JPanel implements Runnable{
         drawQuadrillage(gq);
         barreChoixProjectiles(gq);
         createPath(gq);
-        for (Projectile projectile : projectiles) {
-            if (projectile.isActive()) {
-                projectile.draw(gq);
-            }
-        }
+        drawProjectile(gq);
 
         //dessine les zombies
         Monstres premier = liste_monstres.premier();
