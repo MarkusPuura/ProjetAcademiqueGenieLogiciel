@@ -12,7 +12,7 @@ public class MouseController {
 
     public void createProjectile(int x, int y) {
         if (!pathController.isOnPath(x, y)) {
-            Tours1 tourProjectile =  new Tours1(30, 3, 1, x, y);
+            Tours1 tourProjectile =  new Tours1(30, 3, 1, x, y,6);
             gamePanel.tourController.addTower(tourProjectile);
             tourProjectile.afficherTours1();
 

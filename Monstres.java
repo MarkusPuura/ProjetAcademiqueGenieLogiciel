@@ -16,7 +16,12 @@ public abstract class Monstres {
         this.x = x;
         this.y = y;
     }
-
+    public int getX(){
+        return this.x;
+    }
+    public int getY(){
+        return this.y;
+    }
 
     public BufferedImage bas1, bas2, haut1, haut2, gauche1, gauche2, droite1, droite2;
     public String direction;
@@ -118,6 +123,10 @@ public abstract class Monstres {
                 }
             }
         }
+    }
+
+    public void looseLife(int damage){
+        this.HP -= damage;
     }
 
 }

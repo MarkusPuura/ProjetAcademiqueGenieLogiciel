@@ -4,8 +4,8 @@ import javax.imageio.ImageIO;
 public class Tours1 extends Projectile {
     private boolean selected;
 
-    public Tours1(int price, int damage, int speed, int x, int y){
-        super(price, damage, speed, x, y);
+    public Tours1(int price, int damage, int speed, int x, int y,int radius){
+        super(price, damage, speed, x, y,radius);
         GetImage();
     }
     public void afficherTours1(){
@@ -26,6 +26,9 @@ public class Tours1 extends Projectile {
         return x >= xTours1 && x <= xTours1 + sizeTours1 && y >= yTours1 && y <= yTours1 + sizeTours1;
 
     }
+    // Dans la classe Projectile
+
+
 
     public boolean hasEnoughMoney(Kama k){
         return this.getPrice() <= k.portefeuille;

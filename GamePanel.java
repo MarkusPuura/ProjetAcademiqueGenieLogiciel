@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     Tunel tunel;
     Thread gameThread;
-    Tours1 tours1inventaire = new Tours1(30, 3, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre);
+    Tours1 tours1inventaire = new Tours1(30, 3, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre,30);
     TourController tourController;
     Tours1 toursSelected = null;
     int nbClics = 0;
@@ -97,6 +97,20 @@ public class GamePanel extends JPanel implements Runnable{
             while (liste_monstres.suivant((iterateur)) != null){
                 iterateur = liste_monstres.suivant(iterateur);
                 iterateur.updateMonstre(TailleCarre, HauteurEcran, LargeurEcran);
+            }
+        }
+
+        // Vérification des collisions entre projectiles et monstres
+        for (Projectile projectile : tourController.getTowersList()) {
+            if (projectile.isActive()) {
+                //System.out.println("for boucle ");
+                Monstres iterMonstre = liste_monstres.premier();
+                while (iterMonstre != null) {
+                   // System.out.println("while boucle ");
+
+                    projectile.checkCollision(iterMonstre);
+                    iterMonstre = liste_monstres.suivant(iterMonstre);
+                }
             }
         }
         
