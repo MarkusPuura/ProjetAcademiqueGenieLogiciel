@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     Tunel tunel;
     Thread gameThread;
-    Tours1 tours1inventaire = new Tours1(30, 3, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre,30);
+    Tours1 tours1inventaire = new Tours1(30, 3, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre,100);
     TourController tourController;
     Tours1 toursSelected = null;
     int nbClics = 0;
