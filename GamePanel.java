@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Font;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable{
     final int TailleOriginalPersonnages = 16; // personnages + objets de taille 16*16
@@ -28,6 +29,10 @@ public class GamePanel extends JPanel implements Runnable{
     Tours1 toursSelected = null;
     int nbClics = 0;
     private MouseController mouseController;
+    private BufferedImage draggedTourImage;
+    private int mouseX;
+    private int mouseY;
+    private boolean isDragging;
 
 
 
@@ -40,7 +45,25 @@ public class GamePanel extends JPanel implements Runnable{
         PathController pathController = new PathController(TailleCarre, LargeurEcran, HauteurEcran);
         mouseController = new MouseController(this,pathController);
         mouseController.initializeMouseListener();
+        isDragging = false;
 
+    }
+
+    public void setMousePosition(int x, int y) {
+        mouseX = x;
+        mouseY = y;
+    }
+
+    public void setIsDragging(boolean dragging) {
+        isDragging = dragging;
+    }
+
+    public int getMouseX() {
+        return mouseX;
+    }
+
+    public int getMouseY() {
+        return mouseY;
     }
 
     private void createTunel() {
@@ -101,7 +124,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
         // Vérification des collisions entre projectiles et monstres
-        for (Projectile projectile : tourController.getTowersList()) {
+        /*for (Projectile projectile : tourController.getTowersList()) {
             if (projectile.isActive()) {
                 //System.out.println("for boucle ");
                 Monstres iterMonstre = liste_monstres.premier();
@@ -112,7 +135,7 @@ public class GamePanel extends JPanel implements Runnable{
                     iterMonstre = liste_monstres.suivant(iterMonstre);
                 }
             }
-        }
+        }*/
         
         //supprime les monstres qui n'ont plus d'HP et ceux qui sont arrivés à la fin
         Monstres suivant;
@@ -267,7 +290,19 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
     }
-    
+    public void drawProjectileDragMouse(Graphics2D gq, int x,int y){
+
+        if (toursSelected!= null) {
+            //projectile.draw(gq);
+            gq.drawImage(toursSelected.image, x, y, TailleCarre*2, TailleCarre*2, null);
+
+        }
+
+    }
+    public void drawTourImageAtPosition(BufferedImage image, int x, int y) {
+        draggedTourImage = image;
+        repaint();
+    }
 
     public void paintComponent(Graphics g){     //dessiner après chaque update
 
@@ -278,7 +313,9 @@ public class GamePanel extends JPanel implements Runnable{
         barreChoixProjectiles(gq);
         createPath(gq);
         drawProjectile(gq);
-
+        if (draggedTourImage != null) {
+            g.drawImage(draggedTourImage, mouseX, mouseY, TailleCarre * 2, TailleCarre * 2, null);
+        }
         //dessine les zombies
         Monstres premier = liste_monstres.premier();
         if (premier != null){

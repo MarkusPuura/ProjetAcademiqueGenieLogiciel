@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -18,7 +19,15 @@ public class Tours1 extends Projectile {
             e.printStackTrace();
         }
     }
-
+    public BufferedImage getImageDragMouse(){
+        try{
+            image = ImageIO.read(getClass().getResourceAsStream("/tours/tours1.png"));
+            //return image;
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return image;
+    }
     public boolean isClickedAndSelectionnedTours1(int x,int y,int TailleCarre, int HauteurEcran){
         int xTours1 = 6*TailleCarre;
         int yTours1 = HauteurEcran - 3*TailleCarre;
