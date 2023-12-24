@@ -3,6 +3,9 @@ import java.awt.event.MouseEvent;
 public class MouseController {
     private final GamePanel gamePanel;
     private final PathController pathController;
+    final int TailleOriginalPersonnages = 16; // personnages + objets de taille 16*16
+    final int echelle = 2;
+    final int TailleCarre = TailleOriginalPersonnages * echelle;
 
     public MouseController(GamePanel gamePanel,PathController pathController) {
         this.gamePanel = gamePanel;
@@ -11,24 +14,36 @@ public class MouseController {
     }
 
     public void createProjectile(int x, int y) {
-        if (!pathController.isOnPath(x, y)) {
+        //if (!pathController.isOnPath(x, y)) {
             Tours1 tourProjectile =  new Tours1(30, 3, 1, x, y,100);
             gamePanel.tourController.addTower(tourProjectile);
             tourProjectile.afficherTours1();
 
-        }
+        //}
     }
 
     public void initializeMouseListener() {
         gamePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                handleMousePress(e.getX(), e.getY());
+                int x, y;
+                if ((e.getX())%TailleCarre < TailleCarre/2){
+                    x = e.getX() - (e.getX())%TailleCarre - TailleCarre;
+                } else {
+                    x = e.getX() - (e.getX())%TailleCarre;
+                }
+                if ((e.getY())%TailleCarre < TailleCarre/2){
+                    y = e.getY() - (e.getY())%TailleCarre - TailleCarre;
+                } else {
+                    y = e.getY() - (e.getY())%TailleCarre;
+                }
+                handleMousePress(x, y);
                 gamePanel.setIsDragging(true);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                
                 handleMouseRelease(e.getX(), e.getY());
                 gamePanel.setIsDragging(false);
             }
@@ -58,7 +73,18 @@ public class MouseController {
         gamePanel.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                handleMouseDrag(e.getX(), e.getY());
+                int x, y;
+                if ((e.getX())%TailleCarre < TailleCarre/2){
+                    x = e.getX() - (e.getX())%TailleCarre - TailleCarre;
+                } else {
+                    x = e.getX() - (e.getX())%TailleCarre;
+                }
+                if ((e.getY())%TailleCarre < TailleCarre/2){
+                    y = e.getY() - (e.getY())%TailleCarre - TailleCarre;
+                } else {
+                    y = e.getY() - (e.getY())%TailleCarre;
+                }
+                handleMouseDrag(x, y);
             }
            /* @Override
             public void mouseMoved(MouseEvent e) {
@@ -89,12 +115,24 @@ public class MouseController {
     private void handleMouseRelease(int mouseX, int mouseY){
         System.out.println("release");
         if(!pathController.isOnPath(mouseX,mouseY) && gamePanel.toursSelected != null){
-            createProjectile(mouseX,mouseY);
+            int x, y;
+            if ((mouseX)%TailleCarre < TailleCarre/2){
+                x = mouseX - mouseX%TailleCarre - TailleCarre;
+            } else {
+                x = mouseX - mouseX%TailleCarre;
+            }
+            if (mouseY%TailleCarre < TailleCarre/2){
+                y = mouseY - mouseY%TailleCarre - TailleCarre;
+            } else {
+                y = mouseY - mouseY%TailleCarre;
+            }
+            createProjectile(x,y);
             gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
         }
         else if (pathController.isOnPath(mouseX, mouseY)) {
             System.out.println("on Path");
+            gamePanel.draggedTourImage = null;
 
         }
         gamePanel.toursSelected = null;

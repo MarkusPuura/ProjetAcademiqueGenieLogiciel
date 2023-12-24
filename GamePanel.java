@@ -29,10 +29,10 @@ public class GamePanel extends JPanel implements Runnable{
     Tours1 toursSelected = null;
     int nbClics = 0;
     private MouseController mouseController;
-    private BufferedImage draggedTourImage;
+    BufferedImage draggedTourImage;
     private int mouseX;
     private int mouseY;
-    private boolean isDragging;
+    boolean isDragging;
 
 
 
@@ -294,12 +294,32 @@ public class GamePanel extends JPanel implements Runnable{
 
         if (toursSelected!= null) {
             //projectile.draw(gq);
+            if (x%TailleCarre < TailleCarre/2){
+                x = x - x%TailleCarre - TailleCarre;
+            } else {
+                x = x - x%TailleCarre;
+            }
+            if (y%TailleCarre < TailleCarre/2){
+                y = y - y%TailleCarre - TailleCarre;
+            } else {
+                y = y - y%TailleCarre;
+            }
             gq.drawImage(toursSelected.image, x, y, TailleCarre*2, TailleCarre*2, null);
 
         }
 
     }
     public void drawTourImageAtPosition(BufferedImage image, int x, int y) {
+        if (x%TailleCarre < TailleCarre/2){
+            x = x - x%TailleCarre - TailleCarre;
+        } else {
+            x = x - x%TailleCarre;
+        }
+        if (y%TailleCarre < TailleCarre/2){
+            y = y - y%TailleCarre - TailleCarre;
+        } else {
+            y = y - y%TailleCarre;
+        }
         draggedTourImage = image;
         repaint();
     }
