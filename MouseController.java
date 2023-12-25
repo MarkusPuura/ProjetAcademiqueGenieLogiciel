@@ -15,11 +15,30 @@ public class MouseController {
 
     public void createProjectile(int x, int y) {
         //if (!pathController.isOnPath(x, y)) {
-            Tours1 tourProjectile =  new Tours1(30, 3, 1, x, y,100);
-            gamePanel.tourController.addTower(tourProjectile);
-            tourProjectile.afficherTours1();
+        Tours1 tourProjectile =  new Tours1(30, 3, 1, x, y,100);
+        gamePanel.tourController.addTower(tourProjectile);
+       // gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
-        //}
+        tourProjectile.afficherTours1();
+
+    }
+
+    private int[] placementCarreCoorrect(int mouseX, int mouseY) {
+        int[] coordinates = new int[2];
+        int x, y;
+        if ((mouseX) % TailleCarre < TailleCarre / 2) {
+            x = mouseX - (mouseX) % TailleCarre - TailleCarre;
+        } else {
+            x = mouseX - (mouseX) % TailleCarre;
+        }
+        if ((mouseY) % TailleCarre < TailleCarre / 2) {
+            y = mouseY - (mouseY) % TailleCarre - TailleCarre;
+        } else {
+            y = mouseY - (mouseY) % TailleCarre;
+        }
+        coordinates[0] = x;
+        coordinates[1] = y;
+        return coordinates;
     }
 
     public void initializeMouseListener() {
@@ -43,31 +62,11 @@ public class MouseController {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                
+
                 handleMouseRelease(e.getX(), e.getY());
                 gamePanel.setIsDragging(false);
             }
-            /*@Override
-            public void mouseEntered(MouseEvent e) {
 
-                handleMouseEntered(e.getX(), e.getY());
-            }*/
-
-            /*@Override
-            public void mouseExited(MouseEvent e) {
-                handleMouseExited(e.getX(), e.getY());
-            }
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                //handleMouseClick(e.getX(), e.getY());
-                boolean affordAndClick = gamePanel.tours1inventaire.canAffordAndClickTours1(e.getX(), e.getY(), gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
-
-                if(affordAndClick){
-                    System.out.println("clicked");
-                }
-
-
-            }*/
         });
 
         gamePanel.addMouseMotionListener(new MouseAdapter() {
@@ -86,10 +85,7 @@ public class MouseController {
                 }
                 handleMouseDrag(x, y);
             }
-           /* @Override
-            public void mouseMoved(MouseEvent e) {
-                gamePanel.setMousePosition(e.getX(), e.getY());
-            }*/
+
         });
 
     }
@@ -129,7 +125,8 @@ public class MouseController {
                 y = mouseY - mouseY%TailleCarre;
             }
             createProjectile(x,y);
-            gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
+            gamePanel.tourController.afficheListeTours();
+            //gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
         }
         else if (pathController.isOnPath(mouseX, mouseY)&& gamePanel.fin !=2) {
@@ -168,37 +165,9 @@ public class MouseController {
         }
     }
 
-    private void handleMouseClick(int mouseX, int mouseY) {
-
-        boolean isPointOnPath = pathController.isOnPath(mouseX, mouseY);
-        System.out.println("Le point se trouve sur le chemin : " + isPointOnPath);
-        boolean affordAndClick = gamePanel.tours1inventaire.canAffordAndClickTours1(mouseX, mouseY, gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
-        System.out.println("affordAndClick : " + affordAndClick);
-        if (gamePanel.nbClics == 1 &  !pathController.isOnPath(mouseX,mouseY)) {
-
-            System.out.println("nbclics == 1 & tours != null");
-            System.out.println(gamePanel.toursSelected);
-
-            createProjectile(mouseX,mouseY);
-            gamePanel.nbClics = 0;
-            gamePanel.toursSelected = null;
-            System.out.println(gamePanel.toursSelected);
-
-        }
-        else {
-            if (affordAndClick) {
-
-                gamePanel.toursSelected = gamePanel.tours1inventaire.getSelectedTower(mouseX, mouseY, gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
-                //System.out.println(toursSelected);
-                gamePanel.toursSelected.afficherTours1();
-                gamePanel.nbClics++;
-
-                gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
-            }
-
-        }
 
 
 
-    }
+
+
 }

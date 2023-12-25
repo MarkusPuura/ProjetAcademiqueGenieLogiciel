@@ -78,4 +78,8 @@ public class Tours1 extends Projectile {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+    @Override
+    public String toString() {
+        return "Tours1: [Price=" + getPrice() + ", Damage=" + getDamage() + ", Speed=" + getSpeed() + ", X=" + getX() + ", Y=" + getY() + "]";
+    }
 }

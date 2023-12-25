@@ -34,11 +34,11 @@ public class Projectile {
     }
     
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
     }
 

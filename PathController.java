@@ -25,7 +25,7 @@ public class PathController {
             {6*TailleCarre - TailleCarre/2, 8*TailleCarre - TailleCarre/2, 12*TailleCarre, 2*TailleCarre},
             {3*TailleCarre - TailleCarre/2, 6*TailleCarre - TailleCarre/2, 4*TailleCarre, 5*TailleCarre},
             //zone vers la tour  :
-            {0, 0, 6*TailleCarre, HauteurEcran},
+            //{0, 0, 6*TailleCarre, HauteurEcran},
         };
 
         // Vérifie si les coordonnées (x, y) se trouvent dans un des rectangles du chemin

@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setBackground(Color.white);
         this.setDoubleBuffered(true); //ameliorer affichage
         createTunel(); // Création du tunnel à la fin du chemin
-        tourController = new TourController();
+        tourController = new TourController(this);
         PathController pathController = new PathController(TailleCarre, LargeurEcran, HauteurEcran);
         mouseController = new MouseController(this,pathController);
         mouseController.initializeMouseListener();
