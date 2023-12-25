@@ -194,12 +194,13 @@ public class GamePanel extends JPanel implements Runnable{
 
     
 
+
     public void drawQuadrillage(Graphics2D gq){
-        Color vert = new Color(180, 255, 180);
+        Color vert = new Color(107, 175, 107);
         gq.setColor(vert);   //fond vert
         gq.fillRect(0, 0, LargeurEcran, HauteurEcran);
-
-        gq.setColor(Color.lightGray);
+        Color quadrillage = new Color(79, 155, 79);
+        gq.setColor(quadrillage);
         for (int i = 1; i <= ColonnesEcran; i++){
             gq.fillRect(i*TailleCarre, 0, 1, HauteurEcran);
         }
@@ -220,15 +221,15 @@ public class GamePanel extends JPanel implements Runnable{
         gq.fillRect(18*TailleCarre, 8*TailleCarre, 2, TailleCarre*6);
         gq.fillRect(6*TailleCarre, 8*TailleCarre, 12*TailleCarre, 1);
         gq.fillRect(6*TailleCarre, 9*TailleCarre, 11*TailleCarre, 1);
-        Color gris = new Color(200, 200, 200);
-        gq.setColor(gris);
+        Color chemin = new Color(171, 131, 100);
+        gq.setColor(chemin);
         gq.fillRect(0, TailleCarre*2+1, LargeurEcran - 2*TailleCarre, TailleCarre-1);
         gq.fillRect(LargeurEcran - 3*TailleCarre+2, TailleCarre*3, TailleCarre-2, TailleCarre*11+1);
         gq.fillRect(17*TailleCarre+2, 14*TailleCarre+1, 16*TailleCarre-2, TailleCarre-1);
         gq.fillRect(17*TailleCarre+2, 8*TailleCarre+1, TailleCarre-2, TailleCarre*6);
         gq.fillRect(6*TailleCarre, 8*TailleCarre+1, 12*TailleCarre-1, TailleCarre-1);
 
-        gq.setColor(Color.lightGray);   // la barre en haut et en bas
+        gq.setColor(Color.black);   // la barre en haut et en bas
         gq.fillRect(0, 0, LargeurEcran, TailleCarre);
         gq.fillRect(0, HauteurEcran - 4*TailleCarre, LargeurEcran, 4*TailleCarre);
 
@@ -238,24 +239,31 @@ public class GamePanel extends JPanel implements Runnable{
         //dessine tours dans inventaire
 
         gq.drawImage(tours1inventaire.image, tours1inventaire.x, tours1inventaire.y, TailleCarre*2, TailleCarre*2, null);
-        gq.setColor(Color.BLACK);
+        gq.setColor(Color.WHITE);
         gq.setFont(new Font("Arial", Font.PLAIN, 15));
-        gq.drawString("30 Kama", 6*TailleCarre, HauteurEcran - TailleCarre/2);
+        gq.drawString("30 ", 6*TailleCarre, HauteurEcran - TailleCarre/2);
+        gq.drawImage(kama.image, 7*TailleCarre,HauteurEcran - TailleCarre, TailleCarre-6, TailleCarre-6, null);
+
+
 
     }
 
     public void endOfTheGame(Graphics2D gq){
         if (fin == 1){  //Si le joueur a gagné (dernier update)
-            String messageVictoire = "Bravo vous avez gagné :)";
+            String messageVictoire = "The village is saved :)";
             gq.setColor(Color.red);
             gq.setFont(new Font("Arial", Font.PLAIN, 75));
             gq.drawString(messageVictoire, 5*TailleCarre, HauteurEcran/2);
         }
         if (fin == 2){  //Si le joueur a perdu (dernier update)
-            String messageDefaite = "Bravo vous avez perdu :(";
+            //kama.finPortefeuil();
+            //printRestOfMoney(gq);
+
+            //repaint();
+            String messageDefaite = "GAME OVER :(";
             gq.setColor(Color.red);
             gq.setFont(new Font("Arial", Font.PLAIN, 75));
-            gq.drawString(messageDefaite, 5*TailleCarre, HauteurEcran/2);
+            gq.drawString(messageDefaite, 10*TailleCarre, HauteurEcran/2);
         }
     }
 
@@ -267,12 +275,14 @@ public class GamePanel extends JPanel implements Runnable{
         else{
             afficherChrono = chrono.min + ":" + chrono.sec;
         }
-        gq.setColor(Color.BLACK);
+        gq.setColor(Color.WHITE);
         gq.setFont(new Font("Arial", Font.PLAIN, 25));
         gq.drawString(afficherChrono, LargeurEcran - 3*TailleCarre, 1*TailleCarre - 4);
     }
     public void printRestOfMoney(Graphics2D gq){
-        String afficherKama = "Kama: " + kama.portefeuille;
+        String afficherKama = ": " + kama.portefeuille;
+        gq.drawImage(kama.image, LargeurEcran - 9*TailleCarre,0, TailleCarre, TailleCarre, null);
+
         gq.drawString(afficherKama, LargeurEcran - 8*TailleCarre, 1*TailleCarre - 4);
     }
     public void barreChoixProjectiles(Graphics2D gq){
@@ -374,6 +384,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         //fin
         endOfTheGame(gq);
+
         gq.dispose();
     }
 

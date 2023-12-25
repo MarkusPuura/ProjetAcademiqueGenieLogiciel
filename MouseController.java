@@ -98,7 +98,8 @@ public class MouseController {
 
         boolean affordAndClick = gamePanel.tours1inventaire.canAffordAndClickTours1(mouseX, mouseY, gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
         System.out.println(affordAndClick);
-        if(affordAndClick){
+        System.out.println(gamePanel);
+        if(affordAndClick && gamePanel.fin !=2){
             System.out.println("press");
             gamePanel.toursSelected = gamePanel.tours1inventaire.getSelectedTower(mouseX, mouseY, gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
             //System.out.println(toursSelected);
@@ -114,7 +115,8 @@ public class MouseController {
     }
     private void handleMouseRelease(int mouseX, int mouseY){
         System.out.println("release");
-        if(!pathController.isOnPath(mouseX,mouseY) && gamePanel.toursSelected != null){
+
+        if(!pathController.isOnPath(mouseX,mouseY) && gamePanel.toursSelected != null&& gamePanel.fin !=2){
             int x, y;
             if ((mouseX)%TailleCarre < TailleCarre/2){
                 x = mouseX - mouseX%TailleCarre - TailleCarre;
@@ -130,7 +132,7 @@ public class MouseController {
             gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
         }
-        else if (pathController.isOnPath(mouseX, mouseY)) {
+        else if (pathController.isOnPath(mouseX, mouseY)&& gamePanel.fin !=2) {
             System.out.println("on Path");
             gamePanel.draggedTourImage = null;
 
@@ -139,7 +141,7 @@ public class MouseController {
         gamePanel.repaint();
     }
     private void handleMouseDrag(int mouseX, int mouseY){
-        if (gamePanel.toursSelected != null) {
+        if (gamePanel.toursSelected != null&& gamePanel.fin !=2) {
             gamePanel.setMousePosition(mouseX,mouseY);
 
             gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.getImageDragMouse(), gamePanel.getMouseX(), gamePanel.getMouseY());
