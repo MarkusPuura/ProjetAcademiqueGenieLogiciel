@@ -99,22 +99,11 @@ public class Projectile {
         double distance = Math.sqrt(Math.pow(this.getX() - monstre.getX(), 2) + Math.pow(this.getY() - monstre.getY(), 2));
         return distance <= this.getRadius();
     }
-    public void checkCollisionMonstre(Monstres monstre) {
-        double distance = Math.sqrt(Math.pow(this.getX() - monstre.getX(), 2) + Math.pow(this.getY() - monstre.getY(), 2));
-        /*System.out.println("checkCollision : "+monstre.HP);
-        System.out.println("x : "+monstre.x+" y : "+monstre.y);*/
-        System.out.println("Distance : " + distance);
-        System.out.println("Radius : " + this.radius);
-        System.out.println(distance < this.radius);
+    public void giveDmageToMonster(Monstres monstre) {
+        System.out.println(this.getDamage());
+        monstre.looseLife(this.getDamage());
+        System.out.println("Monster HP after hit: " + monstre.HP);
 
-        //System.out.println("x : " + this.getX()+" y : "+this.getY());
-
-
-        if (distance < this.radius) {
-            monstre.looseLife(this.getDamage());
-            System.out.println("Monster HP after hit: " + monstre.HP);
-            //this.setActive(false); // Désactivez le projectile après la collision
-        }
     }
 
 

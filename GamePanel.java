@@ -1,5 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -305,6 +307,16 @@ public class GamePanel extends JPanel implements Runnable{
                     System.out.println(projectile.getTarget());
 
                     gq.drawLine(projectile.x + TailleCarre, projectile.y + TailleCarre, monstre.getX(), monstre.getY());
+                    int delayBeforeDamage = 10000; //tire toute les 5 secondes
+                    Timer timer = new Timer(delayBeforeDamage, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            System.out.println("actionTemp");
+                            projectile.giveDmageToMonster(monstre);
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
                 } else {
                     projectile.setTarget(null);
                 }
