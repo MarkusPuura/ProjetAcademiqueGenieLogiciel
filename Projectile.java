@@ -11,6 +11,7 @@ public class Projectile {
     private Color color;
 
     public BufferedImage image;
+    private Monstres target;
 
     public Projectile(int price , int damage, int speed, int x, int y,int radius){
         this.price=price;
@@ -19,10 +20,18 @@ public class Projectile {
         this.x = x;
         this.y = y;
         this.radius = radius;
+        //this.target = null;
 
 
         this.active = true;
     }
+    public int getRadius(){
+        return radius;
+    }
+    public Monstres getTarget() {
+        return this.target;
+    }
+
     public int getPrice() {
         return price;
     }
@@ -44,6 +53,9 @@ public class Projectile {
 
     public boolean isActive() {
         return active;
+    }
+    public void setTarget(Monstres target) {
+        this.target = target;
     }
     public void setPrice(int price) {
         this.price = price;
@@ -73,12 +85,21 @@ public class Projectile {
     public void setActive(boolean active) {
         this.active = active;
     }
+    public void updateTarget(Monstres monstre) {
+       // System.out.println(this.target);
 
-    public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillOval(x, y, 26, 26); // Dessiner un cercle pour représenter le projectile
+        if (this.target == null || monstre.HP <=0) {
+            System.out.println(this.target == null );
+
+            //System.out.println("updateMonstre");
+            this.target = monstre;
+        }
     }
-    public void checkCollision(Monstres monstre) {
+    public boolean checkInRange(Monstres monstre) {
+        double distance = Math.sqrt(Math.pow(this.getX() - monstre.getX(), 2) + Math.pow(this.getY() - monstre.getY(), 2));
+        return distance <= this.getRadius();
+    }
+    public void checkCollisionMonstre(Monstres monstre) {
         double distance = Math.sqrt(Math.pow(this.getX() - monstre.getX(), 2) + Math.pow(this.getY() - monstre.getY(), 2));
         /*System.out.println("checkCollision : "+monstre.HP);
         System.out.println("x : "+monstre.x+" y : "+monstre.y);*/

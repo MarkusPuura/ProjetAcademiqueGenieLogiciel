@@ -142,6 +142,7 @@ public class MouseController {
             gamePanel.setMousePosition(mouseX,mouseY);
 
             gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.getImageDragMouse(), gamePanel.getMouseX(), gamePanel.getMouseY());
+
         }
         else {
             System.out.println("selected null pour draged");

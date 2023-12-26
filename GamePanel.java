@@ -1,8 +1,4 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Font;
+import java.awt.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 
@@ -29,6 +25,8 @@ public class GamePanel extends JPanel implements Runnable{
     Tours1 toursSelected = null;
     int nbClics = 0;
     private MouseController mouseController;
+    PathController pathController = new PathController(TailleCarre, LargeurEcran, HauteurEcran);
+
     BufferedImage draggedTourImage;
     private int mouseX;
     private int mouseY;
@@ -42,7 +40,6 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true); //ameliorer affichage
         createTunel(); // Création du tunnel à la fin du chemin
         tourController = new TourController(this);
-        PathController pathController = new PathController(TailleCarre, LargeurEcran, HauteurEcran);
         mouseController = new MouseController(this,pathController);
         mouseController.initializeMouseListener();
         isDragging = false;
@@ -256,10 +253,7 @@ public class GamePanel extends JPanel implements Runnable{
             gq.drawString(messageVictoire, 5*TailleCarre, HauteurEcran/2);
         }
         if (fin == 2){  //Si le joueur a perdu (dernier update)
-            //kama.finPortefeuil();
-            //printRestOfMoney(gq);
 
-            //repaint();
             String messageDefaite = "GAME OVER :(";
             gq.setColor(Color.red);
             gq.setFont(new Font("Arial", Font.PLAIN, 75));
@@ -291,33 +285,55 @@ public class GamePanel extends JPanel implements Runnable{
         gq.setColor(brun);
         gq.fillRect(0, HauteurEcran - 4*TailleCarre - TailleCarre/4, LargeurEcran, TailleCarre/4);
     }
-    public void drawProjectile(Graphics2D gq){
+    public void drawProjectile(Graphics2D gq, Monstres monstre){
         for (Projectile projectile : tourController.getTowersList()) {
             if (projectile.isActive()) {
                 //projectile.draw(gq);
+                projectile.updateTarget(monstre);
                 gq.drawImage(projectile.image, projectile.x, projectile.y, TailleCarre*2, TailleCarre*2, null);
 
+               if (projectile.checkInRange(monstre) && projectile.getTarget()!=null){
+                    System.out.println(projectile.getTarget());
+
+                    gq.drawLine(projectile.x + TailleCarre, projectile.y + TailleCarre, monstre.getX(), monstre.getY());
+                }
+                else{
+                    projectile.setTarget(null);
+                }
             }
         }
     }
-    public void drawProjectileDragMouse(Graphics2D gq, int x,int y){
 
-        if (toursSelected!= null) {
-            //projectile.draw(gq);
-            if (x%TailleCarre < TailleCarre/2){
-                x = x - x%TailleCarre - TailleCarre;
-            } else {
-                x = x - x%TailleCarre;
-            }
-            if (y%TailleCarre < TailleCarre/2){
-                y = y - y%TailleCarre - TailleCarre;
-            } else {
-                y = y - y%TailleCarre;
-            }
-            gq.drawImage(toursSelected.image, x, y, TailleCarre*2, TailleCarre*2, null);
 
+    public void drawProjectileDragMouse(Graphics2D gq, int x, int y) {
+        if (toursSelected != null) {
+            int tourCenterX = x - (x % TailleCarre) + TailleCarre;
+            int tourCenterY = y - (y % TailleCarre) + TailleCarre;
+
+            int radius = toursSelected.getRadius() ;
+            AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f);
+            gq.setComposite(alphaComposite);
+
+            if(isDragging) {
+                if (pathController.isOnPath(x, y) || !tourController.checkValidPlacementTour(x,y)) {
+                    System.out.println(isDragging + " drawRadius");
+                    gq.setColor(Color.red);
+                    gq.fillOval(tourCenterX - radius, tourCenterY - radius, 2 * radius, 2 * radius);
+                } else {
+                    System.out.println(isDragging + " drawRadius");
+                    gq.setColor(Color.blue);
+                    gq.fillOval(tourCenterX - radius, tourCenterY - radius, 2 * radius, 2 * radius);
+                }
+            }
         }
+    }
 
+    public void drawRadius(Graphics2D gq, Color c,  Tours1 tour) {
+        gq.setColor(c);
+        System.out.println(mouseX + " "+mouseY + " "+toursSelected.getRadius());
+        gq.fillOval(mouseX, mouseY,toursSelected.getRadius(),   toursSelected.getRadius());
+
+        //gq.drawOval(mouseX - toursSelected.getRadius(), mouseY - toursSelected.getRadius(), 2 *TailleCarreVar* toursSelected.getRadius(), 2*TailleCarreVar * toursSelected.getRadius());
     }
     public void drawTourImageAtPosition(BufferedImage image, int x, int y) {
         if (x%TailleCarre < TailleCarre/2){
@@ -342,12 +358,15 @@ public class GamePanel extends JPanel implements Runnable{
         drawQuadrillage(gq);
         barreChoixProjectiles(gq);
         createPath(gq);
-        drawProjectile(gq);
-        if (draggedTourImage != null) {
+        Monstres premier = liste_monstres.premier();
+
+        if (draggedTourImage != null && toursSelected != null) {
             g.drawImage(draggedTourImage, mouseX, mouseY, TailleCarre * 2, TailleCarre * 2, null);
+            drawProjectileDragMouse( gq,mouseX, mouseY);
+
+
         }
         //dessine les zombies
-        Monstres premier = liste_monstres.premier();
         if (premier != null){
             premier.deplacementZombie();
             gq.drawImage(premier.image, premier.x, premier.y, TailleCarre, TailleCarre, null);
@@ -355,6 +374,8 @@ public class GamePanel extends JPanel implements Runnable{
             //sa barre de vie
             gq.fillRect(premier.x + TailleCarre/2 - premier.HP/2, premier.y-4, premier.HP, 3);
             while (liste_monstres.suivant((premier)) != null){
+                drawProjectile(gq, premier);
+
                 premier = liste_monstres.suivant(premier);
 
                 premier.deplacementZombie();

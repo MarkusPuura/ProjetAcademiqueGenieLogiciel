@@ -129,4 +129,17 @@ public abstract class Monstres {
         this.HP -= damage;
     }
 
+    @Override
+    public String toString() {
+        return "Monstre{" +
+                "HP=" + HP +
+                ", vitesse=" + vitesse +
+                ", kama=" + kama +
+                ", x=" + x +
+                ", y=" + y +
+                ", fin=" + fin +
+                ", direction='" + direction + '\'' +
+                '}';
+    }
+
 }
