@@ -6,6 +6,7 @@ public class MouseController {
     final int TailleOriginalPersonnages = 16; // personnages + objets de taille 16*16
     final int echelle = 2;
     final int TailleCarre = TailleOriginalPersonnages * echelle;
+    private boolean isOnPathBoolean = false;
 
     public MouseController(GamePanel gamePanel,PathController pathController) {
         this.gamePanel = gamePanel;
@@ -113,6 +114,7 @@ public class MouseController {
         System.out.println("release");
 
         if(!pathController.isOnPath(mouseX,mouseY) && gamePanel.toursSelected != null&& gamePanel.fin !=2){
+            isOnPathBoolean = false;
             int x, y;
             if ((mouseX)%TailleCarre < TailleCarre/2){
                 x = mouseX - mouseX%TailleCarre - TailleCarre;
@@ -130,6 +132,7 @@ public class MouseController {
 
         }
         else if (pathController.isOnPath(mouseX, mouseY)&& gamePanel.fin !=2) {
+            isOnPathBoolean= true;
             System.out.println("on Path");
             gamePanel.draggedTourImage = null;
 
@@ -167,8 +170,11 @@ public class MouseController {
     }
 
 
+    public boolean isOnPathBoolean() {
+        return isOnPathBoolean;
+    }
 
-
-
-
+    public void setOnPathBoolean(boolean onPathBoolean) {
+        isOnPathBoolean = onPathBoolean;
+    }
 }

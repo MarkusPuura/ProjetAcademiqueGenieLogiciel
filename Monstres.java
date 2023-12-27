@@ -126,7 +126,9 @@ public abstract class Monstres {
     }
 
     public void looseLife(int damage){
+        System.out.println(this.HP+" - "+damage +"=");
         this.HP -= damage;
+        System.out.println(this.HP);
     }
 
     @Override

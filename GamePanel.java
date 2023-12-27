@@ -318,6 +318,7 @@ public class GamePanel extends JPanel implements Runnable{
                     timer.setRepeats(false);
                     timer.start();
                 } else {
+                    System.out.println("projectile.target = null");
                     projectile.setTarget(null);
                 }
             }
@@ -335,12 +336,13 @@ public class GamePanel extends JPanel implements Runnable{
             gq.setComposite(alphaComposite);
 
             if(isDragging) {
-                if (pathController.isOnPath(x, y) || !tourController.checkValidPlacementTour(x,y)) {
-                    System.out.println(isDragging + " drawRadius");
+                System.out.println("on path bool : "+ mouseController.isOnPathBoolean());
+                if (mouseController.isOnPathBoolean() || !tourController.checkValidPlacementTour(x,y)) {
+                   // System.out.println(isDragging + " drawRadius");
                     gq.setColor(Color.red);
                     gq.fillOval(tourCenterX - radius, tourCenterY - radius, 2 * radius, 2 * radius);
                 } else {
-                    System.out.println(isDragging + " drawRadius");
+                   // System.out.println(isDragging + " drawRadius");
                     gq.setColor(Color.blue);
                     gq.fillOval(tourCenterX - radius, tourCenterY - radius, 2 * radius, 2 * radius);
                 }
@@ -356,6 +358,16 @@ public class GamePanel extends JPanel implements Runnable{
         //gq.drawOval(mouseX - toursSelected.getRadius(), mouseY - toursSelected.getRadius(), 2 *TailleCarreVar* toursSelected.getRadius(), 2*TailleCarreVar * toursSelected.getRadius());
     }
     public void drawTourImageAtPosition(BufferedImage image, int x, int y) {
+        if(pathController.isOnPath(x+TailleCarre,y+TailleCarre)){
+            System.out.println("drag on path");
+            mouseController.setOnPathBoolean(true);
+        }
+        else{
+            System.out.println("noooo");
+            mouseController.setOnPathBoolean(false);
+
+
+        }
         if (x%TailleCarre < TailleCarre/2){
             x = x - x%TailleCarre - TailleCarre;
         } else {

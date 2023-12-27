@@ -89,7 +89,7 @@ public class Projectile {
        // System.out.println(this.target);
 
         if (this.target == null || monstre.HP <=0) {
-            System.out.println(this.target == null );
+            //System.out.println(this.target == null );
 
             //System.out.println("updateMonstre");
             this.target = monstre;
