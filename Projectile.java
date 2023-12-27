@@ -106,6 +106,18 @@ public class Projectile {
             System.out.println("Monster HP after hit: " + monstre.HP);
         }
     }
+    public boolean hasEnoughMoney(Kama k){
+        return this.getPrice() <= k.portefeuille;
+
+    }
+
+
+    public boolean correctPlacement(int x, int y, int TailleCarre,int LargeurEcran, int HauteurEcran ){
+        int sizeTours1 = TailleCarre*2;
+        return x >= 0 && y >= 0 && x + sizeTours1 <= LargeurEcran && y + sizeTours1 <= HauteurEcran;
+
+
+    }
 
 
 }

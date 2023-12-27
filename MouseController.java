@@ -16,11 +16,11 @@ public class MouseController {
 
     public void createProjectile(int x, int y) {
         //if (!pathController.isOnPath(x, y)) {
-        Tours1 tourProjectile =  new Tours1(30, 10, 1, x, y,100);
-        gamePanel.tourController.addTower(tourProjectile);
+       // Tours1 tourProjectile =  new Tours1(30, 10, 1, x, y,100);
+        gamePanel.tourController.addTower(ProjectileType.TOUR,x,y);
        // gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
-        tourProjectile.afficherTours1();
+       // tourProjectile.afficherTours1();
 
     }
 

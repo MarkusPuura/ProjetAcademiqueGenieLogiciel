@@ -23,6 +23,9 @@ public class GamePanel extends JPanel implements Runnable{
     Tunel tunel;
     Thread gameThread;
     Tours1 tours1inventaire = new Tours1(30, 10, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre,100);
+    Canon canonInventaire = new Canon(60, 15, 1, 11*TailleCarre, HauteurEcran - 3*TailleCarre, 150);
+    TourSorcier tourSorcierInventaire = new TourSorcier(90, 5, 1, 15*TailleCarre, HauteurEcran - 3*TailleCarre, 200);
+
     TourController tourController;
     Tours1 toursSelected = null;
     int nbClics = 0;
@@ -238,6 +241,10 @@ public class GamePanel extends JPanel implements Runnable{
         //dessine tours dans inventaire
 
         gq.drawImage(tours1inventaire.image, tours1inventaire.x, tours1inventaire.y, TailleCarre*2, TailleCarre*2, null);
+        gq.drawImage(canonInventaire.image, canonInventaire.x, canonInventaire.y, TailleCarre*2, TailleCarre*2, null);
+        gq.drawImage(tourSorcierInventaire.image, tourSorcierInventaire.x, tourSorcierInventaire.y, TailleCarre*2, TailleCarre*2, null);
+
+
         gq.setColor(Color.WHITE);
         gq.setFont(new Font("Arial", Font.PLAIN, 15));
         gq.drawString("30 ", 6*TailleCarre, HauteurEcran - TailleCarre/2);

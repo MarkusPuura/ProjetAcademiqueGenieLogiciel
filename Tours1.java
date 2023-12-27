@@ -35,26 +35,14 @@ public class Tours1 extends Projectile {
         return x >= xTours1 && x <= xTours1 + sizeTours1 && y >= yTours1 && y <= yTours1 + sizeTours1;
 
     }
-    // Dans la classe Projectile
 
-
-
-    public boolean hasEnoughMoney(Kama k){
-        return this.getPrice() <= k.portefeuille;
-
-    }
     public boolean canAffordAndClickTours1(int x, int y, int TailleCarre, int HauteurEcran, Kama k) {
         boolean isClicked = isClickedAndSelectionnedTours1(x, y, TailleCarre, HauteurEcran);
         boolean enoughMoney = hasEnoughMoney(k);
         return isClicked && enoughMoney;
     }
 
-    public boolean correctPlacement(int x, int y, int TailleCarre,int LargeurEcran, int HauteurEcran ){
-        int sizeTours1 = TailleCarre*2;
-        return x >= 0 && y >= 0 && x + sizeTours1 <= LargeurEcran && y + sizeTours1 <= HauteurEcran;
 
-
-    }
     public Tours1 getSelectedTower(int x, int y, int TailleCarre, int HauteurEcran, Kama k) {
         boolean isClicked = isClickedAndSelectionnedTours1(x, y, TailleCarre, HauteurEcran);
         boolean enoughMoney = hasEnoughMoney(k);

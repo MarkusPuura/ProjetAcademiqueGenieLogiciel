@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class TourController {
-    private ArrayList<Tours1> towersList;
+    private ArrayList<Projectile> towersList;
     private final GamePanel gamePanel;
 
 
@@ -11,9 +11,11 @@ public class TourController {
 
     }
 
-    public void addTower(Tours1 tower) {
-        if (checkValidPlacementTour(tower.getX(), tower.getY())) {
-            towersList.add(tower);
+    public void addTower(ProjectileType type, int x, int y) {
+        if (checkValidPlacementTour(x,y) ){
+            Projectile projectile = ProjectileFactory.createProjectile(type,x,y);
+
+            towersList.add(projectile);
             gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
         } else {
@@ -28,7 +30,7 @@ public class TourController {
             return false;
         }
 
-        for (Tours1 tour : towersList) {
+        for (Projectile tour : towersList) {
             int tourX = tour.getX();
             int tourY = tour.getY();
 
@@ -41,16 +43,16 @@ public class TourController {
 
         return true;
     }
-    public ArrayList<Tours1> getTowersList() {
+    public ArrayList<Projectile> getTowersList() {
         return towersList;
     }
 
-    public void setTowersList(ArrayList<Tours1> towersList) {
+    public void setTowersList(ArrayList<Projectile> towersList) {
         this.towersList = towersList;
     }
     public void afficheListeTours() {
         System.out.println("Tour List:");
-        for (Tours1 tower : towersList) {
+        for (Projectile tower : towersList) {
             System.out.println(tower);
         }
     }
