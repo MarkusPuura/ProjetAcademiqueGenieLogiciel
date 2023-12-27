@@ -101,9 +101,10 @@ public class Projectile {
     }
     public void giveDmageToMonster(Monstres monstre) {
         System.out.println(this.getDamage());
-        monstre.looseLife(this.getDamage());
-        System.out.println("Monster HP after hit: " + monstre.HP);
-
+        if(monstre != null) {
+            monstre.looseLife(this.getDamage());
+            System.out.println("Monster HP after hit: " + monstre.HP);
+        }
     }
 
 

@@ -125,22 +125,23 @@ public abstract class Monstres {
         }
     }
 
-    public void looseLife(int damage){
+    public int looseLife(int damage){
         System.out.println(this.HP+" - "+damage +"=");
         this.HP -= damage;
         System.out.println(this.HP);
+        return this.HP;
     }
 
     @Override
     public String toString() {
         return "Monstre{" +
-                "HP=" + HP +
-                ", vitesse=" + vitesse +
-                ", kama=" + kama +
-                ", x=" + x +
-                ", y=" + y +
-                ", fin=" + fin +
-                ", direction='" + direction + '\'' +
+                "HP=" + this.HP +
+                ", vitesse=" + this.vitesse +
+                ", kama=" + this.kama +
+                ", x=" + this.x +
+                ", y=" + this.y +
+                ", fin=" + this.fin +
+                ", direction='" + this.direction + '\'' +
                 '}';
     }
 

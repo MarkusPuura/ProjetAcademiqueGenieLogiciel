@@ -22,11 +22,11 @@ public class GamePanel extends JPanel implements Runnable{
 
     Tunel tunel;
     Thread gameThread;
-    Tours1 tours1inventaire = new Tours1(30, 3, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre,100);
+    Tours1 tours1inventaire = new Tours1(30, 10, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre,100);
     TourController tourController;
     Tours1 toursSelected = null;
     int nbClics = 0;
-    private MouseController mouseController;
+    private final MouseController mouseController;
     PathController pathController = new PathController(TailleCarre, LargeurEcran, HauteurEcran);
 
     BufferedImage draggedTourImage;
@@ -273,13 +273,13 @@ public class GamePanel extends JPanel implements Runnable{
         }
         gq.setColor(Color.WHITE);
         gq.setFont(new Font("Arial", Font.PLAIN, 25));
-        gq.drawString(afficherChrono, LargeurEcran - 3*TailleCarre, 1*TailleCarre - 4);
+        gq.drawString(afficherChrono, LargeurEcran - 3*TailleCarre, TailleCarre - 4);
     }
     public void printRestOfMoney(Graphics2D gq){
         String afficherKama = ": " + kama.portefeuille;
         gq.drawImage(kama.image, LargeurEcran - 9*TailleCarre,0, TailleCarre, TailleCarre, null);
 
-        gq.drawString(afficherKama, LargeurEcran - 8*TailleCarre, 1*TailleCarre - 4);
+        gq.drawString(afficherKama, LargeurEcran - 8*TailleCarre, TailleCarre - 4);
     }
     public void barreChoixProjectiles(Graphics2D gq){
         // Barre en bas de couleur grise foncée
@@ -300,27 +300,29 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void drawLineBetweenMonsterProjectile(Graphics2D gq, Monstres monstre){
         for (Projectile projectile : tourController.getTowersList()) {
-            if (projectile.isActive()) {
+            if (projectile.isActive()&&fin!=2) {
                 //projectile.draw(gq);
                 projectile.updateTarget(monstre);
-                if (projectile.checkInRange(monstre) && projectile.getTarget() != null) {
+                if (projectile.checkInRange(monstre) && projectile.getTarget() != null && monstre.HP >0&& fin!=2) {
                     System.out.println(projectile.getTarget());
-
                     gq.drawLine(projectile.x + TailleCarre, projectile.y + TailleCarre, monstre.getX(), monstre.getY());
-                    int delayBeforeDamage = 10000; //tire toute les 5 secondes
-                    Timer timer = new Timer(delayBeforeDamage, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            System.out.println("actionTemp");
-                            projectile.giveDmageToMonster(monstre);
-                        }
+
+                    int delayBeforeDamage = 2000; //tire toute les 3 secondes
+                    Timer timer = new Timer(delayBeforeDamage, e -> {
+
+                        System.out.println("actionTemp");
+                        projectile.giveDmageToMonster(projectile.getTarget());
+                        System.out.println(projectile.getTarget());
                     });
                     timer.setRepeats(false);
                     timer.start();
-                } else {
+                }
+                else {
                     System.out.println("projectile.target = null");
                     projectile.setTarget(null);
+                    System.out.println(projectile.getTarget());
                 }
+
             }
         }
     }
@@ -336,7 +338,7 @@ public class GamePanel extends JPanel implements Runnable{
             gq.setComposite(alphaComposite);
 
             if(isDragging) {
-                System.out.println("on path bool : "+ mouseController.isOnPathBoolean());
+                //System.out.println("on path bool : "+ mouseController.isOnPathBoolean());
                 if (mouseController.isOnPathBoolean() || !tourController.checkValidPlacementTour(x,y)) {
                    // System.out.println(isDragging + " drawRadius");
                     gq.setColor(Color.red);
@@ -350,7 +352,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
-    public void drawRadius(Graphics2D gq, Color c,  Tours1 tour) {
+    public void drawRadius(Graphics2D gq, Color c) {
         gq.setColor(c);
         System.out.println(mouseX + " "+mouseY + " "+toursSelected.getRadius());
         gq.fillOval(mouseX, mouseY,toursSelected.getRadius(),   toursSelected.getRadius());
@@ -358,16 +360,7 @@ public class GamePanel extends JPanel implements Runnable{
         //gq.drawOval(mouseX - toursSelected.getRadius(), mouseY - toursSelected.getRadius(), 2 *TailleCarreVar* toursSelected.getRadius(), 2*TailleCarreVar * toursSelected.getRadius());
     }
     public void drawTourImageAtPosition(BufferedImage image, int x, int y) {
-        if(pathController.isOnPath(x+TailleCarre,y+TailleCarre)){
-            System.out.println("drag on path");
-            mouseController.setOnPathBoolean(true);
-        }
-        else{
-            System.out.println("noooo");
-            mouseController.setOnPathBoolean(false);
-
-
-        }
+        mouseController.setOnPathBoolean(pathController.isOnPath(x + TailleCarre, y + TailleCarre));
         if (x%TailleCarre < TailleCarre/2){
             x = x - x%TailleCarre - TailleCarre;
         } else {
@@ -398,6 +391,15 @@ public class GamePanel extends JPanel implements Runnable{
 
         }
         Monstres premier = liste_monstres.premier();
+        /*if(premier.HP>0) {
+            System.out.println(premier);
+
+        }
+        else{
+            System.out.println("fin perso");
+            premier = null;
+        }*/
+        drawLineBetweenMonsterProjectile(gq, premier);
 
         //dessine les zombies
         if (premier != null){
@@ -408,7 +410,6 @@ public class GamePanel extends JPanel implements Runnable{
             gq.fillRect(premier.x + TailleCarre/2 - premier.HP/2, premier.y-4, premier.HP, 3);
             while (liste_monstres.suivant((premier)) != null){
 
-                drawLineBetweenMonsterProjectile(gq, premier);
                 premier = liste_monstres.suivant(premier);
 
                 premier.deplacementZombie();
