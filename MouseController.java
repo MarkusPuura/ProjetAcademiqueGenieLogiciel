@@ -17,7 +17,19 @@ public class MouseController {
     public void createProjectile(int x, int y) {
         //if (!pathController.isOnPath(x, y)) {
        // Tours1 tourProjectile =  new Tours1(30, 10, 1, x, y,100);
-        gamePanel.tourController.addTower(ProjectileType.TOUR,x,y);
+        switch (gamePanel.toursSelected.getNumType()){
+            case 1 :
+                gamePanel.tourController.addTower(ProjectileType.TOUR,x,y);
+                break;
+            case 2 :
+                gamePanel.tourController.addTower(ProjectileType.CANON,x,y);
+                break;
+            case 3 :
+                gamePanel.tourController.addTower(ProjectileType.TOUR_SORCIER,x,y);
+            default :
+                break;
+
+        }
        // gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
        // tourProjectile.afficherTours1();
@@ -92,15 +104,17 @@ public class MouseController {
     }
 
     private void handleMousePress(int mouseX, int mouseY){
-
-        boolean affordAndClick = gamePanel.tours1inventaire.canAffordAndClickTours1(mouseX, mouseY, gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
-        System.out.println(affordAndClick);
+        //boolean affordAndClick = gamePanel.barreInventaire.selectProjectileFromInventory(mouseX,mouseY);
+        gamePanel.toursSelected = gamePanel.barreInventaire.selectProjectileFromInventory(mouseX,mouseY, gamePanel.kama);
+        System.out.println(gamePanel.toursSelected);
+         //boolean affordAndClick = gamePanel.tours1inventaire.canAffordAndClickTours1(mouseX, mouseY, gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
+       /* System.out.println(affordAndClick);
         System.out.println(gamePanel);
         if(affordAndClick && gamePanel.fin !=2){
           //  System.out.println("press");
             gamePanel.toursSelected = gamePanel.tours1inventaire.getSelectedTower(mouseX, mouseY, gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
             //System.out.println(toursSelected);
-            gamePanel.toursSelected.afficherTours1();
+            gamePanel.toursSelected.afficherProjectile();
             //gamePanel.nbClics++;
 
         }
@@ -108,7 +122,7 @@ public class MouseController {
             gamePanel.toursSelected = null;
 
 
-        }
+        }*/
     }
     private void handleMouseRelease(int mouseX, int mouseY){
         //System.out.println("release");
@@ -143,8 +157,7 @@ public class MouseController {
     private void handleMouseDrag(int mouseX, int mouseY){
         if (gamePanel.toursSelected != null&& gamePanel.fin !=2) {
             gamePanel.setMousePosition(mouseX,mouseY);
-
-            gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.getImageDragMouse(), gamePanel.getMouseX(), gamePanel.getMouseY());
+            gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.image, gamePanel.getMouseX(), gamePanel.getMouseY());
 
         }
 

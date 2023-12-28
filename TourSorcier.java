@@ -4,9 +4,12 @@ import java.io.IOException;
 
 public class TourSorcier extends Projectile{
     private boolean selected;
+    private int numType;
+
 
     public TourSorcier(int price, int damage, int speed, int x, int y,int radius){
         super(price, damage, speed, x, y,radius);
+        this.numType = 3;
         GetImage();
     }
     public void afficherTourSorcier(){
@@ -19,15 +22,7 @@ public class TourSorcier extends Projectile{
             e.printStackTrace();
         }
     }
-    public BufferedImage getImageDragMouse(){
-        try{
-            image = ImageIO.read(getClass().getResourceAsStream("/tours/TourSorcier.png"));
-            //return image;
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        return image;
-    }
+
     public boolean isClickedAndSelectionnedTours1(int x,int y,int TailleCarre, int HauteurEcran){
         int xTours1 = 6*TailleCarre;
         int yTours1 = HauteurEcran - 3*TailleCarre;
@@ -68,5 +63,13 @@ public class TourSorcier extends Projectile{
     @Override
     public String toString() {
         return "TourSorcier: [Price=" + getPrice() + ", Damage=" + getDamage() + ", Speed=" + getSpeed() + ", X=" + getX() + ", Y=" + getY() + "]";
+    }
+
+    public int getNumType() {
+        return numType;
+    }
+
+    public void setNumType(int numType) {
+        this.numType = numType;
     }
 }

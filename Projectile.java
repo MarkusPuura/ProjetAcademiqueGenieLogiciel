@@ -12,6 +12,7 @@ public class Projectile {
 
     public BufferedImage image;
     private Monstres target;
+    private int numType;
 
     public Projectile(int price , int damage, int speed, int x, int y,int radius){
         this.price=price;
@@ -20,7 +21,8 @@ public class Projectile {
         this.x = x;
         this.y = y;
         this.radius = radius;
-        //this.target = null;
+        this.numType = 0;
+        this.target = null;
 
 
         this.active = true;
@@ -118,6 +120,17 @@ public class Projectile {
 
 
     }
+    public void afficherProjectile(){
+        System.out.println("Price : "+this.getPrice()+" damage : "+this.getDamage()+" speed : "+this.getSpeed()+" x : "+this.getX()+" y : "+this.getY());
+    }
 
 
+
+    public int getNumType() {
+        return numType;
+    }
+
+    public void setNumType(int numType) {
+        this.numType = numType;
+    }
 }

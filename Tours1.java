@@ -4,14 +4,15 @@ import javax.imageio.ImageIO;
 
 public class Tours1 extends Projectile {
     private boolean selected;
+    private int numType;
+
 
     public Tours1(int price, int damage, int speed, int x, int y,int radius){
         super(price, damage, speed, x, y,radius);
+        this.numType = 1;
         GetImage();
     }
-    public void afficherTours1(){
-        System.out.println("Price : "+this.getPrice()+" damage : "+this.getDamage()+" speed : "+this.getSpeed()+" x : "+this.getX()+" y : "+this.getY());
-    }
+
     public void GetImage(){
         try{
             image = ImageIO.read(getClass().getResourceAsStream("/tours/tours1.png"));
@@ -19,15 +20,7 @@ public class Tours1 extends Projectile {
             e.printStackTrace();
         }
     }
-    public BufferedImage getImageDragMouse(){
-        try{
-            image = ImageIO.read(getClass().getResourceAsStream("/tours/tours1.png"));
-            //return image;
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        return image;
-    }
+
     public boolean isClickedAndSelectionnedTours1(int x,int y,int TailleCarre, int HauteurEcran){
         int xTours1 = 6*TailleCarre;
         int yTours1 = HauteurEcran - 3*TailleCarre;
@@ -69,5 +62,13 @@ public class Tours1 extends Projectile {
     @Override
     public String toString() {
         return "Tours1: [Price=" + getPrice() + ", Damage=" + getDamage() + ", Speed=" + getSpeed() + ", X=" + getX() + ", Y=" + getY() + "]";
+    }
+
+    public int getNumType() {
+        return numType;
+    }
+
+    public void setNumType(int numType) {
+        this.numType = numType;
     }
 }

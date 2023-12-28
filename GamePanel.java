@@ -22,12 +22,13 @@ public class GamePanel extends JPanel implements Runnable{
 
     Tunel tunel;
     Thread gameThread;
+    final BarreInventaire barreInventaire;
     Tours1 tours1inventaire = new Tours1(30, 10, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre,100);
     Canon canonInventaire = new Canon(60, 15, 1, 11*TailleCarre, HauteurEcran - 3*TailleCarre, 150);
     TourSorcier tourSorcierInventaire = new TourSorcier(90, 5, 1, 15*TailleCarre, HauteurEcran - 3*TailleCarre, 200);
 
     TourController tourController;
-    Tours1 toursSelected = null;
+    Projectile toursSelected = null;
     int nbClics = 0;
     private final MouseController mouseController;
     PathController pathController = new PathController(TailleCarre, LargeurEcran, HauteurEcran);
@@ -47,9 +48,12 @@ public class GamePanel extends JPanel implements Runnable{
         tourController = new TourController(this);
         mouseController = new MouseController(this,pathController);
         mouseController.initializeMouseListener();
+        barreInventaire = new BarreInventaire(LargeurEcran,2*TailleCarre,TailleCarre);
         isDragging = false;
+        initializeBarreInventaireList();
 
     }
+
 
     public void setMousePosition(int x, int y) {
         mouseX = x;
@@ -70,6 +74,27 @@ public class GamePanel extends JPanel implements Runnable{
 
     private void createTunel() {
         tunel = Tunel.getInstance(3*TailleCarre, 6*TailleCarre);
+    }
+
+    public void initializeBarreInventaireList(){
+        barreInventaire.addProjectile(tours1inventaire);
+        barreInventaire.addProjectile(canonInventaire);
+        barreInventaire.addProjectile(tourSorcierInventaire);
+        barreInventaire.afficheListeListeBarreProjectile();
+        barreInventaire.organisationProjectiles(HauteurEcran,TailleCarre);
+        barreInventaire.afficheListeListeBarreProjectile();
+
+
+    }
+    public void drawProjectileInInventory(Graphics2D gq){
+        for (Projectile projectile : barreInventaire.getProjectiles()) {
+            gq.drawImage(projectile.image, projectile.x, projectile.y, TailleCarre*2, TailleCarre*2, null);
+            gq.setColor(Color.WHITE);
+            gq.setFont(new Font("Arial", Font.PLAIN, 15));
+            gq.drawString(String.valueOf(projectile.getPrice()), projectile.x, HauteurEcran - TailleCarre/2);
+            gq.drawImage(kama.image, projectile.x+TailleCarre,HauteurEcran - TailleCarre, TailleCarre-6, TailleCarre-6, null);
+
+        }
     }
 
 
@@ -239,18 +264,7 @@ public class GamePanel extends JPanel implements Runnable{
         gq.drawImage(tunel.Imagechateau, tunel.x, tunel.y, TailleCarre*3, TailleCarre*3, null);
 
         //dessine tours dans inventaire
-
-        gq.drawImage(tours1inventaire.image, tours1inventaire.x, tours1inventaire.y, TailleCarre*2, TailleCarre*2, null);
-        gq.drawImage(canonInventaire.image, canonInventaire.x, canonInventaire.y, TailleCarre*2, TailleCarre*2, null);
-        gq.drawImage(tourSorcierInventaire.image, tourSorcierInventaire.x, tourSorcierInventaire.y, TailleCarre*2, TailleCarre*2, null);
-
-
-        gq.setColor(Color.WHITE);
-        gq.setFont(new Font("Arial", Font.PLAIN, 15));
-        gq.drawString("30 ", 6*TailleCarre, HauteurEcran - TailleCarre/2);
-        gq.drawImage(kama.image, 7*TailleCarre,HauteurEcran - TailleCarre, TailleCarre-6, TailleCarre-6, null);
-
-
+        drawProjectileInInventory(gq);
 
     }
 

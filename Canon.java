@@ -4,30 +4,24 @@ import java.io.IOException;
 
 public class Canon extends Projectile{
     private boolean selected;
+    private int numType;
 
     public Canon(int price, int damage, int speed, int x, int y,int radius){
         super(price, damage, speed, x, y,radius);
-        GetImageCanon();
+        this.numType = 2;
+        GetImage();
     }
     public void afficherCanon(){
         System.out.println("Price : "+this.getPrice()+" damage : "+this.getDamage()+" speed : "+this.getSpeed()+" x : "+this.getX()+" y : "+this.getY());
     }
-    public void GetImageCanon(){
+    public void GetImage(){
         try{
             image = ImageIO.read(getClass().getResourceAsStream("/tours/CannonAB.png"));
         }catch(IOException e){
             e.printStackTrace();
         }
     }
-    public BufferedImage getImageDragMouse(){
-        try{
-            image = ImageIO.read(getClass().getResourceAsStream("/tours/CannonAB.png"));
-            //return image;
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        return image;
-    }
+
     public boolean isClickedAndSelectionnedTours1(int x,int y,int TailleCarre, int HauteurEcran){
         int xTours1 = 6*TailleCarre;
         int yTours1 = HauteurEcran - 3*TailleCarre;
@@ -68,5 +62,13 @@ public class Canon extends Projectile{
     @Override
     public String toString() {
         return "Canon: [Price=" + getPrice() + ", Damage=" + getDamage() + ", Speed=" + getSpeed() + ", X=" + getX() + ", Y=" + getY() + "]";
+    }
+
+    public int getNumType() {
+        return numType;
+    }
+
+    public void setNumType(int numType) {
+        this.numType = numType;
     }
 }
