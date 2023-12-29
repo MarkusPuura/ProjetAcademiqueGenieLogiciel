@@ -325,6 +325,7 @@ public class GamePanel extends JPanel implements Runnable{
                 projectile.updateTarget(monstre);
                 if (projectile.checkInRange(monstre) && projectile.getTarget() != null && monstre.HP >0&& fin!=2 && !tirePas) {
                     System.out.println(projectile.getTarget());
+                    gq.setColor(Color.WHITE);
                     gq.drawLine(projectile.x + TailleCarre, projectile.y + TailleCarre, monstre.getX(), monstre.getY());
 
 
@@ -335,9 +336,9 @@ public class GamePanel extends JPanel implements Runnable{
 
                 }
                 else {
-                    System.out.println("projectile.target = null");
+                   // System.out.println("projectile.target = null");
                     projectile.setTarget(null);
-                    System.out.println(projectile.getTarget());
+                    //System.out.println(projectile.getTarget());
                 }
 
             }
@@ -420,16 +421,17 @@ public class GamePanel extends JPanel implements Runnable{
             System.out.println("fin perso");
             premier = null;
         }*/
-        drawLineBetweenMonsterProjectile(gq, premier);
 
         //dessine les zombies
         if (premier != null){
+
             premier.deplacementZombie();
             gq.drawImage(premier.image, premier.x, premier.y, TailleCarre, TailleCarre, null);
             gq.setColor(Color.red);
             //sa barre de vie
             gq.fillRect(premier.x + TailleCarre/2 - premier.HP/2, premier.y-4, premier.HP, 3);
             while (liste_monstres.suivant((premier)) != null){
+                drawLineBetweenMonsterProjectile(gq, premier);
 
                 premier = liste_monstres.suivant(premier);
 
