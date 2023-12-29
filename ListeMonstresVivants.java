@@ -4,6 +4,7 @@ import java.util.ListIterator;
 public class ListeMonstresVivants {
     private LinkedList<Monstres> liste;
 
+
     public ListeMonstresVivants() {
         liste = new LinkedList<>();
     }
@@ -21,6 +22,9 @@ public class ListeMonstresVivants {
     // Accéder au premier élément de la liste
     public Monstres premier() {
         return liste.getFirst();
+    }
+    public boolean isEmpty() {
+        return premier() == null; //liste vide ?
     }
 
     // Accéder à l'élément suivant dans la liste

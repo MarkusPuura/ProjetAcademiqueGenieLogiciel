@@ -1,13 +1,13 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-public class Projectile {
+public class Projectile  extends Observable implements Observer {
     private int price;
     private int damage;
     private int speed;
     int x, y;
     private boolean active;
-    private int radius;
+    private final int radius;
     private Color color;
 
     public BufferedImage image;
@@ -37,7 +37,7 @@ public class Projectile {
     public int getPrice() {
         return price;
     }
-    public double getSpeed() {
+    public int getSpeed() {
         return speed;
     }
     public int getDamage() {
@@ -132,5 +132,12 @@ public class Projectile {
 
     public void setNumType(int numType) {
         this.numType = numType;
+    }
+    @Override
+    public void update(Monstres monstre) {
+        if (checkInRange(monstre) && monstre.isAlive()) {
+            // Attaquer le monstre
+            giveDmageToMonster(monstre);
+        }
     }
 }

@@ -144,5 +144,8 @@ public abstract class Monstres {
                 ", direction='" + this.direction + '\'' +
                 '}';
     }
+    public boolean isAlive (){
+        return this.HP >0;
+    }
 
 }

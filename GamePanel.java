@@ -19,13 +19,15 @@ public class GamePanel extends JPanel implements Runnable{
     Chrono chrono = new Chrono();
     Kama kama = new Kama();
     int fin;          // quand passe à 1: le joueur a gagné, si passe à 2: il a perdu.
-
+    public boolean tirePas= false;
+    public int counterTirePas = 0;
+    public int speedOfTire = 60;
     Tunel tunel;
     Thread gameThread;
     final BarreInventaire barreInventaire;
-    Tours1 tours1inventaire = new Tours1(30, 10, 1, 6*TailleCarre, HauteurEcran - 3*TailleCarre,100);
-    Canon canonInventaire = new Canon(60, 15, 1, 11*TailleCarre, HauteurEcran - 3*TailleCarre, 150);
-    TourSorcier tourSorcierInventaire = new TourSorcier(90, 5, 1, 15*TailleCarre, HauteurEcran - 3*TailleCarre, 200);
+    Tours1 tours1inventaire = new Tours1(30, 10, 60, 6*TailleCarre, HauteurEcran - 3*TailleCarre,100);
+    Canon canonInventaire = new Canon(60, 15, 120, 11*TailleCarre, HauteurEcran - 3*TailleCarre, 150);
+    TourSorcier tourSorcierInventaire = new TourSorcier(90, 5, 180, 15*TailleCarre, HauteurEcran - 3*TailleCarre, 200);
 
     TourController tourController;
     Projectile toursSelected = null;
@@ -141,85 +143,82 @@ public class GamePanel extends JPanel implements Runnable{
         //cree monstres via la GenerationRandomMonstres
         random.generermonstre(chrono, TailleCarre, liste_monstres, debut);          //ITERATOR (Design pattern)
         debut = 1;  //si pas de monstre ça ne marche pas bizzarement...
-        Monstres iterateur = liste_monstres.premier();
-        if (iterateur != null){
-            iterateur.updateMonstre(TailleCarre, HauteurEcran, LargeurEcran);
-            while (liste_monstres.suivant((iterateur)) != null){
-                iterateur = liste_monstres.suivant(iterateur);
+        //if (!liste_monstres.isEmpty()) {
+            Monstres iterateur = liste_monstres.premier();
+
+            if (iterateur != null) {
                 iterateur.updateMonstre(TailleCarre, HauteurEcran, LargeurEcran);
-            }
-        }
-
-        // Vérification des collisions entre projectiles et monstres
-        /*for (Projectile projectile : tourController.getTowersList()) {
-            if (projectile.isActive()) {
-                //System.out.println("for boucle ");
-                Monstres iterMonstre = liste_monstres.premier();
-                while (iterMonstre != null) {
-                   // System.out.println("while boucle ");
-
-                    projectile.checkCollision(iterMonstre);
-                    iterMonstre = liste_monstres.suivant(iterMonstre);
-                }
-            }
-        }*/
-        
-        //supprime les monstres qui n'ont plus d'HP et ceux qui sont arrivés à la fin
-        Monstres suivant;
-        iterateur = liste_monstres.premier();
-        int suppr = 0;
-        if (iterateur != null){
-            if (iterateur.HP <= 0){
-                kama.portefeuille+= iterateur.kama;     //on gagne le kama pour avoir tué le monstre
-                liste_monstres.supprimer(iterateur);
-                suppr = 1;
-            }
-            if (iterateur.fin == 1){               //si il est arrivé au chateau
-                liste_monstres.supprimer(iterateur);
-                suppr = 1;
-                tunel.vies--;
-            }
-        }
-        iterateur = liste_monstres.premier();
-        if (iterateur != null){
-            while (liste_monstres.suivant((iterateur)) != null){
-                if (suppr == 0){
+                while (liste_monstres.suivant((iterateur)) != null) {
                     iterateur = liste_monstres.suivant(iterateur);
-                    if (iterateur.HP <= 0){
-                        suivant = liste_monstres.suivant(iterateur);
-                        liste_monstres.supprimer(iterateur);
-                        iterateur = suivant;
-                        suppr = 1;
-                    }
-                    if (iterateur.fin == 1){        //si il est arrivé au chateau
-                        suivant = liste_monstres.suivant(iterateur);
-                        liste_monstres.supprimer(iterateur);
-                        iterateur = suivant;
-                        suppr = 1;
-                        tunel.vies--;
-                    }
+                    iterateur.updateMonstre(TailleCarre, HauteurEcran, LargeurEcran);
                 }
-                else{
-                    suppr = 0;
-                    if (iterateur.HP <= 0){
-                        suivant = liste_monstres.suivant(iterateur);
-                        liste_monstres.supprimer(iterateur);
-                        iterateur = suivant;
-                        suppr = 1;
+            }
+
+            //supprime les monstres qui n'ont plus d'HP et ceux qui sont arrivés à la fin
+            Monstres suivant;
+            iterateur = liste_monstres.premier();
+            int suppr = 0;
+            if (iterateur != null) {
+                if (iterateur.HP <= 0) {
+                    kama.portefeuille += iterateur.kama;     //on gagne le kama pour avoir tué le monstre
+                    liste_monstres.supprimer(iterateur);
+                    suppr = 1;
+                }
+                if (iterateur.fin == 1) {               //si il est arrivé au chateau
+                    liste_monstres.supprimer(iterateur);
+                    suppr = 1;
+                    tunel.vies--;
+                }
+            }
+            iterateur = liste_monstres.premier();
+            if (iterateur != null) {
+                while (liste_monstres.suivant((iterateur)) != null) {
+                    if (suppr == 0) {
+                        iterateur = liste_monstres.suivant(iterateur);
+                        if (iterateur.HP <= 0) {
+                            suivant = liste_monstres.suivant(iterateur);
+                            liste_monstres.supprimer(iterateur);
+                            iterateur = suivant;
+                            suppr = 1;
+                        }
+                        if (iterateur.fin == 1) {        //si il est arrivé au chateau
+                            suivant = liste_monstres.suivant(iterateur);
+                            liste_monstres.supprimer(iterateur);
+                            iterateur = suivant;
+                            suppr = 1;
+                            tunel.vies--;
+                        }
+                    } else {
+                        suppr = 0;
+                        if (iterateur.HP <= 0) {
+                            suivant = liste_monstres.suivant(iterateur);
+                            liste_monstres.supprimer(iterateur);
+                            iterateur = suivant;
+                            suppr = 1;
+                        }
                     }
                 }
             }
-        }
-
+       // }
 
         fin = chrono.UpdateChrono(FPS);
         if (tunel.vies == 0){
             fin = 2;    //perdu
         }
+
+        tempsTireProjectile();
         
     }
 
-    
+    public void tempsTireProjectile(){
+        if(tirePas){
+            counterTirePas++;
+            if(counterTirePas > speedOfTire){
+                tirePas = false;
+                counterTirePas = 0;
+            }
+        }
+    }
 
 
     public void drawQuadrillage(Graphics2D gq){
@@ -324,19 +323,16 @@ public class GamePanel extends JPanel implements Runnable{
             if (projectile.isActive()&&fin!=2) {
                 //projectile.draw(gq);
                 projectile.updateTarget(monstre);
-                if (projectile.checkInRange(monstre) && projectile.getTarget() != null && monstre.HP >0&& fin!=2) {
+                if (projectile.checkInRange(monstre) && projectile.getTarget() != null && monstre.HP >0&& fin!=2 && !tirePas) {
                     System.out.println(projectile.getTarget());
                     gq.drawLine(projectile.x + TailleCarre, projectile.y + TailleCarre, monstre.getX(), monstre.getY());
 
-                    int delayBeforeDamage = 2000; //tire toute les 3 secondes
-                    Timer timer = new Timer(delayBeforeDamage, e -> {
 
-                        System.out.println("actionTemp");
-                        projectile.giveDmageToMonster(projectile.getTarget());
-                        System.out.println(projectile.getTarget());
-                    });
-                    timer.setRepeats(false);
-                    timer.start();
+                    System.out.println("actionTemp");
+                    projectile.giveDmageToMonster(projectile.getTarget());
+                    System.out.println(projectile.getTarget());
+                    tirePas = true;
+
                 }
                 else {
                     System.out.println("projectile.target = null");
@@ -349,7 +345,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
 
-    public void drawProjectileDragMouse(Graphics2D gq, int x, int y) {
+    public void drawProjectileDragMouseCircle(Graphics2D gq, int x, int y) {
         if (toursSelected != null) {
             int tourCenterX = x - (x % TailleCarre) + TailleCarre;
             int tourCenterY = y - (y % TailleCarre) + TailleCarre;
@@ -395,6 +391,14 @@ public class GamePanel extends JPanel implements Runnable{
         draggedTourImage = image;
         repaint();
     }
+    public void drawProjectileWithCircleRadius(Graphics2D gq,Graphics g) {
+        if (draggedTourImage != null && toursSelected != null) {
+            g.drawImage(draggedTourImage, mouseX, mouseY, TailleCarre * 2, TailleCarre * 2, null);
+            drawProjectileDragMouseCircle(gq, mouseX, mouseY);
+
+
+        }
+    }
 
     public void paintComponent(Graphics g){     //dessiner après chaque update
 
@@ -405,12 +409,8 @@ public class GamePanel extends JPanel implements Runnable{
         barreChoixProjectiles(gq);
         createPath(gq);
         drawProjectile(gq);
-        if (draggedTourImage != null && toursSelected != null) {
-            g.drawImage(draggedTourImage, mouseX, mouseY, TailleCarre * 2, TailleCarre * 2, null);
-            drawProjectileDragMouse( gq,mouseX, mouseY);
+        drawProjectileWithCircleRadius(gq,g);
 
-
-        }
         Monstres premier = liste_monstres.premier();
         /*if(premier.HP>0) {
             System.out.println(premier);
@@ -457,7 +457,11 @@ public class GamePanel extends JPanel implements Runnable{
         //pour afficher l'argent restant
         printRestOfMoney(gq);
 
-
+       /*DEBUG
+        gq.setFont(new Font("Arial",Font.PLAIN,26));
+        gq.setColor(Color.WHITE);
+        gq.drawString("Tire pas:"+counterTirePas,TailleCarre,TailleCarre);
+        */
         //fin
         endOfTheGame(gq);
 

@@ -6,7 +6,7 @@ public class Main {
         JFrame window = new JFrame();
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setTitle("Tower Defence");
+        window.setTitle("Tower Defense");
 
         GamePanel gamePanel = new GamePanel();
 
