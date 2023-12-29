@@ -104,6 +104,7 @@ public class MouseController {
     }
 
     private void handleMousePress(int mouseX, int mouseY){
+        System.out.println(gamePanel.fin);
         //boolean affordAndClick = gamePanel.barreInventaire.selectProjectileFromInventory(mouseX,mouseY);
         gamePanel.toursSelected = gamePanel.barreInventaire.selectProjectileFromInventory(mouseX,mouseY, gamePanel.kama);
         System.out.println(gamePanel.toursSelected);
@@ -127,7 +128,7 @@ public class MouseController {
     private void handleMouseRelease(int mouseX, int mouseY){
         //System.out.println("release");
 
-        if(!pathController.isOnPath(mouseX,mouseY) && gamePanel.toursSelected != null&& gamePanel.fin !=2){
+        if(!pathController.isOnPath(mouseX,mouseY) && gamePanel.toursSelected != null&& gamePanel.fin !=2&&gamePanel.fin!=1){
             isOnPathBoolean = false;
             int x, y;
             if ((mouseX)%TailleCarre < TailleCarre/2){
@@ -145,7 +146,7 @@ public class MouseController {
             //gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
         }
-        else if (pathController.isOnPath(mouseX, mouseY)&& gamePanel.fin !=2) {
+        else if (pathController.isOnPath(mouseX, mouseY)&& gamePanel.fin !=2&&gamePanel.fin!=1) {
             isOnPathBoolean= true;
             //System.out.println("on Path");
             gamePanel.draggedTourImage = null;
@@ -155,7 +156,7 @@ public class MouseController {
         gamePanel.repaint();
     }
     private void handleMouseDrag(int mouseX, int mouseY){
-        if (gamePanel.toursSelected != null&& gamePanel.fin !=2) {
+        if (gamePanel.toursSelected != null&& gamePanel.fin !=2&&gamePanel.fin!=1) {
             gamePanel.setMousePosition(mouseX,mouseY);
             gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.image, gamePanel.getMouseX(), gamePanel.getMouseY());
 

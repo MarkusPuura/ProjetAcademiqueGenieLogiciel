@@ -9,6 +9,8 @@ public class Projectile  extends Observable implements Observer {
     private boolean active;
     private final int radius;
     private Color color;
+    private boolean tirePas;
+    private int counterTirePas;
 
     public BufferedImage image;
     private Monstres target;
@@ -27,11 +29,24 @@ public class Projectile  extends Observable implements Observer {
 
         this.active = true;
     }
+
+    public void tempsTireProjectile(){
+        if(tirePas){
+            counterTirePas++;
+            if(counterTirePas > this.speed){
+                tirePas = false;
+                counterTirePas = 0;
+            }
+        }
+    }
     public int getRadius(){
         return radius;
     }
     public Monstres getTarget() {
         return this.target;
+    }
+    public boolean getTirePas() {
+        return this.tirePas;
     }
 
     public int getPrice() {
@@ -82,8 +97,10 @@ public class Projectile  extends Observable implements Observer {
         this.y = y;
     }
 
-    
 
+    public void setTirePas(boolean tirePas) {
+        this.tirePas = tirePas;
+    }
     public void setActive(boolean active) {
         this.active = active;
     }

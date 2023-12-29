@@ -8,6 +8,12 @@ public class Observable {
         observers.add(observer);
     }
 
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+
+
     public void notifyObservers(Monstres monstre) {
         for (Observer observer : observers) {
             observer.update(monstre);

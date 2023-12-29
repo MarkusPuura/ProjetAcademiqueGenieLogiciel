@@ -205,20 +205,13 @@ public class GamePanel extends JPanel implements Runnable{
         if (tunel.vies == 0){
             fin = 2;    //perdu
         }
-
-        tempsTireProjectile();
+        for (Projectile projectile : tourController.getTowersList()){
+            projectile.tempsTireProjectile();
+        }
+        //tempsTireProjectile();
         
     }
 
-    public void tempsTireProjectile(){
-        if(tirePas){
-            counterTirePas++;
-            if(counterTirePas > speedOfTire){
-                tirePas = false;
-                counterTirePas = 0;
-            }
-        }
-    }
 
 
     public void drawQuadrillage(Graphics2D gq){
@@ -269,6 +262,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void endOfTheGame(Graphics2D gq){
         if (fin == 1){  //Si le joueur a gagné (dernier update)
+            System.out.println(fin);
             String messageVictoire = "The village is saved :)";
             gq.setColor(Color.red);
             gq.setFont(new Font("Arial", Font.PLAIN, 75));
@@ -320,22 +314,25 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void drawLineBetweenMonsterProjectile(Graphics2D gq, Monstres monstre){
         for (Projectile projectile : tourController.getTowersList()) {
-            if (projectile.isActive()&&fin!=2) {
+            if (projectile.isActive()&&fin!=2&& fin!=1) {
                 //projectile.draw(gq);
                 projectile.updateTarget(monstre);
-                if (projectile.checkInRange(monstre) && projectile.getTarget() != null && monstre.HP >0&& fin!=2 && !tirePas) {
+                if (projectile.checkInRange(monstre) && projectile.getTarget() != null && monstre.HP >0&& fin!=2 && !projectile.getTirePas()) {
+                    //speedOfTire = projectile.getSpeed();
                     System.out.println(projectile.getTarget());
                     gq.setColor(Color.WHITE);
                     gq.drawLine(projectile.x + TailleCarre, projectile.y + TailleCarre, monstre.getX(), monstre.getY());
 
 
                     System.out.println("actionTemp");
-                    projectile.giveDmageToMonster(projectile.getTarget());
-                    System.out.println(projectile.getTarget());
-                    tirePas = true;
+                    if(!projectile.getTirePas()) {
+                        projectile.giveDmageToMonster(projectile.getTarget());
+                        //System.out.println(projectile.getTarget());
+                        projectile.setTirePas(true);
+                    }
 
                 }
-                else {
+                else if(fin!=2){
                    // System.out.println("projectile.target = null");
                     projectile.setTarget(null);
                     //System.out.println(projectile.getTarget());
@@ -370,13 +367,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
-    public void drawRadius(Graphics2D gq, Color c) {
-        gq.setColor(c);
-        System.out.println(mouseX + " "+mouseY + " "+toursSelected.getRadius());
-        gq.fillOval(mouseX, mouseY,toursSelected.getRadius(),   toursSelected.getRadius());
 
-        //gq.drawOval(mouseX - toursSelected.getRadius(), mouseY - toursSelected.getRadius(), 2 *TailleCarreVar* toursSelected.getRadius(), 2*TailleCarreVar * toursSelected.getRadius());
-    }
     public void drawTourImageAtPosition(BufferedImage image, int x, int y) {
         mouseController.setOnPathBoolean(pathController.isOnPath(x + TailleCarre, y + TailleCarre));
         if (x%TailleCarre < TailleCarre/2){
@@ -459,11 +450,11 @@ public class GamePanel extends JPanel implements Runnable{
         //pour afficher l'argent restant
         printRestOfMoney(gq);
 
-       /*DEBUG
+       /*DEBUG*/
         gq.setFont(new Font("Arial",Font.PLAIN,26));
         gq.setColor(Color.WHITE);
         gq.drawString("Tire pas:"+counterTirePas,TailleCarre,TailleCarre);
-        */
+
         //fin
         endOfTheGame(gq);
 
