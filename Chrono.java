@@ -1,13 +1,19 @@
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Chrono{
     int min;
     int sec;
     int secSurFPS;
+    public BufferedImage image;
+
 
     public Chrono(){
         this.min = 5;
         this.sec = 1;
         this.secSurFPS = 0;
+        GetImage();
     }
 
     int UpdateChrono(int FPS){
@@ -26,5 +32,12 @@ public class Chrono{
             }
         }
         return 0;
+    }
+    public void GetImage(){
+        try{
+            image = ImageIO.read(getClass().getResourceAsStream("sablier/sablier.png"));
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 }

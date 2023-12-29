@@ -18,6 +18,15 @@ public class KeyboardController extends JFrame {
                     System.out.println("p clicked");
                     gamePanel.miseEnPauseDuJeu();
                 }
+                else if(keyChar == 'q' || keyChar == 'Q'){
+                    System.exit(0);
+                }
+                else if(keyChar == 'a' || keyChar == 'A'){
+                    gamePanel.increaseGameSpeed();
+                }
+                else if(keyChar == 'z' || keyChar == 'Z'){
+                    gamePanel.decreaseGameSpeed();
+                }
             }
         });
         gamePanel.setFocusable(true);

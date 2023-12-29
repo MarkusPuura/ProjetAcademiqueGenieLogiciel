@@ -137,6 +137,15 @@ public class GamePanel extends JPanel implements Runnable{
         update();
     }
 
+    public void increaseGameSpeed() {
+        FPS *= 2;
+        System.out.println("FPS : "+FPS);
+    }
+    public void decreaseGameSpeed() {
+        FPS /= 2;
+        System.out.println("FPS : "+FPS);
+    }
+
 
     GenerationRandomMonstres random = new GenerationRandomMonstres(niveau);
     ListeMonstresVivants liste_monstres = new ListeMonstresVivants();
@@ -287,6 +296,12 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    public void drawInfoKeayboard(Graphics2D gq) {
+        String info = "Keyboard  p:paused   q:quit   a:|>   z:<|";
+        gq.setColor(Color.white );
+        gq.setFont(new Font("Arial", Font.ITALIC, 20));
+        gq.drawString(info,  TailleCarre, TailleCarre - 4);
+    }
     public void printChrono(Graphics2D gq){
         String afficherChrono;
         if (chrono.sec < 10){
@@ -295,6 +310,7 @@ public class GamePanel extends JPanel implements Runnable{
         else{
             afficherChrono = chrono.min + ":" + chrono.sec;
         }
+        gq.drawImage(chrono.image, LargeurEcran - 4*TailleCarre,0, TailleCarre, TailleCarre, null);
         gq.setColor(Color.WHITE);
         gq.setFont(new Font("Arial", Font.PLAIN, 25));
         gq.drawString(afficherChrono, LargeurEcran - 3*TailleCarre, TailleCarre - 4);
@@ -412,6 +428,7 @@ public class GamePanel extends JPanel implements Runnable{
         createPath(gq);
         drawProjectile(gq);
         drawProjectileWithCircleRadius(gq,g);
+        drawInfoKeayboard(gq);
 
         Monstres premier = liste_monstres.premier();
         /*if(premier.HP>0) {
