@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable{
+    boolean isPaused = false;
+
     final int TailleOriginalPersonnages = 16; // personnages + objets de taille 16*16
     final int echelle = 2;
     final int TailleCarre = TailleOriginalPersonnages * echelle;
@@ -33,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
     Projectile toursSelected = null;
     int nbClics = 0;
     private final MouseController mouseController;
+    private final KeyboardController keaboard;
     PathController pathController = new PathController(TailleCarre, LargeurEcran, HauteurEcran);
 
     BufferedImage draggedTourImage;
@@ -50,6 +53,8 @@ public class GamePanel extends JPanel implements Runnable{
         tourController = new TourController(this);
         mouseController = new MouseController(this,pathController);
         mouseController.initializeMouseListener();
+        keaboard = new KeyboardController(this);
+        keaboard.initializeKeyboardListener();
         barreInventaire = new BarreInventaire(LargeurEcran,2*TailleCarre,TailleCarre);
         isDragging = false;
         initializeBarreInventaireList();
@@ -111,9 +116,10 @@ public class GamePanel extends JPanel implements Runnable{
         double ProchainImage = System.nanoTime() + tempsUpdate;
 
         while(gameThread != null && fin == 0){
-
-            update();
-            repaint();
+            if(!isPaused) {
+                update();
+                repaint();
+            }
 
             try{    // pour determiner le nbr d'images par seconde
                 double tempsRestant = ProchainImage - System.nanoTime();
@@ -213,6 +219,10 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
 
+    public void miseEnPauseDuJeu() {
+        isPaused = !isPaused;
+
+    }
 
     public void drawQuadrillage(Graphics2D gq){
         Color vert = new Color(107, 175, 107);
@@ -450,12 +460,6 @@ public class GamePanel extends JPanel implements Runnable{
         //pour afficher l'argent restant
         printRestOfMoney(gq);
 
-       /*DEBUG*/
-        gq.setFont(new Font("Arial",Font.PLAIN,26));
-        gq.setColor(Color.WHITE);
-        gq.drawString("Tire pas:"+counterTirePas,TailleCarre,TailleCarre);
-
-        //fin
         endOfTheGame(gq);
 
         gq.dispose();

@@ -104,26 +104,11 @@ public class MouseController {
     }
 
     private void handleMousePress(int mouseX, int mouseY){
-        System.out.println(gamePanel.fin);
-        //boolean affordAndClick = gamePanel.barreInventaire.selectProjectileFromInventory(mouseX,mouseY);
-        gamePanel.toursSelected = gamePanel.barreInventaire.selectProjectileFromInventory(mouseX,mouseY, gamePanel.kama);
-        System.out.println(gamePanel.toursSelected);
-         //boolean affordAndClick = gamePanel.tours1inventaire.canAffordAndClickTours1(mouseX, mouseY, gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
-       /* System.out.println(affordAndClick);
-        System.out.println(gamePanel);
-        if(affordAndClick && gamePanel.fin !=2){
-          //  System.out.println("press");
-            gamePanel.toursSelected = gamePanel.tours1inventaire.getSelectedTower(mouseX, mouseY, gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
-            //System.out.println(toursSelected);
-            gamePanel.toursSelected.afficherProjectile();
-            //gamePanel.nbClics++;
-
+        if(gamePanel.fin!=1 && !gamePanel.isPaused) {
+            System.out.println(gamePanel.fin);
+            gamePanel.toursSelected = gamePanel.barreInventaire.selectProjectileFromInventory(mouseX, mouseY, gamePanel.kama);
+            System.out.println(gamePanel.toursSelected);
         }
-        else{
-            gamePanel.toursSelected = null;
-
-
-        }*/
     }
     private void handleMouseRelease(int mouseX, int mouseY){
         //System.out.println("release");
