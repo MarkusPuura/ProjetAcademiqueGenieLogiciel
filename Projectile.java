@@ -1,5 +1,4 @@
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 public class Projectile  extends Observable implements Observer {
     private int price;
@@ -38,6 +37,15 @@ public class Projectile  extends Observable implements Observer {
                 counterTirePas = 0;
             }
         }
+    }
+    public int incrCounterTirepas(){
+        return this.counterTirePas++;
+    }
+    public int getCounterTirePas(){
+        return this.counterTirePas;
+    }
+    public void setCounterTirePas(int counter){
+        this.counterTirePas = counter;
     }
     public int getRadius(){
         return radius;
@@ -157,4 +165,5 @@ public class Projectile  extends Observable implements Observer {
             giveDmageToMonster(monstre);
         }
     }
+    public void tirer(Graphics2D gq, Monstres monstres){}
 }

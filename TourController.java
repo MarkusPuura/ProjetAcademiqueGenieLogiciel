@@ -3,11 +3,14 @@ import java.util.ArrayList;
 public class TourController {
     private ArrayList<Projectile> towersList;
     private final GamePanel gamePanel;
+    private final int largeurProjectile;
 
 
-    public  TourController(GamePanel gamePanel){
+
+    public  TourController(GamePanel gamePanel, int largeurProjectile){
         towersList = new ArrayList<>();
         this.gamePanel = gamePanel;
+        this.largeurProjectile = largeurProjectile;
 
     }
 
@@ -55,6 +58,17 @@ public class TourController {
         for (Projectile tower : towersList) {
             System.out.println(tower);
         }
+    }
+    public Projectile selectProjectileToAmeliorate(int mouseX, int mouseY) {
+        for (Projectile tower : towersList) {
+
+            if (mouseX >= tower.getX() && mouseX <= tower.getX() + largeurProjectile&&
+                    mouseY >= tower.getY() && mouseY <= tower.getY() + largeurProjectile ) {
+
+                return tower;
+            }
+        }
+        return null;
     }
 
 }

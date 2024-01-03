@@ -1,14 +1,19 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Canon extends Projectile{
     private boolean selected;
     private int numType;
+    private ShootStrategy shootStrategy;
+
 
     public Canon(int price, int damage, int speed, int x, int y,int radius){
         super(price, damage, speed, x, y,radius);
         this.numType = 2;
+        this.shootStrategy = new ZonedShoot();
+
         GetImage();
     }
     public void afficherCanon(){
@@ -70,5 +75,9 @@ public class Canon extends Projectile{
 
     public void setNumType(int numType) {
         this.numType = numType;
+    }
+    public void tirer(Graphics2D gq ,Monstres target){
+        shootStrategy.tirer(gq,this, target);
+
     }
 }

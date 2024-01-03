@@ -56,6 +56,9 @@ public class MouseController {
 
     public void initializeMouseListener() {
         gamePanel.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                handleMouseClick(e.getX(), e.getY());
+            }
             @Override
             public void mousePressed(MouseEvent e) {
                 int x, y;
@@ -148,6 +151,12 @@ public class MouseController {
         }
 
 
+    }
+    private void handleMouseClick(int mouseX, int mouseY){
+        if(gamePanel.fin!=1 && !gamePanel.isPaused ) {
+            gamePanel.tourToAmeliorate =  gamePanel.tourController.selectProjectileToAmeliorate(mouseX,mouseY);
+            System.out.println("yess " + gamePanel.tourToAmeliorate);
+        }
     }
 
     private void handleMouseEntered(int mouseX, int mouseY) {

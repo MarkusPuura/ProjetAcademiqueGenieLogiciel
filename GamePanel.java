@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
     TourSorcier tourSorcierInventaire = new TourSorcier(90, 5, 180, 15*TailleCarre, HauteurEcran - 3*TailleCarre, 200);
 
     TourController tourController;
+    Projectile tourToAmeliorate = null;
     Projectile toursSelected = null;
     int nbClics = 0;
     private final MouseController mouseController;
@@ -50,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setBackground(Color.white);
         this.setDoubleBuffered(true); //ameliorer affichage
         createTunel(); // Création du tunnel à la fin du chemin
-        tourController = new TourController(this);
+        tourController = new TourController(this,2*TailleCarre);
         mouseController = new MouseController(this,pathController);
         mouseController.initializeMouseListener();
         keaboard = new KeyboardController(this);
@@ -343,26 +344,19 @@ public class GamePanel extends JPanel implements Runnable{
             if (projectile.isActive()&&fin!=2&& fin!=1) {
                 //projectile.draw(gq);
                 projectile.updateTarget(monstre);
-                if (projectile.checkInRange(monstre) && projectile.getTarget() != null && monstre.HP >0&& fin!=2 && !projectile.getTirePas()) {
+                //if (projectile.checkInRange(monstre) && projectile.getTarget() != null && monstre.HP >0&& fin!=2 && !projectile.getTirePas()) {
                     //speedOfTire = projectile.getSpeed();
-                    System.out.println(projectile.getTarget());
-                    gq.setColor(Color.WHITE);
-                    gq.drawLine(projectile.x + TailleCarre, projectile.y + TailleCarre, monstre.getX(), monstre.getY());
+               // System.out.println(projectile.getTarget());
+
+                projectile.tirer(gq,projectile.getTarget());
 
 
-                    System.out.println("actionTemp");
-                    if(!projectile.getTirePas()) {
-                        projectile.giveDmageToMonster(projectile.getTarget());
-                        //System.out.println(projectile.getTarget());
-                        projectile.setTirePas(true);
-                    }
-
-                }
-                else if(fin!=2){
+               // }
+               // else if(fin!=2){
                    // System.out.println("projectile.target = null");
-                    projectile.setTarget(null);
+                projectile.setTarget(null);
                     //System.out.println(projectile.getTarget());
-                }
+               // }
 
             }
         }

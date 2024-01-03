@@ -1,15 +1,20 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class TourSorcier extends Projectile{
     private boolean selected;
     private int numType;
+    private ShootStrategy shootStrategy;
+
 
 
     public TourSorcier(int price, int damage, int speed, int x, int y,int radius){
         super(price, damage, speed, x, y,radius);
         this.numType = 3;
+        this.shootStrategy = new RallentirShoot();
+
         GetImage();
     }
     public void afficherTourSorcier(){
@@ -71,5 +76,8 @@ public class TourSorcier extends Projectile{
 
     public void setNumType(int numType) {
         this.numType = numType;
+    }
+    public void tirer(Graphics2D gq, Monstres target){
+        shootStrategy.tirer(gq,this, target);
     }
 }
