@@ -105,7 +105,9 @@ public class GenerationRandomMonstres {
         }
         
         Monstres bebe1 = new Bebe(10, 2, 1, x, y);
-        liste_monstres.ajouterEnFin(bebe1);
+        if (x != 17*TailleCarre && y != 8*TailleCarre){
+            liste_monstres.ajouterEnFin(bebe1);
+        }
         
 
         if (y == TailleCarre*2){
