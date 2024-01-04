@@ -3,7 +3,7 @@ import javax.imageio.ImageIO;
 
 public class Goleme extends Monstres{
     public Goleme(int HP, double vitesse, int kama, int x, int y){
-        super(HP, vitesse, kama, x, y);
+        super(HP, vitesse, kama, x, y, 1);
         GetImage();
     }
 

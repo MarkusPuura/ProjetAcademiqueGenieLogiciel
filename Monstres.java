@@ -7,14 +7,16 @@ public abstract class Monstres {
     double vitesse;
     int kama;
     int x, y;
+    int bebes;
     int fin = 0;    //si il est arrivé jusqu'au chateau
 
-    public Monstres(int HP, double vitesse, int kama, int x, int y){
+    public Monstres(int HP, double vitesse, int kama, int x, int y, int bebes){
         this.HP = HP;
         this.vitesse = vitesse;
         this.kama = kama;
         this.x = x;
         this.y = y;
+        this.bebes = bebes;     // si retourne des bebes quand meurt
     }
     public int getX(){
         return this.x;

@@ -177,6 +177,9 @@ public class GamePanel extends JPanel implements Runnable{
             if (iterateur != null) {
                 if (iterateur.HP <= 0) {
                     kama.portefeuille += iterateur.kama;     //on gagne le kama pour avoir tué le monstre
+                    if (iterateur.bebes == 1){
+                        random.genererbebe(TailleCarre, liste_monstres, iterateur.x, iterateur.y);
+                    }
                     liste_monstres.supprimer(iterateur);
                     suppr = 1;
                 }
@@ -193,6 +196,9 @@ public class GamePanel extends JPanel implements Runnable{
                         iterateur = liste_monstres.suivant(iterateur);
                         if (iterateur.HP <= 0) {
                             kama.portefeuille += iterateur.kama;
+                            if (iterateur.bebes == 1){
+                                random.genererbebe(TailleCarre, liste_monstres, iterateur.x, iterateur.y);
+                            }
                             suivant = liste_monstres.suivant(iterateur);
                             liste_monstres.supprimer(iterateur);
                             iterateur = suivant;
@@ -303,7 +309,7 @@ public class GamePanel extends JPanel implements Runnable{
         String info = "Keyboard  p:paused   q:quit   a:|>   z:<|";
         gq.setColor(Color.white );
         gq.setFont(new Font("Arial", Font.ITALIC, 20));
-        gq.drawString(info,  TailleCarre, TailleCarre - 4);
+        gq.drawString(info,  TailleCarre, TailleCarre - 6);
     }
     public void printChrono(Graphics2D gq){
         String afficherChrono;

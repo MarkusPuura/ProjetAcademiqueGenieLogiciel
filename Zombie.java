@@ -3,7 +3,7 @@ import javax.imageio.ImageIO;
 
 public class Zombie extends Monstres{
     public Zombie(int HP, double vitesse, int kama, int x, int y){
-        super(HP, vitesse, kama, x, y);
+        super(HP, vitesse, kama, x, y, 0);
         GetImage();
     }
 
