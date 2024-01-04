@@ -4,12 +4,12 @@ import java.awt.image.BufferedImage;
 
 public abstract class Monstres {
     int HP;
-    int vitesse;
+    double vitesse;
     int kama;
     int x, y;
     int fin = 0;    //si il est arrivé jusqu'au chateau
 
-    public Monstres(int HP, int vitesse, int kama, int x, int y){
+    public Monstres(int HP, double vitesse, int kama, int x, int y){
         this.HP = HP;
         this.vitesse = vitesse;
         this.kama = kama;

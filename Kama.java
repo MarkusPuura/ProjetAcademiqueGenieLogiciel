@@ -8,7 +8,7 @@ public class Kama {         // si on rajoute pas d'autres propriétés en lien a
 
 
     public Kama(){
-        this.portefeuille = 1000;
+        this.portefeuille = 60;
         GetImage();
     }
     public void finPortefeuil(){

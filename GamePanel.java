@@ -192,6 +192,7 @@ public class GamePanel extends JPanel implements Runnable{
                     if (suppr == 0) {
                         iterateur = liste_monstres.suivant(iterateur);
                         if (iterateur.HP <= 0) {
+                            kama.portefeuille += iterateur.kama;
                             suivant = liste_monstres.suivant(iterateur);
                             liste_monstres.supprimer(iterateur);
                             iterateur = suivant;
@@ -207,6 +208,7 @@ public class GamePanel extends JPanel implements Runnable{
                     } else {
                         suppr = 0;
                         if (iterateur.HP <= 0) {
+                            kama.portefeuille += iterateur.kama;
                             suivant = liste_monstres.suivant(iterateur);
                             liste_monstres.supprimer(iterateur);
                             iterateur = suivant;

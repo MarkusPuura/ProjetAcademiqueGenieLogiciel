@@ -2,8 +2,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Serpent extends Monstres{
-    int HP, vitesse, kama, x, y;
-    public Serpent(int HP, int vitesse, int kama, int x, int y){
+    public Serpent(int HP, double vitesse, int kama, int x, int y){
         super(HP, vitesse, kama, x, y);
         GetImage();
     }
