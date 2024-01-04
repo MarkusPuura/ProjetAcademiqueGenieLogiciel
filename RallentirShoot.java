@@ -5,7 +5,7 @@ public class RallentirShoot implements ShootStrategy{
     @Override
     public void tirer(Graphics2D gq, Projectile projectile, Monstres target) {
         if(target != null && projectile.checkInRange(target)&&target.HP>0 ) {
-            int initVitesse = target.vitesse;
+            double initVitesse = target.vitesse;
 
             if(!projectile.getTirePas()) {
                 System.out.println("actionTemp");

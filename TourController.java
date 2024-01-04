@@ -1,9 +1,17 @@
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class TourController {
     private ArrayList<Projectile> towersList;
     private final GamePanel gamePanel;
     private final int largeurProjectile;
+    private Projectile lastClickedTower;
+    private boolean displayButtons;
+    private int selectedTowerX;
+    private int selectedTowerY;
+    private final ButtonsProjectile buttonsProjectile ;
+
+
 
 
 
@@ -11,8 +19,29 @@ public class TourController {
         towersList = new ArrayList<>();
         this.gamePanel = gamePanel;
         this.largeurProjectile = largeurProjectile;
+        this.lastClickedTower = null;
+        this.buttonsProjectile = new ButtonsProjectile();
 
     }
+
+    public BufferedImage getAmelioratePic(){
+        return buttonsProjectile.getAmeliorateB();
+    }
+    public BufferedImage getSellPic(){
+        return buttonsProjectile.getSellB();
+    }
+    public BufferedImage getReturnPic(){
+        return buttonsProjectile.getReturnB();
+    }
+
+    public Projectile getLastClickedTower() {
+        return lastClickedTower;
+    }
+
+    public void setLastClickedTower(Projectile lastClickedTower) {
+        this.lastClickedTower = lastClickedTower;
+    }
+
 
     public void addTower(ProjectileType type, int x, int y) {
         if (checkValidPlacementTour(x,y) ){
@@ -25,6 +54,10 @@ public class TourController {
             gamePanel.draggedTourImage = null;
         }
     }
+    public void removeTower(Projectile p) {
+        towersList.remove(p);
+    }
+
     public  boolean checkValidPlacementTour(int x, int y) {
         int towerSize = 2*gamePanel.TailleCarre;
 
@@ -69,6 +102,29 @@ public class TourController {
             }
         }
         return null;
+    }
+    public boolean isDisplayButtons() {
+        return displayButtons;
+    }
+
+    public void setDisplayButtons(boolean displayButtons) {
+        this.displayButtons = displayButtons;
+    }
+
+    public int getSelectedTowerX() {
+        return selectedTowerX;
+    }
+
+    public void setSelectedTowerX(int selectedTowerX) {
+        this.selectedTowerX = selectedTowerX;
+    }
+
+    public int getSelectedTowerY() {
+        return selectedTowerY;
+    }
+
+    public void setSelectedTowerY(int selectedTowerY) {
+        this.selectedTowerY = selectedTowerY;
     }
 
 }

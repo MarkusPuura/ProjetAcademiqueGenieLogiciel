@@ -3,7 +3,7 @@ import javax.imageio.ImageIO;
 
 public class Serpent extends Monstres{
     public Serpent(int HP, double vitesse, int kama, int x, int y){
-        super(HP, vitesse, kama, x, y);
+        super(HP, vitesse, kama, x, y,0);
         GetImage();
     }
 

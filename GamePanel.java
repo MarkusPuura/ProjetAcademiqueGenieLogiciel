@@ -420,6 +420,25 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    public void drawButtonsSelectedTower(Graphics2D gq){
+        if(tourController.getLastClickedTower() != null && tourController.isDisplayButtons()){
+            int projectileX = tourController.getLastClickedTower().getX();
+            int projectileY = tourController.getLastClickedTower().getY();
+            gq.drawImage(tourController.getAmelioratePic(), projectileX -2*TailleCarre-5, projectileY -2*TailleCarre, 2*TailleCarre, 2*TailleCarre, null);
+            gq.drawImage(tourController.getSellPic(), projectileX , projectileY -2*TailleCarre, 2*TailleCarre, 2*TailleCarre, null);
+            gq.drawImage(tourController.getReturnPic(), projectileX + 2*TailleCarre+5, projectileY -2*TailleCarre, 2*TailleCarre, 2*TailleCarre, null);
+
+            String ameliorationPrice = String.valueOf(tourController.getLastClickedTower().getAmeliorationValue());
+            String sellMoney = String.valueOf(tourController.getLastClickedTower().getSellValue());
+            gq.setColor(Color.BLACK);
+            gq.setFont(new Font("Arial", Font.PLAIN, 20));
+            gq.drawString(ameliorationPrice, projectileX -TailleCarre-15, projectileY -3);
+            gq.drawString(sellMoney, projectileX +22, projectileY -3);
+
+
+        }
+    }
+
     public void paintComponent(Graphics g){     //dessiner après chaque update
 
         super.paintComponent(g);
@@ -431,6 +450,7 @@ public class GamePanel extends JPanel implements Runnable{
         drawProjectile(gq);
         drawProjectileWithCircleRadius(gq,g);
         drawInfoKeayboard(gq);
+        drawButtonsSelectedTower(gq);
 
         Monstres premier = liste_monstres.premier();
         /*if(premier.HP>0) {

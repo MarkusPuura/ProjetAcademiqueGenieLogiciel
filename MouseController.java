@@ -57,7 +57,14 @@ public class MouseController {
     public void initializeMouseListener() {
         gamePanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                handleMouseClick(e.getX(), e.getY());
+                if(!gamePanel.tourController.isDisplayButtons()) {
+                    System.out.println("!bouton");
+                    handleMouseClick(e.getX(), e.getY());
+                }
+                else if (gamePanel.tourController.isDisplayButtons()){
+                    System.out.println("bouton");
+                    handleMouseClickButtons(e.getX(),e.getY());
+                }
             }
             @Override
             public void mousePressed(MouseEvent e) {
@@ -153,12 +160,54 @@ public class MouseController {
 
     }
     private void handleMouseClick(int mouseX, int mouseY){
-        if(gamePanel.fin!=1 && !gamePanel.isPaused ) {
-            gamePanel.tourToAmeliorate =  gamePanel.tourController.selectProjectileToAmeliorate(mouseX,mouseY);
-            System.out.println("yess " + gamePanel.tourToAmeliorate);
+        if(gamePanel.fin!=1 && gamePanel.fin!=2 && !gamePanel.isPaused ) {
+            Projectile clickedTower = gamePanel.tourController.selectProjectileToAmeliorate(mouseX, mouseY);
+            if (clickedTower != null) {
+                gamePanel.tourController.setLastClickedTower(clickedTower);
+                gamePanel.tourController.setDisplayButtons(true);
+                gamePanel.tourController.setSelectedTowerX(clickedTower.getX());
+                gamePanel.tourController.setSelectedTowerY(clickedTower.getY());
+                System.out.println(gamePanel.tourController.getLastClickedTower());
+
+
+            }
+            System.out.println(gamePanel.tourController.getLastClickedTower());
+
         }
     }
+    public void handleMouseClickButtons(int mouseX,int mouseY){
+        int projectileX = gamePanel.tourController.getSelectedTowerX();
+        int projectileY = gamePanel.tourController.getSelectedTowerY();
+        int buttonWidth = 2 * TailleCarre;
+        int buttonHeight = 2 * TailleCarre;
 
+        if (mouseX >= projectileX - 2 * TailleCarre - 5 && mouseX <= projectileX - 2 * TailleCarre - 5 + buttonWidth &&
+                mouseY >= projectileY - 2 * TailleCarre && mouseY <= projectileY - 2 * TailleCarre + buttonHeight ) {
+            System.out.println("amelioration");
+            gamePanel.tourController.getLastClickedTower().setAmeliorationValue();
+            //gamePanel.tourController.getLastClickedTower().setAmeliorationValue();
+        } else if (mouseX >= projectileX && mouseX <= projectileX + buttonWidth &&
+                mouseY >= projectileY - 2 * TailleCarre && mouseY <= projectileY - 2 * TailleCarre + buttonHeight) {
+            System.out.println("vente");
+            gamePanel.kama.portefeuille += gamePanel.tourController.getLastClickedTower().getSellValue();
+            gamePanel.tourController.removeTower(gamePanel.tourController.getLastClickedTower());
+            gamePanel.tourController.setDisplayButtons(false);
+            gamePanel.tourController.setLastClickedTower(null);
+            //gamePanel.tourController.getLastClickedTower().setVenteAttribut();
+        } else if (mouseX >= projectileX + 2 * TailleCarre + 5 && mouseX <= projectileX + 2 * TailleCarre + 5 + buttonWidth &&
+                mouseY >= projectileY - 2 * TailleCarre && mouseY <= projectileY - 2 * TailleCarre + buttonHeight) {
+            System.out.println("retour");
+            gamePanel.tourController.setDisplayButtons(false);
+            gamePanel.tourController.setLastClickedTower(null);
+
+
+        }
+        else{
+            gamePanel.tourController.setDisplayButtons(false);
+            gamePanel.tourController.setLastClickedTower(null);
+
+        }
+    }
     private void handleMouseEntered(int mouseX, int mouseY) {
         boolean affordAndClick = gamePanel.tours1inventaire.canAffordAndClickTours1(mouseX, mouseY, gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
         System.out.println(affordAndClick);

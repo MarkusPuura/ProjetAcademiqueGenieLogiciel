@@ -1,6 +1,6 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
-public class Projectile  extends Observable implements Observer {
+public class Projectile  {
     private int price;
     private int damage;
     private int speed;
@@ -14,6 +14,8 @@ public class Projectile  extends Observable implements Observer {
     public BufferedImage image;
     private Monstres target;
     private int numType;
+    private final ModifProjectileButtonAttribut modifAttribut;
+
 
     public Projectile(int price , int damage, int speed, int x, int y,int radius){
         this.price=price;
@@ -24,9 +26,21 @@ public class Projectile  extends Observable implements Observer {
         this.radius = radius;
         this.numType = 0;
         this.target = null;
-
-
         this.active = true;
+        this.modifAttribut = new ModifProjectileButtonAttribut(this);
+
+    }
+    public int getAmeliorationValue(){
+        return this.modifAttribut.getAmeliorationCout();
+    }
+    public int getSellValue(){
+        return this.modifAttribut.getVenteArgentGagne();
+    }
+    public void setAmeliorationValue(){
+        this.modifAttribut.setAmeliorationCout();
+    }
+    public void setVenteAttribut(){
+        this.modifAttribut.setVenteArgentGagne();
     }
 
     public void tempsTireProjectile(){
@@ -158,12 +172,6 @@ public class Projectile  extends Observable implements Observer {
     public void setNumType(int numType) {
         this.numType = numType;
     }
-    @Override
-    public void update(Monstres monstre) {
-        if (checkInRange(monstre) && monstre.isAlive()) {
-            // Attaquer le monstre
-            giveDmageToMonster(monstre);
-        }
-    }
+
     public void tirer(Graphics2D gq, Monstres monstres){}
 }
