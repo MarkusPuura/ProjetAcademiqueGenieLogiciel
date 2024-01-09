@@ -317,7 +317,7 @@ public class GamePanel extends JPanel implements Runnable {
             gameOverListener.onGameOver();
         }
     }
-    
+
     private GameOverListener gameOverListener;
 
     public void setGameOverListener(GameOverListener listener) {
@@ -382,7 +382,7 @@ public class GamePanel extends JPanel implements Runnable {
                 // speedOfTire = projectile.getSpeed();
                 // System.out.println(projectile.getTarget());
 
-                projectile.tirer(gq, projectile.getTarget());
+                projectile.tirer(gq, projectile.getTarget(), liste_monstres, TailleCarre);
 
                 // }
                 // else if(fin!=2){

@@ -1,6 +1,8 @@
 package Modele.differentsTours;
+
 import javax.imageio.ImageIO;
 
+import Controleur.ListeMonstresVivants;
 import Modele.Kama;
 import Modele.Monstres;
 import Modele.Projectile;
@@ -11,38 +13,39 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Canon extends Projectile{
+public class Canon extends Projectile {
     private boolean selected;
     private int numType;
     private ShootStrategy shootStrategy;
 
-
-    public Canon(int price, int damage, int speed, int x, int y,int radius){
-        super(price, damage, speed, x, y,radius);
+    public Canon(int price, int damage, int speed, int x, int y, int radius) {
+        super(price, damage, speed, x, y, radius);
         this.numType = 2;
         this.shootStrategy = new ZonedShoot();
 
         GetImage();
     }
-    public void afficherCanon(){
-        System.out.println("Price : "+this.getPrice()+" damage : "+this.getDamage()+" speed : "+this.getSpeed()+" x : "+this.getX()+" y : "+this.getY());
+
+    public void afficherCanon() {
+        System.out.println("Price : " + this.getPrice() + " damage : " + this.getDamage() + " speed : "
+                + this.getSpeed() + " x : " + this.getX() + " y : " + this.getY());
     }
-    public void GetImage(){
-        try{
+
+    public void GetImage() {
+        try {
             image = ImageIO.read(getClass().getResourceAsStream("../../images/tours/CannonAB.png"));
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public boolean isClickedAndSelectionnedTours1(int x,int y,int TailleCarre, int HauteurEcran){
-        int xTours1 = 6*TailleCarre;
-        int yTours1 = HauteurEcran - 3*TailleCarre;
-        int sizeTours1 = TailleCarre*2;
+    public boolean isClickedAndSelectionnedTours1(int x, int y, int TailleCarre, int HauteurEcran) {
+        int xTours1 = 6 * TailleCarre;
+        int yTours1 = HauteurEcran - 3 * TailleCarre;
+        int sizeTours1 = TailleCarre * 2;
         return x >= xTours1 && x <= xTours1 + sizeTours1 && y >= yTours1 && y <= yTours1 + sizeTours1;
 
     }
-
 
     public boolean canAffordAndClickTours1(int x, int y, int TailleCarre, int HauteurEcran, Kama k) {
         boolean isClicked = isClickedAndSelectionnedTours1(x, y, TailleCarre, HauteurEcran);
@@ -51,7 +54,7 @@ public class Canon extends Projectile{
     }
 
     public Canon getSelectedTower(int x, int y, int TailleCarre, int HauteurEcran, Kama k) {
-        boolean affordAndClick = canAffordAndClickTours1(x,y,TailleCarre,HauteurEcran,k);
+        boolean affordAndClick = canAffordAndClickTours1(x, y, TailleCarre, HauteurEcran, k);
 
         if (affordAndClick) {
             selected = true;
@@ -64,7 +67,6 @@ public class Canon extends Projectile{
         }
     }
 
-
     public boolean isSelected() {
         return selected;
     }
@@ -72,9 +74,11 @@ public class Canon extends Projectile{
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
     @Override
     public String toString() {
-        return "Canon: [Price=" + getPrice() + ", Damage=" + getDamage() + ", Speed=" + getSpeed() + ", X=" + getX() + ", Y=" + getY() + "]";
+        return "Canon: [Price=" + getPrice() + ", Damage=" + getDamage() + ", Speed=" + getSpeed() + ", X=" + getX()
+                + ", Y=" + getY() + "]";
     }
 
     public int getNumType() {
@@ -84,8 +88,9 @@ public class Canon extends Projectile{
     public void setNumType(int numType) {
         this.numType = numType;
     }
-    public void tirer(Graphics2D gq ,Monstres target){
-        shootStrategy.tirer(gq,this, target);
+
+    public void tirer(Graphics2D gq, Monstres target, ListeMonstresVivants list, int distance) {
+        shootStrategy.tirer(gq, this, target, list, distance);
 
     }
 }

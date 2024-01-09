@@ -1,4 +1,5 @@
 package Controleur;
+
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -7,9 +8,13 @@ import Modele.Monstres;
 public class ListeMonstresVivants {
     private LinkedList<Monstres> liste;
 
-
     public ListeMonstresVivants() {
         liste = new LinkedList<>();
+    }
+
+    public boolean estDansZone(Monstres premMonstre, Monstres monstreAChercher, int TailleCarre) {
+        return Math.abs(premMonstre.getX() - monstreAChercher.getX()) <= 2 * TailleCarre
+                && Math.abs(premMonstre.getY() - monstreAChercher.getY()) <= 2 * TailleCarre;
     }
 
     // Ajouter un objet en fin de liste
@@ -26,8 +31,9 @@ public class ListeMonstresVivants {
     public Monstres premier() {
         return liste.getFirst();
     }
+
     public boolean isEmpty() {
-        return premier() == null; //liste vide ?
+        return premier() == null; // liste vide ?
     }
 
     // Accéder à l'élément suivant dans la liste
