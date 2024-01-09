@@ -19,6 +19,17 @@ public class Main {
 
         gamePanel.startThread();
 
+        gamePanel.setGameOverListener(() -> {
+            
+            GamePanel newGamePanel = new GamePanel();
+
+            window.getContentPane().removeAll();
+            window.add(newGamePanel);
+            window.revalidate();
+            window.repaint();
+
+            newGamePanel.startThread();
+        });
     }
 
 }

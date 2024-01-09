@@ -301,6 +301,7 @@ public class GamePanel extends JPanel implements Runnable {
             gq.setColor(Color.red);
             gq.setFont(new Font("Arial", Font.PLAIN, 75));
             gq.drawString(messageVictoire, 5 * TailleCarre, HauteurEcran / 2);
+            gameOver();
         }
         if (fin == 2) { // Si le joueur a perdu (dernier update)
 
@@ -309,6 +310,22 @@ public class GamePanel extends JPanel implements Runnable {
             gq.setFont(new Font("Arial", Font.PLAIN, 75));
             gq.drawString(messageDefaite, 10 * TailleCarre, HauteurEcran / 2);
         }
+    }
+
+    public void gameOver() {
+        if (gameOverListener != null) {
+            gameOverListener.onGameOver();
+        }
+    }
+    
+    private GameOverListener gameOverListener;
+
+    public void setGameOverListener(GameOverListener listener) {
+        this.gameOverListener = listener;
+    }
+
+    public interface GameOverListener {
+        void onGameOver();
     }
 
     public void drawInfoKeayboard(Graphics2D gq) {
