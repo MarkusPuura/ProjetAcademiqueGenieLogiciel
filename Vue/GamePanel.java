@@ -378,6 +378,18 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void drawCircleButtonDisposition(Graphics2D gq, int x, int y) {
+        int tourCenterX = x - (x % TailleCarre) + TailleCarre;
+        int tourCenterY = y - (y % TailleCarre) + TailleCarre;
+
+        int radius = tourController.getLastClickedTower().getRadius();
+        AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f);
+        gq.setComposite(alphaComposite);
+
+        gq.setColor(Color.white);
+        gq.fillOval(tourCenterX - radius, tourCenterY - radius, 2 * radius, 2 * radius);
+    }
+
     public void drawProjectileDragMouseCircle(Graphics2D gq, int x, int y) {
         if (toursSelected != null) {
             int tourCenterX = x - (x % TailleCarre) + TailleCarre;
@@ -428,6 +440,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void drawButtonsSelectedTower(Graphics2D gq) {
         if (tourController.getLastClickedTower() != null && tourController.isDisplayButtons()) {
+
             int projectileX = tourController.getLastClickedTower().getX();
             int projectileY = tourController.getLastClickedTower().getY();
             gq.drawImage(tourController.getAmelioratePic(), projectileX - 2 * TailleCarre - 5,
@@ -443,6 +456,7 @@ public class GamePanel extends JPanel implements Runnable {
             gq.setFont(new Font("Arial", Font.PLAIN, 20));
             gq.drawString(ameliorationPrice, projectileX - TailleCarre - 15, projectileY - 3);
             gq.drawString(sellMoney, projectileX + 22, projectileY - 3);
+            drawCircleButtonDisposition(gq, projectileX, projectileY);
 
         }
     }
