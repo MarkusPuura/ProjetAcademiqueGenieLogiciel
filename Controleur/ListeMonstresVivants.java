@@ -29,9 +29,11 @@ public class ListeMonstresVivants {
 
     // Accéder au premier élément de la liste
     public Monstres premier() {
-        try{
+        try {
             return liste.getFirst();
-        }catch (Exception e) {return null;}
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public boolean isEmpty() {
