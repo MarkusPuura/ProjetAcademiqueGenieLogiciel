@@ -34,6 +34,7 @@ public class Canon extends Projectile {
     public void GetImage() {
         try {
             image = ImageIO.read(getClass().getResourceAsStream("../../images/tours/CannonAB.png"));
+            image2 = ImageIO.read(getClass().getResourceAsStream("../../images/tours/CannonAB2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

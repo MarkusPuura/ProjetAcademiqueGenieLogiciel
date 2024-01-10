@@ -87,7 +87,7 @@ public class GenerationRandomMonstres {
         }
     }
 
-    public void genererbebe(int TailleCarre, ListeMonstresVivants liste_monstres, int x, int y){
+    public void genererbebe(int TailleCarre, ListeMonstresVivants liste_monstres, int x, int y, int lvl){
         if (x%32 > 16){
             while (x%32 != 0){
                 x++;
@@ -109,46 +109,48 @@ public class GenerationRandomMonstres {
             }
         }
         
-        Monstres bebe1 = new Bebe(10, 2, 1, x, y);
-        if (x != 17*TailleCarre && y != 8*TailleCarre){
-            liste_monstres.ajouterEnFin(bebe1);
-        }
-        
+        if (lvl == 1){
+            Monstres bebe1 = new Bebe(10, 2, 1, x, y);
+            if (x != 17*TailleCarre && y != 8*TailleCarre){
+                liste_monstres.ajouterEnFin(bebe1);
+            }
+            
 
-        if (y == TailleCarre*2){
-            Monstres bebe2 = new Bebe(10, 2, 1, x-10, y);
-            liste_monstres.ajouterEnFin(bebe2);
-            Monstres bebe3 = new Bebe(10, 2, 1, x-20, y);
-            liste_monstres.ajouterEnFin(bebe3);
-        }
-        else if (x == TailleCarre*32){
-            if (y < 4*TailleCarre){
-                Monstres bebe2 = new Bebe(10, 2, 1, x-10, 2*TailleCarre);
+            if (y == TailleCarre*2){
+                Monstres bebe2 = new Bebe(10, 2, 1, x-10, y);
                 liste_monstres.ajouterEnFin(bebe2);
-                Monstres bebe3 = new Bebe(10, 2, 1, x-20, 2*TailleCarre);
+                Monstres bebe3 = new Bebe(10, 2, 1, x-20, y);
                 liste_monstres.ajouterEnFin(bebe3);
             }
-            else{
-                Monstres bebe2 = new Bebe(10, 2, 1, x, y-10);
-                liste_monstres.ajouterEnFin(bebe2);
-                Monstres bebe3 = new Bebe(10, 2, 1, x, y-20);
-                liste_monstres.ajouterEnFin(bebe3);
+            else if (x == TailleCarre*32){
+                if (y < 4*TailleCarre){
+                    Monstres bebe2 = new Bebe(10, 2, 1, x-10, 2*TailleCarre);
+                    liste_monstres.ajouterEnFin(bebe2);
+                    Monstres bebe3 = new Bebe(10, 2, 1, x-20, 2*TailleCarre);
+                    liste_monstres.ajouterEnFin(bebe3);
+                }
+                else{
+                    Monstres bebe2 = new Bebe(10, 2, 1, x, y-10);
+                    liste_monstres.ajouterEnFin(bebe2);
+                    Monstres bebe3 = new Bebe(10, 2, 1, x, y-20);
+                    liste_monstres.ajouterEnFin(bebe3);
+                }
             }
-        }
-        else if (y == 14*TailleCarre){
-            if (x > 31*TailleCarre){
-                Monstres bebe2 = new Bebe(10, 2, 1, 32*TailleCarre, y - 10);
-                liste_monstres.ajouterEnFin(bebe2);
-                Monstres bebe3 = new Bebe(10, 2, 1, 32*TailleCarre, y - 20);
-                liste_monstres.ajouterEnFin(bebe3);
+            else if (y == 14*TailleCarre){
+                if (x > 31*TailleCarre){
+                    Monstres bebe2 = new Bebe(10, 2, 1, 32*TailleCarre, y - 10);
+                    liste_monstres.ajouterEnFin(bebe2);
+                    Monstres bebe3 = new Bebe(10, 2, 1, 32*TailleCarre, y - 20);
+                    liste_monstres.ajouterEnFin(bebe3);
+                }
+                else{
+                    Monstres bebe2 = new Bebe(10, 2, 1, x + 10, y);
+                    liste_monstres.ajouterEnFin(bebe2);
+                    Monstres bebe3 = new Bebe(10, 2, 1, x + 20, y);
+                    liste_monstres.ajouterEnFin(bebe3);
+                }
             }
-            else{
-                Monstres bebe2 = new Bebe(10, 2, 1, x + 10, y);
-                liste_monstres.ajouterEnFin(bebe2);
-                Monstres bebe3 = new Bebe(10, 2, 1, x + 20, y);
-                liste_monstres.ajouterEnFin(bebe3);
-            }
-        }
+        
         //else if (x == 17*TailleCarre){        // impolssible de faire apparaitre des monstres sur les deux dernieres lignes droites du chemin, mystère absolu
         //    if (y > 13*TailleCarre){
         //        Monstres bebe2 = new Bebe(10, 2, 1, x + 10, 14*TailleCarre);
@@ -177,6 +179,48 @@ public class GenerationRandomMonstres {
         //        liste_monstres.ajouterEnFin(bebe3);
         //    }
         //}
+        }
+        if (lvl == 2){
+            Monstres bebe1 = new Bebe(10, 2, 1, x, y);
+            liste_monstres.ajouterEnFin(bebe1);
+
+            if (y == TailleCarre*2){
+                Monstres bebe2 = new Bebe(10, 2, 1, x-10, y);
+                liste_monstres.ajouterEnFin(bebe2);
+                Monstres bebe3 = new Bebe(10, 2, 1, x-20, y);
+                liste_monstres.ajouterEnFin(bebe3);
+            }
+
+            else if (x == TailleCarre*15){
+                if (y < 4*TailleCarre){
+                    Monstres bebe2 = new Bebe(10, 2, 1, x-10, 2*TailleCarre);
+                    liste_monstres.ajouterEnFin(bebe2);
+                    Monstres bebe3 = new Bebe(10, 2, 1, x-20, 2*TailleCarre);
+                    liste_monstres.ajouterEnFin(bebe3);
+                }
+                else{
+                    Monstres bebe2 = new Bebe(10, 2, 1, x, y-10);
+                    liste_monstres.ajouterEnFin(bebe2);
+                    Monstres bebe3 = new Bebe(10, 2, 1, x, y-20);
+                    liste_monstres.ajouterEnFin(bebe3);
+                }
+            }
+
+            else if (y == 11*TailleCarre){
+                if (x < 17*TailleCarre){
+                    Monstres bebe2 = new Bebe(10, 2, 1, 15*TailleCarre, y - 10);
+                    liste_monstres.ajouterEnFin(bebe2);
+                    Monstres bebe3 = new Bebe(10, 2, 1, 15*TailleCarre, y - 20);
+                    liste_monstres.ajouterEnFin(bebe3);
+                }
+                else{
+                    Monstres bebe2 = new Bebe(10, 2, 1, x - 10, y);
+                    liste_monstres.ajouterEnFin(bebe2);
+                    Monstres bebe3 = new Bebe(10, 2, 1, x - 20, y);
+                    liste_monstres.ajouterEnFin(bebe3);
+                }
+            }
+        }
 
     }
 }

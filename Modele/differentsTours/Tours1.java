@@ -27,9 +27,11 @@ public class Tours1 extends Projectile {
     public void GetImage() {
         try {
             image = ImageIO.read(getClass().getResourceAsStream("../../images/tours/tours1.png"));
+            image2 = ImageIO.read(getClass().getResourceAsStream("../../images/tours/tours1_2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
     }
 
     public void setTirStrategy(ShootStrategy shootStrategy) {

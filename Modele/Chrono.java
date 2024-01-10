@@ -11,8 +11,8 @@ public class Chrono{
 
 
     public Chrono(){
-        this.min = 5;
-        this.sec = 1;
+        this.min = 0;
+        this.sec = 30;
         this.secSurFPS = 0;
         GetImage();
     }

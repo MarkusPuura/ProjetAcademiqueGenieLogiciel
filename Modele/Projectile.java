@@ -17,7 +17,7 @@ public class Projectile {
     private boolean tirePas;
     private int counterTirePas;
 
-    public BufferedImage image;
+    public BufferedImage image, image2;
     private Monstres target;
     private int numType;
     private final ModifProjectileButtonAttribut modifAttribut;

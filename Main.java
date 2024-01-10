@@ -8,9 +8,9 @@ public class Main {
         JFrame window = new JFrame();
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setTitle("Tower Defense");
+        window.setTitle("Tower Defense level 1");
 
-        GamePanel gamePanel = new GamePanel();
+        GamePanel gamePanel = new GamePanel(1);
 
         window.add(gamePanel);
         window.pack();
@@ -21,8 +21,9 @@ public class Main {
 
         gamePanel.setGameOverListener(() -> {
             
-            GamePanel newGamePanel = new GamePanel();
+            GamePanel newGamePanel = new GamePanel(2);
 
+            window.setTitle("Tower Defense level 2");
             window.getContentPane().removeAll();
             window.add(newGamePanel);
             window.revalidate();

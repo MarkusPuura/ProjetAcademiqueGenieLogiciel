@@ -34,6 +34,7 @@ public class TourSorcier extends Projectile {
     public void GetImage() {
         try {
             image = ImageIO.read(getClass().getResourceAsStream("../../images/tours/TourSorcier.png"));
+            image2 = ImageIO.read(getClass().getResourceAsStream("../../images/tours/TourSorcier2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

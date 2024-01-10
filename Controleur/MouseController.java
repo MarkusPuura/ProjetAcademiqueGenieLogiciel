@@ -6,6 +6,7 @@ import Modele.Projectile;
 import Modele.proj.ProjectileType;
 import Vue.GamePanel;
 public class MouseController {
+    int lvl;
     private final GamePanel gamePanel;
     private final PathController pathController;
     final int TailleOriginalPersonnages = 16; // personnages + objets de taille 16*16
@@ -13,9 +14,10 @@ public class MouseController {
     final int TailleCarre = TailleOriginalPersonnages * echelle;
     private boolean isOnPathBoolean = false;
 
-    public MouseController(GamePanel gamePanel,PathController pathController) {
+    public MouseController(GamePanel gamePanel,PathController pathController, int lvl) {
         this.gamePanel = gamePanel;
         this.pathController = pathController;
+        this.lvl = lvl;
 
     }
 
@@ -24,13 +26,13 @@ public class MouseController {
        // Tours1 tourProjectile =  new Tours1(30, 10, 1, x, y,100);
         switch (gamePanel.toursSelected.getNumType()){
             case 1 :
-                gamePanel.tourController.addTower(ProjectileType.TOUR,x,y);
+                gamePanel.tourController.addTower(ProjectileType.TOUR,x,y, this.lvl);
                 break;
             case 2 :
-                gamePanel.tourController.addTower(ProjectileType.CANON,x,y);
+                gamePanel.tourController.addTower(ProjectileType.CANON,x,y, this.lvl);
                 break;
             case 3 :
-                gamePanel.tourController.addTower(ProjectileType.TOUR_SORCIER,x,y);
+                gamePanel.tourController.addTower(ProjectileType.TOUR_SORCIER,x,y, this.lvl);
             default :
                 break;
 
@@ -128,7 +130,7 @@ public class MouseController {
     private void handleMouseRelease(int mouseX, int mouseY){
         //System.out.println("release");
 
-        if(!pathController.isOnPath(mouseX,mouseY) && gamePanel.toursSelected != null&& gamePanel.fin !=2&&gamePanel.fin!=1){
+        if(!pathController.isOnPath(mouseX,mouseY,lvl) && gamePanel.toursSelected != null&& gamePanel.fin !=2&&gamePanel.fin!=1){
             isOnPathBoolean = false;
             int x, y;
             if ((mouseX)%TailleCarre < TailleCarre/2){
@@ -146,7 +148,7 @@ public class MouseController {
             //gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
         }
-        else if (pathController.isOnPath(mouseX, mouseY)&& gamePanel.fin !=2&&gamePanel.fin!=1) {
+        else if (pathController.isOnPath(mouseX, mouseY,lvl)&& gamePanel.fin !=2&&gamePanel.fin!=1) {
             isOnPathBoolean= true;
             //System.out.println("on Path");
             gamePanel.draggedTourImage = null;
@@ -158,8 +160,12 @@ public class MouseController {
     private void handleMouseDrag(int mouseX, int mouseY){
         if (gamePanel.toursSelected != null&& gamePanel.fin !=2&&gamePanel.fin!=1) {
             gamePanel.setMousePosition(mouseX,mouseY);
-            gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.image, gamePanel.getMouseX(), gamePanel.getMouseY());
-
+            if (this.lvl == 1){
+                gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.image, gamePanel.getMouseX(), gamePanel.getMouseY(), lvl);
+            }
+            if (this.lvl == 2){
+                gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.image2, gamePanel.getMouseX(), gamePanel.getMouseY(), lvl);
+            }
         }
 
 

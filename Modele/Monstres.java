@@ -34,42 +34,68 @@ public abstract class Monstres {
     
 
 
-    public void updateMonstre(int TailleCarre, int HauteurEcran, int LargeurEcran){
-        if (this.y == TailleCarre*2){
-            if (this.x < LargeurEcran - TailleCarre*3){
-                this.x+=this.vitesse; this.direction = "droite";
+    public void updateMonstre(int TailleCarre, int HauteurEcran, int LargeurEcran, int lvl){
+        if (lvl == 1){
+            if (this.y == TailleCarre*2){
+                if (this.x < LargeurEcran - TailleCarre*3){
+                    this.x+=this.vitesse; this.direction = "droite";
+                }
+                else{this.x = LargeurEcran - TailleCarre*3; this.y+=this.vitesse; this.direction = "bas";}
             }
-            else{this.y+=this.vitesse; this.direction = "bas";}
+            if (this.x == LargeurEcran - TailleCarre*3){
+                if (this.y < HauteurEcran - 6*TailleCarre){
+                    this.y+=this.vitesse;
+                    this.direction = "bas";
+                }
+                else{this.y = HauteurEcran - 6*TailleCarre; this.x-=this.vitesse; this.direction = "gauche";}
+            }
+            if (this.y == HauteurEcran - 6*TailleCarre){
+                if (this.x > 17*TailleCarre){
+                    this.x-=this.vitesse;
+                    this.direction = "gauche";
+                }
+                else{this.x = 17*TailleCarre; this.y-=this.vitesse; this.direction = "haut";}
+            }
+            if (this.x == 17*TailleCarre && this.direction == "haut"){
+                if (this.y > 8*TailleCarre){
+                    this.y-=this.vitesse;
+                    this.direction = "haut";
+                }
+                else{this.y = 8*TailleCarre; this.x-=this.vitesse; this.direction = "gauche";}
+            }
+            if (this.y == 8*TailleCarre && this.direction == "gauche"){
+                if (this.x > 5*TailleCarre){
+                    this.x-=this.vitesse;
+                    this.direction = "gauche";
+                }
+                else{   // le monstre est arrivé au chateau
+                    this.fin = 1;
+                }
+            }
         }
-        if (this.x == LargeurEcran - TailleCarre*3){
-            if (this.y < HauteurEcran - 6*TailleCarre){
-                this.y+=this.vitesse;
-                this.direction = "bas";
+        if (lvl == 2){
+            if (this.y == TailleCarre*2){
+                if (this.x < TailleCarre*15){
+                    this.x+=this.vitesse; this.direction = "droite";
+                }
+                else{this.x = TailleCarre*15; this.y+=this.vitesse; this.direction = "bas";}
             }
-            else{this.x-=this.vitesse; this.direction = "gauche";}
-        }
-        if (this.y == HauteurEcran - 6*TailleCarre){
-            if (this.x > 17*TailleCarre){
-                this.x-=this.vitesse;
-                this.direction = "gauche";
+            if (this.x == TailleCarre*15){
+                if (this.y < HauteurEcran - 9*TailleCarre){
+                    this.y+=this.vitesse;
+                    this.direction = "bas";
+                }
+                else{this.y = HauteurEcran - 9*TailleCarre; this.x-=this.vitesse; this.direction = "bas";}
             }
-            else{this.y-=this.vitesse; this.direction = "haut";}
-        }
-        if (this.x == 17*TailleCarre && this.direction == "haut"){
-            if (this.y > 8*TailleCarre){
-                this.y-=this.vitesse;
-                this.direction = "haut";
+            if (this.y == HauteurEcran - TailleCarre*9){
+                if (this.x < TailleCarre*30){
+                    this.x+=this.vitesse; this.direction = "droite";
+                }
+                else{
+                    this.fin = 1;
+                }
             }
-            else{this.x-=this.vitesse; this.direction = "gauche";}
-        }
-        if (this.y == 8*TailleCarre && this.direction == "gauche"){
-            if (this.x > 5*TailleCarre){
-                this.x-=this.vitesse;
-                this.direction = "gauche";
-            }
-            else{   // le monstre est arrivé au chateau
-                this.fin = 1;
-            }
+
         }
     }
     

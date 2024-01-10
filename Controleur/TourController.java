@@ -50,7 +50,7 @@ public class TourController {
     }
 
 
-    public void addTower(ProjectileType type, int x, int y) {
+    public void addTower(ProjectileType type, int x, int y, int lvl) {
         if (checkValidPlacementTour(x,y) ){
             Projectile projectile = ProjectileFactory.createProjectile(type,x,y);
 

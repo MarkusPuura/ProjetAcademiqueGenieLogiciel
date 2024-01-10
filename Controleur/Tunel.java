@@ -6,22 +6,26 @@ import java.io.IOException;
 
 public class Tunel {
     private static Tunel instance; // Instance unique de Tunnel
-    public int x;
-    public int y;
+    public int x1;
+    public int y1;
+    public int x2;
+    public int y2;
     public int vies = 5;
-    public BufferedImage Imagechateau;
+    public BufferedImage Imagechateau, Imagechateau2;
     public BufferedImage vies0, vies1, vies2, vies3, vies4, vies5;
     public BufferedImage Imagevies;
 
-    public Tunel(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Tunel(int x1, int y1, int x2, int y2) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
         GetImage();
     }
 
-    public static Tunel getInstance(int x, int y) {
+    public static Tunel getInstance(int x1, int y1, int x2, int y2) {
         if (instance == null) {
-            instance = new Tunel(x, y);
+            instance = new Tunel(x1, y1, x2, y2);
         }
         return instance;
     }
@@ -29,6 +33,7 @@ public class Tunel {
     public void GetImage(){
         try{
             Imagechateau = ImageIO.read(getClass().getResourceAsStream("../images/tours/chateau.png"));
+            Imagechateau2 = ImageIO.read(getClass().getResourceAsStream("../images/tours/chateau2.png"));
             vies0 = ImageIO.read(getClass().getResourceAsStream("../images/tours/0vies.png"));
             vies1 = ImageIO.read(getClass().getResourceAsStream("../images/tours/1vie.png"));
             vies2 = ImageIO.read(getClass().getResourceAsStream("../images/tours/2vies.png"));
