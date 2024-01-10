@@ -93,4 +93,8 @@ public class TourSorcier extends Projectile {
     public void tirer(Graphics2D gq, Monstres target, ListeMonstresVivants list, int distance) {
         shootStrategy.tirer(gq, this, target, list, distance);
     }
+
+    public void amelioration(int numAmelio) {
+        this.setDamage(this.getDamage() + 1 * numAmelio);
+    }
 }

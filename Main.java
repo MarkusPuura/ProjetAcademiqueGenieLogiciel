@@ -20,7 +20,7 @@ public class Main {
         gamePanel.startThread();
 
         gamePanel.setGameOverListener(() -> {
-            
+
             GamePanel newGamePanel = new GamePanel(2);
 
             window.setTitle("Tower Defense level 2");

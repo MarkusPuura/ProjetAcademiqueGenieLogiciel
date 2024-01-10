@@ -1,13 +1,14 @@
 package Modele;
+
 public class ModifProjectileButtonAttribut {
     private int ameliorationCout;
     private int niveauAmelioration;
     private int venteArgentGagne;
-    public ModifProjectileButtonAttribut(Projectile p){
-        this.niveauAmelioration = 0;
-        this.ameliorationCout = p.getPrice()+30;
-        this.venteArgentGagne = p.getPrice()-30;
 
+    public ModifProjectileButtonAttribut(Projectile p) {
+        this.niveauAmelioration = 0;
+        this.ameliorationCout = p.getPrice() + 30;
+        this.venteArgentGagne = p.getPrice() - 30;
 
     }
 
@@ -18,16 +19,24 @@ public class ModifProjectileButtonAttribut {
             this.niveauAmelioration++;
         }
     }
-    public void setVenteArgentGagne(){
 
-            this.venteArgentGagne += 30;
+    public void setVenteArgentGagne() {
 
+        this.venteArgentGagne += 30;
 
     }
-    public int getAmeliorationCout(){
+
+    public int getAmeliorationCout() {
         return this.ameliorationCout;
     }
-    public int getVenteArgentGagne(){
+
+    public int getVenteArgentGagne() {
         return this.venteArgentGagne;
+    }
+
+    public void setAmelioration(Projectile p) {
+        if (this.niveauAmelioration < 3) {
+            p.amelioration(this.niveauAmelioration);
+        }
     }
 }

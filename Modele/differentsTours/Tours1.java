@@ -24,6 +24,11 @@ public class Tours1 extends Projectile {
         GetImage();
     }
 
+    public void amelioration(int numAmelio) {
+        this.setDamage(this.getDamage() + 1 * numAmelio);
+        this.setRadius(this.getRadius() + 10);
+    }
+
     public void GetImage() {
         try {
             image = ImageIO.read(getClass().getResourceAsStream("../../images/tours/tours1.png"));
@@ -31,7 +36,7 @@ public class Tours1 extends Projectile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     public void setTirStrategy(ShootStrategy shootStrategy) {

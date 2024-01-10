@@ -48,6 +48,10 @@ public class Canon extends Projectile {
 
     }
 
+    public void amelioration(int numAmelio) {
+        this.setDamage(this.getDamage() + 1 * numAmelio);
+    }
+
     public boolean canAffordAndClickTours1(int x, int y, int TailleCarre, int HauteurEcran, Kama k) {
         boolean isClicked = isClickedAndSelectionnedTours1(x, y, TailleCarre, HauteurEcran);
         boolean enoughMoney = hasEnoughMoney(k);

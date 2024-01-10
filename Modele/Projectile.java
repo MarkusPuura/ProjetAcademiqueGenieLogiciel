@@ -5,14 +5,14 @@ import java.awt.image.BufferedImage;
 
 import Controleur.ListeMonstresVivants;
 
-public class Projectile {
+public abstract class Projectile {
     private int price;
     private int damage;
     private int speed;
     public int x;
     public int y;
     private boolean active;
-    private final int radius;
+    private int radius;
     private Color color;
     private boolean tirePas;
     private int counterTirePas;
@@ -34,6 +34,10 @@ public class Projectile {
         this.active = true;
         this.modifAttribut = new ModifProjectileButtonAttribut(this);
 
+    }
+
+    public ModifProjectileButtonAttribut getModifAttribut() {
+        return this.modifAttribut;
     }
 
     public int getAmeliorationValue() {
@@ -112,6 +116,10 @@ public class Projectile {
 
     public void setTarget(Monstres target) {
         this.target = target;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
     }
 
     public void setPrice(int price) {
@@ -197,5 +205,9 @@ public class Projectile {
     }
 
     public void tirer(Graphics2D gq, Monstres monstres, ListeMonstresVivants list, int distance) {
+    }
+
+    public void amelioration(int numAmelio) {
+
     }
 }
