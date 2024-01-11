@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     int niveau = 1; // difficulté du jeu
     int FPS = 60;
     Chrono chrono = new Chrono();
-    public Kama kama = new Kama();
+    public Or or = new Or();
     public int fin; // quand passe à 1: le joueur a gagné, si passe à 2: il a perdu.
     public boolean tirePas = false;
     public int counterTirePas = 0;
@@ -37,7 +37,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final BarreInventaire barreInventaire;
     public Tours1 tours1inventaire = new Tours1(30, 10, 60, 6 * TailleCarre, HauteurEcran - 3 * TailleCarre, 100);
     Canon canonInventaire = new Canon(60, 15, 120, 11 * TailleCarre, HauteurEcran - 3 * TailleCarre, 150);
-    TourSorcier tourSorcierInventaire = new TourSorcier(90, 5, 180, 15 * TailleCarre, HauteurEcran - 3 * TailleCarre, 200);
+    TourSorcier tourSorcierInventaire = new TourSorcier(90, 5, 180, 15 * TailleCarre, HauteurEcran - 3 * TailleCarre,
+            200);
 
     public TourController tourController;
     Projectile tourToAmeliorate = null;
@@ -101,16 +102,16 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void drawProjectileInInventory(Graphics2D gq) {
         for (Projectile projectile : barreInventaire.getProjectiles()) {
-            if (this.lvl == 1){
+            if (this.lvl == 1) {
                 gq.drawImage(projectile.image, projectile.x, projectile.y, TailleCarre * 2, TailleCarre * 2, null);
             }
-            if (this.lvl == 2){
+            if (this.lvl == 2) {
                 gq.drawImage(projectile.image2, projectile.x, projectile.y, TailleCarre * 2, TailleCarre * 2, null);
             }
             gq.setColor(Color.WHITE);
             gq.setFont(new Font("Arial", Font.PLAIN, 15));
             gq.drawString(String.valueOf(projectile.getPrice()), projectile.x, HauteurEcran - TailleCarre / 2);
-            gq.drawImage(kama.image, projectile.x + TailleCarre, HauteurEcran - TailleCarre, TailleCarre - 6,
+            gq.drawImage(or.image, projectile.x + TailleCarre, HauteurEcran - TailleCarre, TailleCarre - 6,
                     TailleCarre - 6, null);
 
         }
@@ -189,7 +190,7 @@ public class GamePanel extends JPanel implements Runnable {
         int suppr = 0;
         if (iterateur != null) {
             if (iterateur.HP <= 0) {
-                kama.portefeuille += iterateur.kama; // on gagne le kama pour avoir tué le monstre
+                or.portefeuille += iterateur.or; // on gagne le or pour avoir tué le monstre
                 if (iterateur.bebes == 1) {
                     random.genererbebe(TailleCarre, liste_monstres, iterateur.x, iterateur.y, this.lvl);
                 }
@@ -208,7 +209,7 @@ public class GamePanel extends JPanel implements Runnable {
                 if (suppr == 0) {
                     iterateur = liste_monstres.suivant(iterateur);
                     if (iterateur.HP <= 0) {
-                        kama.portefeuille += iterateur.kama;
+                        or.portefeuille += iterateur.or;
                         if (iterateur.bebes == 1) {
                             random.genererbebe(TailleCarre, liste_monstres, iterateur.x, iterateur.y, this.lvl);
                         }
@@ -217,7 +218,7 @@ public class GamePanel extends JPanel implements Runnable {
                         iterateur = suivant;
                         suppr = 1;
                     }
-                    try{
+                    try {
                         if (iterateur.fin == 1) { // si il est arrivé au chateau
                             suivant = liste_monstres.suivant(iterateur);
                             liste_monstres.supprimer(iterateur);
@@ -225,11 +226,13 @@ public class GamePanel extends JPanel implements Runnable {
                             suppr = 1;
                             tunel.vies--;
                         }
-                    } catch (Exception e){System.out.println("null");}
+                    } catch (Exception e) {
+                        System.out.println("null");
+                    }
                 } else {
                     suppr = 0;
                     if (iterateur.HP <= 0) {
-                        kama.portefeuille += iterateur.kama;
+                        or.portefeuille += iterateur.or;
                         suivant = liste_monstres.suivant(iterateur);
                         liste_monstres.supprimer(iterateur);
                         iterateur = suivant;
@@ -261,14 +264,14 @@ public class GamePanel extends JPanel implements Runnable {
         Color quadrillage1 = new Color(79, 155, 79);
         Color fond = new Color(107, 175, 107);
         gq.setColor(fond);
-        if (this.lvl == 2){
+        if (this.lvl == 2) {
             Color fond2 = new Color(218, 179, 87);
             gq.setColor(fond2);
         }
         gq.fillRect(0, 0, LargeurEcran, HauteurEcran);
-        
+
         gq.setColor(quadrillage1);
-        if (this.lvl == 2){
+        if (this.lvl == 2) {
             gq.setColor(Color.black);
         }
         for (int i = 1; i <= ColonnesEcran; i++) {
@@ -286,7 +289,7 @@ public class GamePanel extends JPanel implements Runnable {
         gq.fillRect(0, HauteurEcran - 4 * TailleCarre, LargeurEcran, 4 * TailleCarre);
 
         // chemin
-        if (this.lvl == 1){
+        if (this.lvl == 1) {
             gq.setColor(Color.black);
             gq.fillRect(0, TailleCarre * 2, LargeurEcran - 2 * TailleCarre, 1);
             gq.fillRect(0, TailleCarre * 3, LargeurEcran - 3 * TailleCarre, 1);
@@ -309,7 +312,7 @@ public class GamePanel extends JPanel implements Runnable {
             // dessine le chateau
             gq.drawImage(tunel.Imagechateau, tunel.x1, tunel.y1, TailleCarre * 3, TailleCarre * 3, null);
         }
-        if (this.lvl == 2){
+        if (this.lvl == 2) {
             gq.setColor(Color.black);
             gq.fillRect(0, TailleCarre * 2, 16 * TailleCarre, 1);
             gq.fillRect(0, TailleCarre * 3, 15 * TailleCarre, 1);
@@ -388,10 +391,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void printRestOfMoney(Graphics2D gq) {
-        String afficherKama = ": " + kama.portefeuille;
-        gq.drawImage(kama.image, LargeurEcran - 9 * TailleCarre, 0, TailleCarre, TailleCarre, null);
+        String afficherOr = ": " + or.portefeuille;
+        gq.drawImage(or.image, LargeurEcran - 9 * TailleCarre, 0, TailleCarre, TailleCarre, null);
 
-        gq.drawString(afficherKama, LargeurEcran - 8 * TailleCarre, TailleCarre - 4);
+        gq.drawString(afficherOr, LargeurEcran - 8 * TailleCarre, TailleCarre - 4);
     }
 
     public void barreChoixProjectiles(Graphics2D gq) {
@@ -405,10 +408,10 @@ public class GamePanel extends JPanel implements Runnable {
         for (Projectile projectile : tourController.getTowersList()) {
             if (projectile.isActive()) {
                 // projectile.draw(gq);
-                if (this.lvl == 1){
+                if (this.lvl == 1) {
                     gq.drawImage(projectile.image, projectile.x, projectile.y, TailleCarre * 2, TailleCarre * 2, null);
                 }
-                if (this.lvl == 2){
+                if (this.lvl == 2) {
                     gq.drawImage(projectile.image2, projectile.x, projectile.y, TailleCarre * 2, TailleCarre * 2, null);
                 }
 
@@ -536,7 +539,7 @@ public class GamePanel extends JPanel implements Runnable {
         drawButtonsSelectedTower(gq);
 
         Monstres premier = null;
-        if (liste_monstres.isEmpty() == false){
+        if (liste_monstres.isEmpty() == false) {
             premier = liste_monstres.premier();
         }
         /*
@@ -572,10 +575,10 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
         tunel.updateVies();
-        if (this.lvl == 1){
+        if (this.lvl == 1) {
             gq.drawImage(tunel.Imagevies, tunel.x1, tunel.y1 + TailleCarre * 3, TailleCarre * 3, TailleCarre, null);
         }
-        if (this.lvl == 2){
+        if (this.lvl == 2) {
             gq.drawImage(tunel.Imagevies, tunel.x2, tunel.y2 + TailleCarre * 3, TailleCarre * 3, TailleCarre, null);
         }
 

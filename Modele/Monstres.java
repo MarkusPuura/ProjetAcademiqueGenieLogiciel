@@ -5,15 +5,15 @@ import java.awt.image.BufferedImage;
 public abstract class Monstres {
     public int HP;
     public double vitesse;
-    public int kama;
+    public int or;
     public int x, y;
     public int bebes;
     public int fin = 0; // si il est arrivé jusqu'au chateau
 
-    public Monstres(int HP, double vitesse, int kama, int x, int y, int bebes) {
+    public Monstres(int HP, double vitesse, int or, int x, int y, int bebes) {
         this.HP = HP;
         this.vitesse = vitesse;
-        this.kama = kama;
+        this.or = or;
         this.x = x;
         this.y = y;
         this.bebes = bebes; // si retourne des bebes quand meurt
@@ -183,7 +183,7 @@ public abstract class Monstres {
         return "Monstre{" +
                 "HP=" + this.HP +
                 ", vitesse=" + this.vitesse +
-                ", kama=" + this.kama +
+                ", or=" + this.or +
                 ", x=" + this.x +
                 ", y=" + this.y +
                 ", fin=" + this.fin +

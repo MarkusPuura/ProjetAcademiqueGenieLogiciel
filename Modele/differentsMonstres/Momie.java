@@ -1,17 +1,18 @@
 package Modele.differentsMonstres;
+
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import Modele.Monstres;
 
-public class Momie extends Monstres{
-    public Momie(int HP, double vitesse, int kama, int x, int y){
-        super(HP, vitesse, kama, x, y, 0);
+public class Momie extends Monstres {
+    public Momie(int HP, double vitesse, int or, int x, int y) {
+        super(HP, vitesse, or, x, y, 0);
         GetImage();
     }
 
-    public void GetImage(){
-        try{
+    public void GetImage() {
+        try {
             bas1 = ImageIO.read(getClass().getResourceAsStream("../../images/personnages/momie_bas1.png"));
             bas2 = ImageIO.read(getClass().getResourceAsStream("../../images/personnages/momie_bas2.png"));
             haut1 = ImageIO.read(getClass().getResourceAsStream("../../images/personnages/momie_haut1.png"));
@@ -20,9 +21,9 @@ public class Momie extends Monstres{
             gauche2 = ImageIO.read(getClass().getResourceAsStream("../../images/personnages/momie_gauche2.png"));
             droite1 = ImageIO.read(getClass().getResourceAsStream("../../images/personnages/momie_droite1.png"));
             droite2 = ImageIO.read(getClass().getResourceAsStream("../../images/personnages/momie_droite2.png"));
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
 }

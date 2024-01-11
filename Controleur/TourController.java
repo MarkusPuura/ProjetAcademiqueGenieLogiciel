@@ -1,4 +1,5 @@
 package Controleur;
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -16,13 +17,9 @@ public class TourController {
     private boolean displayButtons;
     private int selectedTowerX;
     private int selectedTowerY;
-    private final ButtonsProjectile buttonsProjectile ;
+    private final ButtonsProjectile buttonsProjectile;
 
-
-
-
-
-    public  TourController(GamePanel gamePanel, int largeurProjectile){
+    public TourController(GamePanel gamePanel, int largeurProjectile) {
         towersList = new ArrayList<>();
         this.gamePanel = gamePanel;
         this.largeurProjectile = largeurProjectile;
@@ -31,13 +28,15 @@ public class TourController {
 
     }
 
-    public BufferedImage getAmelioratePic(){
+    public BufferedImage getAmelioratePic() {
         return buttonsProjectile.getAmeliorateB();
     }
-    public BufferedImage getSellPic(){
+
+    public BufferedImage getSellPic() {
         return buttonsProjectile.getSellB();
     }
-    public BufferedImage getReturnPic(){
+
+    public BufferedImage getReturnPic() {
         return buttonsProjectile.getReturnB();
     }
 
@@ -49,25 +48,24 @@ public class TourController {
         this.lastClickedTower = lastClickedTower;
     }
 
-
     public void addTower(ProjectileType type, int x, int y, int lvl) {
-        if (checkValidPlacementTour(x,y) ){
-            Projectile projectile = ProjectileFactory.createProjectile(type,x,y);
+        if (checkValidPlacementTour(x, y)) {
+            Projectile projectile = ProjectileFactory.createProjectile(type, x, y);
 
             towersList.add(projectile);
-            gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
+            gamePanel.or.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
         } else {
             gamePanel.draggedTourImage = null;
         }
     }
+
     public void removeTower(Projectile p) {
         towersList.remove(p);
     }
 
-    public  boolean checkValidPlacementTour(int x, int y) {
-        int towerSize = 2*gamePanel.TailleCarre;
-
+    public boolean checkValidPlacementTour(int x, int y) {
+        int towerSize = 2 * gamePanel.TailleCarre;
 
         if (x < 0 || y < 0 || x + towerSize > gamePanel.LargeurEcran || y + towerSize > gamePanel.HauteurEcran) {
             return false;
@@ -83,9 +81,9 @@ public class TourController {
             }
         }
 
-
         return true;
     }
+
     public ArrayList<Projectile> getTowersList() {
         return towersList;
     }
@@ -93,23 +91,26 @@ public class TourController {
     public void setTowersList(ArrayList<Projectile> towersList) {
         this.towersList = towersList;
     }
+
     public void afficheListeTours() {
         System.out.println("Tour List:");
         for (Projectile tower : towersList) {
             System.out.println(tower);
         }
     }
+
     public Projectile selectProjectileToAmeliorate(int mouseX, int mouseY) {
         for (Projectile tower : towersList) {
 
-            if (mouseX >= tower.getX() && mouseX <= tower.getX() + largeurProjectile&&
-                    mouseY >= tower.getY() && mouseY <= tower.getY() + largeurProjectile ) {
+            if (mouseX >= tower.getX() && mouseX <= tower.getX() + largeurProjectile &&
+                    mouseY >= tower.getY() && mouseY <= tower.getY() + largeurProjectile) {
 
                 return tower;
             }
         }
         return null;
     }
+
     public boolean isDisplayButtons() {
         return displayButtons;
     }

@@ -39,7 +39,6 @@ public class MouseController {
                 break;
 
         }
-        // gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
         // tourProjectile.afficherTours1();
 
@@ -126,7 +125,7 @@ public class MouseController {
         if (gamePanel.fin != 1 && !gamePanel.isPaused) {
             System.out.println(gamePanel.fin);
             gamePanel.toursSelected = gamePanel.barreInventaire.selectProjectileFromInventory(mouseX, mouseY,
-                    gamePanel.kama);
+                    gamePanel.or);
             System.out.println(gamePanel.toursSelected);
         }
     }
@@ -150,7 +149,6 @@ public class MouseController {
             }
             createProjectile(x, y);
             gamePanel.tourController.afficheListeTours();
-            // gamePanel.kama.buyProjectile(gamePanel.tours1inventaire.getPrice());
 
         } else if (pathController.isOnPath(mouseX, mouseY, lvl) && gamePanel.fin != 2 && gamePanel.fin != 1) {
             isOnPathBoolean = true;
@@ -210,7 +208,7 @@ public class MouseController {
         } else if (mouseX >= projectileX && mouseX <= projectileX + buttonWidth &&
                 mouseY >= projectileY - 2 * TailleCarre && mouseY <= projectileY - 2 * TailleCarre + buttonHeight) {
             System.out.println("vente");
-            gamePanel.kama.portefeuille += gamePanel.tourController.getLastClickedTower().getSellValue();
+            gamePanel.or.portefeuille += gamePanel.tourController.getLastClickedTower().getSellValue();
             gamePanel.tourController.removeTower(gamePanel.tourController.getLastClickedTower());
             gamePanel.tourController.setDisplayButtons(false);
             gamePanel.tourController.setLastClickedTower(null);
@@ -231,7 +229,7 @@ public class MouseController {
 
     private void handleMouseEntered(int mouseX, int mouseY) {
         boolean affordAndClick = gamePanel.tours1inventaire.canAffordAndClickTours1(mouseX, mouseY,
-                gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
+                gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.or);
         System.out.println(affordAndClick);
         if (affordAndClick) {
             System.out.println("souris survol");
@@ -240,7 +238,7 @@ public class MouseController {
 
     private void handleMouseExited(int mouseX, int mouseY) {
         boolean affordAndClick = gamePanel.tours1inventaire.canAffordAndClickTours1(mouseX, mouseY,
-                gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.kama);
+                gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.or);
         if (!affordAndClick) {
             System.out.println("plus souris survol");
         }

@@ -180,7 +180,7 @@ public abstract class Projectile {
         }
     }
 
-    public boolean hasEnoughMoney(Kama k) {
+    public boolean hasEnoughMoney(Or k) {
         return this.getPrice() <= k.portefeuille;
 
     }
