@@ -168,7 +168,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
 
         // cree monstres via la GenerationRandomMonstres
-        random.generermonstre(chrono, TailleCarre, liste_monstres, debut); // ITERATOR (Design pattern)
+        random.generermonstre(chrono, TailleCarre, liste_monstres, debut, this.lvl); // ITERATOR (Design pattern)
         debut = 1; // si pas de monstre ça ne marche pas bizzarement...
         Monstres iterateur = null;
         if (!liste_monstres.isEmpty()) {
