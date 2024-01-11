@@ -151,12 +151,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void increaseGameSpeed() {
         FPS *= 2;
-        System.out.println("FPS : " + FPS);
     }
 
     public void decreaseGameSpeed() {
         FPS /= 2;
-        System.out.println("FPS : " + FPS);
     }
 
     GenerationRandomMonstres random = new GenerationRandomMonstres(niveau);

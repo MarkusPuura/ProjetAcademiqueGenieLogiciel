@@ -122,7 +122,7 @@ public class MouseController {
     }
 
     private void handleMousePress(int mouseX, int mouseY) {
-        if (gamePanel.fin != 1 && !gamePanel.isPaused) {
+        if (gamePanel.fin != 1 && gamePanel.fin != 2 && !gamePanel.isPaused) {
             System.out.println(gamePanel.fin);
             gamePanel.toursSelected = gamePanel.barreInventaire.selectProjectileFromInventory(mouseX, mouseY,
                     gamePanel.or);

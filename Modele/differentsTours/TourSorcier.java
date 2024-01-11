@@ -3,7 +3,7 @@ package Modele.differentsTours;
 import javax.imageio.ImageIO;
 
 import Controleur.ListeMonstresVivants;
-import Modele.Kama;
+import Modele.Or;
 import Modele.Monstres;
 import Modele.Projectile;
 import Modele.proj.ShootStrategy;
@@ -48,13 +48,13 @@ public class TourSorcier extends Projectile {
 
     }
 
-    public boolean canAffordAndClickTours1(int x, int y, int TailleCarre, int HauteurEcran, Kama k) {
+    public boolean canAffordAndClickTours1(int x, int y, int TailleCarre, int HauteurEcran, Or k) {
         boolean isClicked = isClickedAndSelectionnedTours1(x, y, TailleCarre, HauteurEcran);
         boolean enoughMoney = hasEnoughMoney(k);
         return isClicked && enoughMoney;
     }
 
-    public TourSorcier getSelectedTower(int x, int y, int TailleCarre, int HauteurEcran, Kama k) {
+    public TourSorcier getSelectedTower(int x, int y, int TailleCarre, int HauteurEcran, Or k) {
         boolean affordAndClick = canAffordAndClickTours1(x, y, TailleCarre, HauteurEcran, k);
 
         if (affordAndClick) {
