@@ -3,7 +3,7 @@ package Modele.differentsTours;
 import javax.imageio.ImageIO;
 
 import Controleur.ListeMonstresVivants;
-import Modele.Kama;
+import Modele.Or;
 import Modele.Monstres;
 import Modele.Projectile;
 import Modele.proj.ShootStrategy;
@@ -35,6 +35,7 @@ public class Canon extends Projectile {
         try {
             image = ImageIO.read(getClass().getResourceAsStream("../../images/tours/CannonAB.png"));
             image2 = ImageIO.read(getClass().getResourceAsStream("../../images/tours/CannonAB2.png"));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,6 +51,8 @@ public class Canon extends Projectile {
 
     public void amelioration(int numAmelio) {
         this.setDamage(this.getDamage() + 1 * numAmelio);
+        this.setSpeed(this.getSpeed() - 5 * numAmelio);
+        // this.setRadius(this.getRadius() + 10);
     }
 
     public boolean canAffordAndClickTours1(int x, int y, int TailleCarre, int HauteurEcran, Kama k) {

@@ -514,10 +514,14 @@ public class GamePanel extends JPanel implements Runnable {
 
             String ameliorationPrice = String.valueOf(tourController.getLastClickedTower().getAmeliorationValue());
             String sellMoney = String.valueOf(tourController.getLastClickedTower().getSellValue());
+            String niveau = String
+                    .valueOf(tourController.getLastClickedTower().getModifAttribut().getNiveauAmelioration());
             gq.setColor(Color.BLACK);
             gq.setFont(new Font("Arial", Font.PLAIN, 20));
             gq.drawString(ameliorationPrice, projectileX - TailleCarre - 15, projectileY - 3);
             gq.drawString(sellMoney, projectileX + 22, projectileY - 3);
+            gq.drawString(niveau, projectileX + TailleCarre - 5, projectileY + 3 * TailleCarre);
+
             drawCircleButtonDisposition(gq, projectileX, projectileY);
 
         }

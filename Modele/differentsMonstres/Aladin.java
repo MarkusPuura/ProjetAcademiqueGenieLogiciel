@@ -6,8 +6,8 @@ import javax.imageio.ImageIO;
 import Modele.Monstres;
 
 public class Aladin extends Monstres {
-    public Aladin(int HP, double vitesse, int kama, int x, int y) {
-        super(HP, vitesse, kama, x, y, 1);
+    public Aladin(int HP, double vitesse, int or, int x, int y) {
+        super(HP, vitesse, or, x, y, 1);
         GetImage();
     }
 

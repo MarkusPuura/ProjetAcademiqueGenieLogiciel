@@ -12,6 +12,10 @@ public class ModifProjectileButtonAttribut {
 
     }
 
+    public int getNiveauAmelioration() {
+        return this.niveauAmelioration;
+    }
+
     public void setAmeliorationCout() {
         if (this.niveauAmelioration < 3) {
             this.ameliorationCout += 30;

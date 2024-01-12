@@ -65,37 +65,42 @@ public class MouseController {
     public void initializeMouseListener() {
         gamePanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if (!gamePanel.tourController.isDisplayButtons()) {
-                    System.out.println("!bouton");
-                    handleMouseClick(e.getX(), e.getY());
-                } else if (gamePanel.tourController.isDisplayButtons()) {
-                    System.out.println("bouton");
-                    handleMouseClickButtons(e.getX(), e.getY());
+                if (gamePanel.fin != 1 && gamePanel.fin != 2 && !gamePanel.isPaused) {
+                    if (!gamePanel.tourController.isDisplayButtons()) {
+                        // System.out.println("!bouton");
+                        handleMouseClick(e.getX(), e.getY());
+                    } else if (gamePanel.tourController.isDisplayButtons()) {
+                        // System.out.println("bouton");
+                        handleMouseClickButtons(e.getX(), e.getY());
+                    }
                 }
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                int x, y;
-                if ((e.getX()) % TailleCarre < TailleCarre / 2) {
-                    x = e.getX() - (e.getX()) % TailleCarre - TailleCarre;
-                } else {
-                    x = e.getX() - (e.getX()) % TailleCarre;
+                if (gamePanel.fin != 1 && gamePanel.fin != 2 && !gamePanel.isPaused) {
+                    int x, y;
+                    if ((e.getX()) % TailleCarre < TailleCarre / 2) {
+                        x = e.getX() - (e.getX()) % TailleCarre - TailleCarre;
+                    } else {
+                        x = e.getX() - (e.getX()) % TailleCarre;
+                    }
+                    if ((e.getY()) % TailleCarre < TailleCarre / 2) {
+                        y = e.getY() - (e.getY()) % TailleCarre - TailleCarre;
+                    } else {
+                        y = e.getY() - (e.getY()) % TailleCarre;
+                    }
+                    handleMousePress(x, y);
+                    gamePanel.setIsDragging(true);
                 }
-                if ((e.getY()) % TailleCarre < TailleCarre / 2) {
-                    y = e.getY() - (e.getY()) % TailleCarre - TailleCarre;
-                } else {
-                    y = e.getY() - (e.getY()) % TailleCarre;
-                }
-                handleMousePress(x, y);
-                gamePanel.setIsDragging(true);
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
-                handleMouseRelease(e.getX(), e.getY());
-                gamePanel.setIsDragging(false);
+                if (gamePanel.fin != 1 && gamePanel.fin != 2 && !gamePanel.isPaused) {
+                    handleMouseRelease(e.getX(), e.getY());
+                    gamePanel.setIsDragging(false);
+                }
             }
 
         });
@@ -103,18 +108,21 @@ public class MouseController {
         gamePanel.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                int x, y;
-                if ((e.getX()) % TailleCarre < TailleCarre / 2) {
-                    x = e.getX() - (e.getX()) % TailleCarre - TailleCarre;
-                } else {
-                    x = e.getX() - (e.getX()) % TailleCarre;
+                if (gamePanel.fin != 1 && gamePanel.fin != 2 && !gamePanel.isPaused
+                        && gamePanel.toursSelected != null) {
+                    int x, y;
+                    if ((e.getX()) % TailleCarre < TailleCarre / 2) {
+                        x = e.getX() - (e.getX()) % TailleCarre - TailleCarre;
+                    } else {
+                        x = e.getX() - (e.getX()) % TailleCarre;
+                    }
+                    if ((e.getY()) % TailleCarre < TailleCarre / 2) {
+                        y = e.getY() - (e.getY()) % TailleCarre - TailleCarre;
+                    } else {
+                        y = e.getY() - (e.getY()) % TailleCarre;
+                    }
+                    handleMouseDrag(x, y);
                 }
-                if ((e.getY()) % TailleCarre < TailleCarre / 2) {
-                    y = e.getY() - (e.getY()) % TailleCarre - TailleCarre;
-                } else {
-                    y = e.getY() - (e.getY()) % TailleCarre;
-                }
-                handleMouseDrag(x, y);
             }
 
         });
@@ -122,19 +130,17 @@ public class MouseController {
     }
 
     private void handleMousePress(int mouseX, int mouseY) {
-        if (gamePanel.fin != 1 && gamePanel.fin != 2 && !gamePanel.isPaused) {
-            System.out.println(gamePanel.fin);
-            gamePanel.toursSelected = gamePanel.barreInventaire.selectProjectileFromInventory(mouseX, mouseY,
-                    gamePanel.or);
-            System.out.println(gamePanel.toursSelected);
-        }
+        // if (gamePanel.fin != 1 && gamePanel.fin != 2 && !gamePanel.isPaused) {
+        // System.out.println(gamePanel.fin);
+        gamePanel.toursSelected = gamePanel.barreInventaire.selectProjectileFromInventory(mouseX, mouseY,
+                gamePanel.or);
+        // }
     }
 
     private void handleMouseRelease(int mouseX, int mouseY) {
         // System.out.println("release");
 
-        if (!pathController.isOnPath(mouseX, mouseY, lvl) && gamePanel.toursSelected != null && gamePanel.fin != 2
-                && gamePanel.fin != 1) {
+        if (!pathController.isOnPath(mouseX, mouseY, lvl) && gamePanel.toursSelected != null) {
             isOnPathBoolean = false;
             int x, y;
             if ((mouseX) % TailleCarre < TailleCarre / 2) {
@@ -161,34 +167,32 @@ public class MouseController {
     }
 
     private void handleMouseDrag(int mouseX, int mouseY) {
-        if (gamePanel.toursSelected != null && gamePanel.fin != 2 && gamePanel.fin != 1) {
-            gamePanel.setMousePosition(mouseX, mouseY);
-            if (this.lvl == 1) {
-                gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.image, gamePanel.getMouseX(),
-                        gamePanel.getMouseY(), lvl);
-            }
-            if (this.lvl == 2) {
-                gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.image2, gamePanel.getMouseX(),
-                        gamePanel.getMouseY(), lvl);
-            }
+        gamePanel.setMousePosition(mouseX, mouseY);
+        if (this.lvl == 1) {
+            gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.image, gamePanel.getMouseX(),
+                    gamePanel.getMouseY(), lvl);
+        }
+        if (this.lvl == 2) {
+            gamePanel.drawTourImageAtPosition(gamePanel.toursSelected.image2, gamePanel.getMouseX(),
+                    gamePanel.getMouseY(), lvl);
         }
 
     }
 
     private void handleMouseClick(int mouseX, int mouseY) {
-        if (gamePanel.fin != 1 && gamePanel.fin != 2 && !gamePanel.isPaused) {
-            Projectile clickedTower = gamePanel.tourController.selectProjectileToAmeliorate(mouseX, mouseY);
-            if (clickedTower != null) {
-                gamePanel.tourController.setLastClickedTower(clickedTower);
-                gamePanel.tourController.setDisplayButtons(true);
-                gamePanel.tourController.setSelectedTowerX(clickedTower.getX());
-                gamePanel.tourController.setSelectedTowerY(clickedTower.getY());
-                System.out.println(gamePanel.tourController.getLastClickedTower());
-
-            }
-            System.out.println(gamePanel.tourController.getLastClickedTower());
+        // if (gamePanel.fin != 1 && gamePanel.fin != 2 && !gamePanel.isPaused) {
+        Projectile clickedTower = gamePanel.tourController.selectProjectileToAmeliorate(mouseX, mouseY);
+        if (clickedTower != null) {
+            gamePanel.tourController.setLastClickedTower(clickedTower);
+            gamePanel.tourController.setDisplayButtons(true);
+            gamePanel.tourController.setSelectedTowerX(clickedTower.getX());
+            gamePanel.tourController.setSelectedTowerY(clickedTower.getY());
+            // System.out.println(gamePanel.tourController.getLastClickedTower());
 
         }
+        // System.out.println(gamePanel.tourController.getLastClickedTower());
+
+        // }
     }
 
     public void handleMouseClickButtons(int mouseX, int mouseY) {
@@ -230,9 +234,9 @@ public class MouseController {
     private void handleMouseEntered(int mouseX, int mouseY) {
         boolean affordAndClick = gamePanel.tours1inventaire.canAffordAndClickTours1(mouseX, mouseY,
                 gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.or);
-        System.out.println(affordAndClick);
+        // System.out.println(affordAndClick);
         if (affordAndClick) {
-            System.out.println("souris survol");
+            // System.out.println("souris survol");
         }
     }
 
@@ -240,7 +244,7 @@ public class MouseController {
         boolean affordAndClick = gamePanel.tours1inventaire.canAffordAndClickTours1(mouseX, mouseY,
                 gamePanel.TailleCarre, gamePanel.HauteurEcran, gamePanel.or);
         if (!affordAndClick) {
-            System.out.println("plus souris survol");
+            // System.out.println("plus souris survol");
         }
     }
 
