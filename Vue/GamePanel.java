@@ -341,7 +341,9 @@ public class GamePanel extends JPanel implements Runnable {
             gq.setColor(Color.red);
             gq.setFont(new Font("Arial", Font.PLAIN, 75));
             gq.drawString(messageVictoire, 5 * TailleCarre, HauteurEcran / 2);
+
             gameOver();
+
         }
         if (fin == 2) { // Si le joueur a perdu (dernier update)
 

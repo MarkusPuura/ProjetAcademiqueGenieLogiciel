@@ -21,6 +21,10 @@ public abstract class Monstres {
         this.initVitesse = vitesse;
     }
 
+    public void resetMonsterSpeed() {
+        this.vitesse = this.initVitesse;
+    }
+
     public int getX() {
         return this.x;
     }

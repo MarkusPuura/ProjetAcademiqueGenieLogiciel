@@ -12,6 +12,10 @@ public class ListeMonstresVivants {
         liste = new LinkedList<>();
     }
 
+    public LinkedList<Monstres> getListe() {
+        return this.liste;
+    }
+
     public boolean estDansZone(Monstres premMonstre, Monstres monstreAChercher, int TailleCarre) {
         return Math.abs(premMonstre.getX() - monstreAChercher.getX()) <= 2 * TailleCarre
                 && Math.abs(premMonstre.getY() - monstreAChercher.getY()) <= 2 * TailleCarre;

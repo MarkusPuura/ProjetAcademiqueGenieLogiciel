@@ -13,6 +13,7 @@ public class RallentirShoot implements ShootStrategy {
     public void tirer(Graphics2D gq, Projectile projectile, Monstres target, ListeMonstresVivants list, int distance) {
         // System.out.println("slowww");
         // double initVitesse = target.vitesse;
+
         Monstres iterateur = list.premier();
         while (iterateur != null) {
             // double initVitesse = iterateur.vitesse;
@@ -22,7 +23,8 @@ public class RallentirShoot implements ShootStrategy {
                 // System.out.println(iterateur.vitesse);
                 iterateur.slowerMonster(1);
             } else if (!projectile.checkInRange(iterateur) && iterateur.HP > 0) {
-                iterateur.vitesse = iterateur.initVitesse;
+                iterateur.resetMonsterSpeed();
+
             }
 
             iterateur = list.suivant(iterateur);

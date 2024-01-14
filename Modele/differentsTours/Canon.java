@@ -10,7 +10,6 @@ import Modele.proj.ShootStrategy;
 import Vue.ZonedShoot;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Canon extends Projectile {
@@ -55,13 +54,13 @@ public class Canon extends Projectile {
         // this.setRadius(this.getRadius() + 10);
     }
 
-    public boolean canAffordAndClickTours1(int x, int y, int TailleCarre, int HauteurEcran, Kama k) {
+    public boolean canAffordAndClickTours1(int x, int y, int TailleCarre, int HauteurEcran, Or k) {
         boolean isClicked = isClickedAndSelectionnedTours1(x, y, TailleCarre, HauteurEcran);
         boolean enoughMoney = hasEnoughMoney(k);
         return isClicked && enoughMoney;
     }
 
-    public Canon getSelectedTower(int x, int y, int TailleCarre, int HauteurEcran, Kama k) {
+    public Canon getSelectedTower(int x, int y, int TailleCarre, int HauteurEcran, Or k) {
         boolean affordAndClick = canAffordAndClickTours1(x, y, TailleCarre, HauteurEcran, k);
 
         if (affordAndClick) {

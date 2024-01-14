@@ -93,6 +93,7 @@ public class MouseController {
                     handleMousePress(x, y);
                     gamePanel.setIsDragging(true);
                 }
+                // gamePanel.setIsDragging(false);
             }
 
             @Override

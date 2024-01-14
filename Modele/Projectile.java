@@ -13,7 +13,6 @@ public abstract class Projectile {
     public int y;
     private boolean active;
     private int radius;
-    private Color color;
     private boolean tirePas;
     private int counterTirePas;
 
