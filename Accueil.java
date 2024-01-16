@@ -72,11 +72,12 @@ public class Accueil {
 
         ImageIcon buttonIcon = new ImageIcon(bouton);
         JButton startButton = new JButton(buttonIcon);
-        startButton.setBounds(0, 0, 50, 50);
+        startButton.setBounds(2000, 0, 50, 50);
         styliserBouton(startButton);
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 startGame();
             }
         });
@@ -93,7 +94,7 @@ public class Accueil {
         bouton.setOpaque(false);
     }
 
-    private static void startGame() {
+    public void startGame() {
         JFrame window = new JFrame();
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,7 +103,7 @@ public class Accueil {
         GamePanel gamePanel = new GamePanel(1);
 
         window.add(gamePanel);
-        // window.add(startButton);
+       // window.add(startButton);
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);

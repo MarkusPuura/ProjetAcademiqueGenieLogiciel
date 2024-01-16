@@ -16,6 +16,8 @@ public class GenerationRandomMonstres {
 
         if (lvl == 1) {
             if (debut == 0) {
+                Serpent serpent = new Serpent(20, 2, 2, 0, TailleCarre*2);
+                liste_monstres.ajouterEnFin(serpent);
                 Monstres zombie = new Zombie(40, 1, 5, 0, TailleCarre * 2);
                 liste_monstres.ajouterEnFin(zombie);
             }

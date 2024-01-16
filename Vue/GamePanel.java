@@ -53,6 +53,9 @@ public class GamePanel extends JPanel implements Runnable {
     private int mouseY;
     boolean isDragging;
 
+    public int ralentir = 0;
+    public int est_ralenti = 0;
+
     public GamePanel(int lvl) {
         this.setPreferredSize(new Dimension(LargeurEcran, HauteurEcran));
         this.setBackground(Color.white);
@@ -172,13 +175,18 @@ public class GamePanel extends JPanel implements Runnable {
         Monstres iterateur = null;
         if (!liste_monstres.isEmpty()) {
             iterateur = liste_monstres.premier();
+            est_ralenti = iterateur.est_ralenti;
         }
 
         if (iterateur != null) {
-            iterateur.updateMonstre(TailleCarre, HauteurEcran, LargeurEcran, lvl);
+            iterateur.updateMonstre(TailleCarre, HauteurEcran, LargeurEcran, lvl, ralentir, est_ralenti);
+            if (ralentir == 1){
+                ralentir = 0;
+            } else {ralentir = 1;}
             while (liste_monstres.suivant((iterateur)) != null) {
                 iterateur = liste_monstres.suivant(iterateur);
-                iterateur.updateMonstre(TailleCarre, HauteurEcran, LargeurEcran, lvl);
+                est_ralenti = iterateur.est_ralenti;
+                iterateur.updateMonstre(TailleCarre, HauteurEcran, LargeurEcran, lvl, ralentir, est_ralenti);
             }
         }
 
