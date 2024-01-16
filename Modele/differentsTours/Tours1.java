@@ -26,6 +26,7 @@ public class Tours1 extends Projectile {
     public void amelioration(int numAmelio) {
         this.setDamage(this.getDamage() + 1 * numAmelio);
         this.setRadius(this.getRadius() + 10);
+        System.out.println("radius" + this.getRadius() + " damage " + this.getDamage());
     }
 
     public void GetImage() {

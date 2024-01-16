@@ -55,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public int ralentir = 0;
     public int est_ralenti = 0;
+    public Musique musique;
 
     public GamePanel(int lvl) {
         this.setPreferredSize(new Dimension(LargeurEcran, HauteurEcran));
@@ -70,6 +71,8 @@ public class GamePanel extends JPanel implements Runnable {
         isDragging = false;
         initializeBarreInventaireList();
         this.lvl = lvl;
+        musique = new Musique();
+
     }
 
     public void setMousePosition(int x, int y) {
@@ -180,9 +183,11 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (iterateur != null) {
             iterateur.updateMonstre(TailleCarre, HauteurEcran, LargeurEcran, lvl, ralentir, est_ralenti);
-            if (ralentir == 1){
+            if (ralentir == 1) {
                 ralentir = 0;
-            } else {ralentir = 1;}
+            } else {
+                ralentir = 1;
+            }
             while (liste_monstres.suivant((iterateur)) != null) {
                 iterateur = liste_monstres.suivant(iterateur);
                 est_ralenti = iterateur.est_ralenti;

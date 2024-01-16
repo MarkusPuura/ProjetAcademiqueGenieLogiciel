@@ -204,15 +204,21 @@ public class MouseController {
 
         if (mouseX >= projectileX - 2 * TailleCarre - 5 && mouseX <= projectileX - 2 * TailleCarre - 5 + buttonWidth &&
                 mouseY >= projectileY - 2 * TailleCarre && mouseY <= projectileY - 2 * TailleCarre + buttonHeight) {
-            System.out.println("amelioration");
-            gamePanel.tourController.getLastClickedTower().setAmeliorationValue();
-            // gamePanel.tourController.getLastClickedTower().amelioration(1);
-            gamePanel.tourController.getLastClickedTower().getModifAttribut()
-                    .setAmelioration(gamePanel.tourController.getLastClickedTower());
-            // gamePanel.tourController.getLastClickedTower().setAmeliorationValue();
+            int prix = gamePanel.tourController.getLastClickedTower().getModifAttribut().getAmeliorationCout();
+            if (prix <= gamePanel.or.portefeuille) {
+                // System.out.println("amelioration");
+                gamePanel.tourController.getLastClickedTower().setAmeliorationValue();
+                gamePanel.tourController.getLastClickedTower().getModifAttribut()
+                        .setAmelioration(gamePanel.tourController.getLastClickedTower());
+
+                if (gamePanel.tourController.getLastClickedTower().getModifAttribut().niveauxInf3()) {
+                    gamePanel.or.portefeuille -= prix;
+                }
+            }
+
         } else if (mouseX >= projectileX && mouseX <= projectileX + buttonWidth &&
                 mouseY >= projectileY - 2 * TailleCarre && mouseY <= projectileY - 2 * TailleCarre + buttonHeight) {
-            System.out.println("vente");
+            // System.out.println("vente");
             gamePanel.or.portefeuille += gamePanel.tourController.getLastClickedTower().getSellValue();
             gamePanel.tourController.removeTower(gamePanel.tourController.getLastClickedTower());
             gamePanel.tourController.setDisplayButtons(false);
@@ -221,7 +227,7 @@ public class MouseController {
         } else if (mouseX >= projectileX + 2 * TailleCarre + 5
                 && mouseX <= projectileX + 2 * TailleCarre + 5 + buttonWidth &&
                 mouseY >= projectileY - 2 * TailleCarre && mouseY <= projectileY - 2 * TailleCarre + buttonHeight) {
-            System.out.println("retour");
+            // System.out.println("retour");
             gamePanel.tourController.setDisplayButtons(false);
             gamePanel.tourController.setLastClickedTower(null);
 

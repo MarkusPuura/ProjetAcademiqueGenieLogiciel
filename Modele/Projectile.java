@@ -15,7 +15,6 @@ public abstract class Projectile {
     private int radius;
     private boolean tirePas;
     private int counterTirePas;
-
     public BufferedImage image, image2;
     private Monstres target;
     private int numType;

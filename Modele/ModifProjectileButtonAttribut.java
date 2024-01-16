@@ -16,8 +16,12 @@ public class ModifProjectileButtonAttribut {
         return this.niveauAmelioration;
     }
 
+    public boolean niveauxInf3() {
+        return this.niveauAmelioration <= 3;
+    }
+
     public void setAmeliorationCout() {
-        if (this.niveauAmelioration < 3) {
+        if (niveauxInf3()) {
             this.ameliorationCout += 30;
             this.venteArgentGagne += 30;
             this.niveauAmelioration++;
@@ -39,7 +43,7 @@ public class ModifProjectileButtonAttribut {
     }
 
     public void setAmelioration(Projectile p) {
-        if (this.niveauAmelioration < 3) {
+        if (niveauxInf3()) {
             p.amelioration(this.niveauAmelioration);
         }
     }

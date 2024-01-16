@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
-
+import Modele.Musique;
 import Vue.GamePanel;
 
 public class Accueil {
@@ -24,12 +23,15 @@ public class Accueil {
     private JFrame homeWindow;
     private JPanel homePanel;
     private JButton startButton;
+    private Musique m;
 
     public Accueil() {
         GetImage();
         this.homeWindow = creerPageAccueil();
         this.homePanel = createHomePanel();
         this.startButton = createStartButton();
+        this.m = new Musique();
+
     }
 
     public void GetImage() {
@@ -77,7 +79,8 @@ public class Accueil {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                m.stopperMusique();
+
                 startGame();
             }
         });
@@ -103,7 +106,7 @@ public class Accueil {
         GamePanel gamePanel = new GamePanel(1);
 
         window.add(gamePanel);
-       // window.add(startButton);
+        // window.add(startButton);
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);

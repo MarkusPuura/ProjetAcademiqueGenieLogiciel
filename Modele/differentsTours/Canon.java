@@ -51,6 +51,8 @@ public class Canon extends Projectile {
     public void amelioration(int numAmelio) {
         this.setDamage(this.getDamage() + 1 * numAmelio);
         this.setSpeed(this.getSpeed() - 5 * numAmelio);
+        System.out.println("speed" + this.getSpeed() + " damage " + this.getDamage());
+
         // this.setRadius(this.getRadius() + 10);
     }
 

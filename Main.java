@@ -5,6 +5,7 @@ public class Main {
         javax.swing.SwingUtilities.invokeLater(() -> {
             Accueil accueil = new Accueil();
             accueil.afficherAccueil();
+
         });
     }
 

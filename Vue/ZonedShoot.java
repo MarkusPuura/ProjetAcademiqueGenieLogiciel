@@ -5,12 +5,14 @@ import java.awt.*;
 import Controleur.ListeMonstresVivants;
 import Modele.Monstres;
 import Modele.Projectile;
+import Modele.ShotSound;
 import Modele.proj.ShootStrategy;
 
 public class ZonedShoot implements ShootStrategy {
     @Override
     public void tirer(Graphics2D gq, Projectile projectile, Monstres target, ListeMonstresVivants list, int distance) {
         if (target != null && projectile.checkInRange(target) && target.HP > 0 && !projectile.getTirePas()) {
+            ShotSound.shotSound("../sons/canon.wav");
             Stroke oldStroke = gq.getStroke();
             float strokeWidth = 12.0f;
             gq.setStroke(new BasicStroke(strokeWidth));

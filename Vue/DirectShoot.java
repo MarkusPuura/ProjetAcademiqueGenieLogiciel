@@ -1,22 +1,19 @@
 package Vue;
 
 import java.awt.*;
+import java.io.IOException;
 
 import Controleur.ListeMonstresVivants;
 import Modele.*;
 import Modele.proj.ShootStrategy;
 
 public class DirectShoot implements ShootStrategy {
-    private Polygon createTriangle(int x, int y, int size) {
-        int[] xPoints = { x, x + size, x - size / 2 };
-        int[] yPoints = { y, y + size, y + size };
-
-        return new Polygon(xPoints, yPoints, 3);
-    }
 
     @Override
     public void tirer(Graphics2D gq, Projectile projectile, Monstres target, ListeMonstresVivants list, int distance) {
+
         if (target != null && projectile.checkInRange(target) && target.HP > 0 && !projectile.getTirePas()) {
+            ShotSound.shotSound("../sons/tour2.wav");
             Stroke oldStroke = gq.getStroke();
             float strokeWidth = 9.0f;
             gq.setStroke(new BasicStroke(strokeWidth));

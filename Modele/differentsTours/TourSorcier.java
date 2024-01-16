@@ -10,7 +10,6 @@ import Modele.proj.ShootStrategy;
 import Vue.RallentirShoot;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class TourSorcier extends Projectile {
@@ -98,5 +97,7 @@ public class TourSorcier extends Projectile {
     public void amelioration(int numAmelio) {
         // this.setDamage(this.getDamage() + 1 * numAmelio);
         this.setRadius(this.getRadius() + 20);
+        System.out.println("radius" + this.getRadius());
+
     }
 }
