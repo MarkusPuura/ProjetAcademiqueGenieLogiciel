@@ -10,7 +10,7 @@ public class Or { // si on rajoute pas d'autres propriétés en lien avec l'arge
     public BufferedImage image;
 
     public Or() {
-        this.portefeuille = 1000;
+        this.portefeuille = 60;
         GetImage();
     }
 

@@ -270,11 +270,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         isPaused = !isPaused;
         if (isPaused) {
-            System.out.println("pause");
             musique.stopperMusique();
         } else {
             musique.jouerMusiqueEnBoucle("../sons/musique.wav");
-            System.out.println("pas pause");
 
         }
 
@@ -595,19 +593,23 @@ public class GamePanel extends JPanel implements Runnable {
             gq.fillRect(premier.x + TailleCarre / 2 - premier.HP / 2, premier.y - 4, premier.HP, 3);
             while (liste_monstres.suivant((premier)) != null) {
                 drawLineBetweenMonsterProjectile(gq, premier);
+                if (premier != null) {
 
-                premier = liste_monstres.suivant(premier);
+                    premier = liste_monstres.suivant(premier);
 
-                premier.deplacementZombie();
-                gq.drawImage(premier.image, premier.x, premier.y, TailleCarre, TailleCarre, null);
-                gq.setColor(Color.red);
-                // sa barre de vie
-                gq.fillRect(premier.x + TailleCarre / 2 - premier.HP / 2, premier.y - 4, premier.HP, 3);
+                    premier.deplacementZombie();
+                    gq.drawImage(premier.image, premier.x, premier.y, TailleCarre, TailleCarre, null);
+                    gq.setColor(Color.red);
+                    // sa barre de vie
+                    gq.fillRect(premier.x + TailleCarre / 2 - premier.HP / 2, premier.y - 4, premier.HP, 3);
+                }
 
             }
         }
         tunel.updateVies();
-        if (this.lvl == 1) {
+        if (this.lvl == 1)
+
+        {
             gq.drawImage(tunel.Imagevies, tunel.x1, tunel.y1 + TailleCarre * 3, TailleCarre * 3, TailleCarre, null);
         }
         if (this.lvl == 2) {
