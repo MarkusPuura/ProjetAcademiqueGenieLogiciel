@@ -13,21 +13,23 @@ import Vue.DirectShoot;
 
 public class Tours1 extends Projectile {
     private boolean selected;
-    private int numType;
-    private ShootStrategy shootStrategy;
+    private int numType; // permet d'identifier le type TOUR dans MouseController
+    private ShootStrategy shootStrategy; // regroupe tout les type de tirs
 
     public Tours1(int price, int damage, int speed, int x, int y, int radius) {
         super(price, damage, speed, x, y, radius);
-        this.shootStrategy = new DirectShoot();
+        this.shootStrategy = new DirectShoot(); // dégats sur un personnage à la fois
         this.numType = 1;
         GetImage();
     }
 
+    // attributs améliorés pour une tour : dégats + rayon
     public void amelioration(int numAmelio) {
         this.setDamage(this.getDamage() + 1 * numAmelio);
         this.setRadius(this.getRadius() + 10);
         System.out.println("radius" + this.getRadius() + " damage " + this.getDamage());
     }
+    // stocker les images
 
     public void GetImage() {
         try {
@@ -42,6 +44,7 @@ public class Tours1 extends Projectile {
     public void setTirStrategy(ShootStrategy shootStrategy) {
         this.shootStrategy = shootStrategy;
     }
+    // pour sélectionner la tour dans la barre d'inventaire avec ses coordonnées
 
     public boolean isClickedAndSelectionnedTours1(int x, int y, int TailleCarre, int HauteurEcran) {
         int xTours1 = 6 * TailleCarre;

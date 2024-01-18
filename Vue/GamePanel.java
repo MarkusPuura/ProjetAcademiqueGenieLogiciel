@@ -67,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
         mouseController.initializeMouseListener();
         keaboard = new KeyboardController(this);
         keaboard.initializeKeyboardListener();
+
         barreInventaire = new BarreInventaire(LargeurEcran, 2 * TailleCarre, TailleCarre);
         isDragging = false;
         initializeBarreInventaireList();
@@ -349,6 +350,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void endOfTheGame(Graphics2D gq) {
         if (fin == 1) { // Si le joueur a gagné (dernier update)
+            musique.stopperMusique();
+            ShotSound.shotSound("../sons/victoire.wav");
+
             System.out.println(fin);
             String messageVictoire = "The village is saved :)";
             gq.setColor(Color.red);
@@ -359,6 +363,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         }
         if (fin == 2) { // Si le joueur a perdu (dernier update)
+            musique.stopperMusique();
+            ShotSound.shotSound("../sons/gameOver.wav");
 
             String messageDefaite = "GAME OVER :(";
             gq.setColor(Color.red);

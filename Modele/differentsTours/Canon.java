@@ -15,12 +15,12 @@ import java.io.IOException;
 public class Canon extends Projectile {
     private boolean selected;
     private int numType;
-    private ShootStrategy shootStrategy;
+    private ShootStrategy shootStrategy; // regoupe tout les types de tires possibles
 
     public Canon(int price, int damage, int speed, int x, int y, int radius) {
         super(price, damage, speed, x, y, radius);
         this.numType = 2;
-        this.shootStrategy = new ZonedShoot();
+        this.shootStrategy = new ZonedShoot(); // dégats de zones
 
         GetImage();
     }

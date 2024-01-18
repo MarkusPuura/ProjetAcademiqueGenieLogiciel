@@ -1,7 +1,6 @@
 package Vue;
 
 import java.awt.*;
-import java.io.IOException;
 
 import Controleur.ListeMonstresVivants;
 import Modele.*;
@@ -13,7 +12,6 @@ public class DirectShoot implements ShootStrategy {
     public void tirer(Graphics2D gq, Projectile projectile, Monstres target, ListeMonstresVivants list, int distance) {
 
         if (target != null && projectile.checkInRange(target) && target.HP > 0 && !projectile.getTirePas()) {
-            ShotSound.shotSound("../sons/tour2.wav");
             Stroke oldStroke = gq.getStroke();
             float strokeWidth = 9.0f;
             gq.setStroke(new BasicStroke(strokeWidth));
@@ -29,6 +27,7 @@ public class DirectShoot implements ShootStrategy {
 
             gq.fillOval(endX - explosionRadius, endY - explosionRadius, 2 *
                     explosionRadius, 2 * explosionRadius);
+            ShotSound.shotSound("../sons/tour3.wav");
 
             target.looseLife(projectile.getDamage());
             projectile.setTirePas(true);

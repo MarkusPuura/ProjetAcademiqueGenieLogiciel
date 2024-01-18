@@ -39,6 +39,7 @@ public class KeyboardController extends JFrame {
             }
         });
         gamePanel.setFocusable(true);
-        gamePanel.requestFocus();
+        gamePanel.requestFocusInWindow();
+
     }
 }

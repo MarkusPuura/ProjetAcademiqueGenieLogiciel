@@ -15,12 +15,12 @@ import java.io.IOException;
 public class TourSorcier extends Projectile {
     private boolean selected;
     private int numType;
-    private ShootStrategy shootStrategy;
+    private ShootStrategy shootStrategy; // regroupe tout les types de tires possible
 
     public TourSorcier(int price, int damage, int speed, int x, int y, int radius) {
         super(price, damage, speed, x, y, radius);
         this.numType = 3;
-        this.shootStrategy = new RallentirShoot();
+        this.shootStrategy = new RallentirShoot(); // ralentis les personnages dans un rayon
 
         GetImage();
     }
@@ -30,6 +30,7 @@ public class TourSorcier extends Projectile {
                 + this.getSpeed() + " x : " + this.getX() + " y : " + this.getY());
     }
 
+    // stocker les images
     public void GetImage() {
         try {
             image = ImageIO.read(getClass().getResourceAsStream("../../images/tours/TourSorcier.png"));
@@ -40,6 +41,8 @@ public class TourSorcier extends Projectile {
         }
     }
 
+    // selection d'une tour dans la barre d'inventaire
+
     public boolean isClickedAndSelectionnedTours1(int x, int y, int TailleCarre, int HauteurEcran) {
         int xTours1 = 6 * TailleCarre;
         int yTours1 = HauteurEcran - 3 * TailleCarre;
@@ -48,12 +51,15 @@ public class TourSorcier extends Projectile {
 
     }
 
+    // Vérification que l'utilisateur peut acheter une tour Sorcier lorsqu'il l'a
+    // sélectionné
     public boolean canAffordAndClickTours1(int x, int y, int TailleCarre, int HauteurEcran, Or k) {
         boolean isClicked = isClickedAndSelectionnedTours1(x, y, TailleCarre, HauteurEcran);
         boolean enoughMoney = hasEnoughMoney(k);
         return isClicked && enoughMoney;
     }
 
+    // recupérer la tour sélectionné pour la stocker
     public TourSorcier getSelectedTower(int x, int y, int TailleCarre, int HauteurEcran, Or k) {
         boolean affordAndClick = canAffordAndClickTours1(x, y, TailleCarre, HauteurEcran, k);
 
@@ -90,10 +96,12 @@ public class TourSorcier extends Projectile {
         this.numType = numType;
     }
 
+    // fonction pour les tires -> ralentissement
     public void tirer(Graphics2D gq, Monstres target, ListeMonstresVivants list, int distance) {
         shootStrategy.tirer(gq, this, target, list, distance);
     }
 
+    // attibuts améliorés pour la tour sorcier : rayon
     public void amelioration(int numAmelio) {
         // this.setDamage(this.getDamage() + 1 * numAmelio);
         this.setRadius(this.getRadius() + 20);
