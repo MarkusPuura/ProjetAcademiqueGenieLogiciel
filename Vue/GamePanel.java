@@ -267,7 +267,16 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void miseEnPauseDuJeu() {
+
         isPaused = !isPaused;
+        if (isPaused) {
+            System.out.println("pause");
+            musique.stopperMusique();
+        } else {
+            musique.jouerMusiqueEnBoucle("../sons/musique.wav");
+            System.out.println("pas pause");
+
+        }
 
     }
 
