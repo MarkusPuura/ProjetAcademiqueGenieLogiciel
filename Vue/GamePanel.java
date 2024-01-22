@@ -397,7 +397,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void drawInfoKeayboard(Graphics2D gq) {
-        String info = "Keyboard  p:paused   q:quit   a:|>   z:<|";
+        String info = "Keyboard  p:paused   q:quit   m:stop music   M:start music";
         gq.setColor(Color.white);
         gq.setFont(new Font("Arial", Font.ITALIC, 20));
         gq.drawString(info, TailleCarre, TailleCarre - 6);

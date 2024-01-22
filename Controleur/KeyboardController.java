@@ -19,10 +19,8 @@ public class KeyboardController extends JFrame {
             @Override
             public void keyTyped(KeyEvent e) {
                 char keyChar = e.getKeyChar();
-                System.out.println("Caractère tapé : " + keyChar);
 
                 if (keyChar == 'p' || keyChar == 'P') {
-                    System.out.println("p clicked");
                     gamePanel.miseEnPauseDuJeu();
                 } else if (keyChar == 'q' || keyChar == 'Q') {
                     System.exit(0);

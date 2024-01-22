@@ -58,7 +58,7 @@ public class Accueil {
         JFrame homeWindow = new JFrame();
         homeWindow.setResizable(false);
         homeWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        homeWindow.setTitle("Tower Defense - Home Page");
+        homeWindow.setTitle("Tower Defense - Home Page  |  by  DI PLACIDO Anna  and  PUURA Markus");
         return homeWindow;
     }
 
